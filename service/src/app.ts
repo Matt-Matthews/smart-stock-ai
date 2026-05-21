@@ -7,6 +7,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
 import { connectDB } from '@configs/db.config.js';
+import { logSmartStockAI } from '@utils/log-app-name.util.js';
 
 const app = express();
 app.use(cors());
@@ -34,6 +35,7 @@ const PORT = process.env.PORT || 5000;
 const BASE_PATH = process.env.BASE_PATH || '/api/v1';
 
 async function startServer() {
+  logSmartStockAI();
   // Connect to the database
   await connectDB();
   // Await the server start
@@ -57,6 +59,7 @@ async function startServer() {
   });
 
   app.listen(PORT, () => {
+    
     console.log(`Server is running on port ${PORT}`);
   });
 }
