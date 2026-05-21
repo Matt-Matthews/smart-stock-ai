@@ -25,11 +25,8 @@ const server = new ApolloServer({
   resolvers,
 });
 
-
-
 const PORT = process.env.PORT || 5000;
-
-
+const BASE_PATH = process.env.BASE_PATH || '/api/v1';
 
 async function startServer() {
 
@@ -39,7 +36,7 @@ async function startServer() {
   // Use Express middleware
   // Note: cors() and json() are required for the middleware to work
   app.use(
-    '/graphql',
+    `${BASE_PATH}/graphql`,
     cors(),
     bodyParser.json(),
     expressMiddleware(server, {
@@ -48,7 +45,7 @@ async function startServer() {
     })
   );
 
-  app.get('/', (req, res) => {
+  app.get(`${BASE_PATH}/health`, (req, res) => {
     res.send('Hello, World!');
   });
 
