@@ -1,12 +1,17 @@
+import 'module-alias/register';
+
 import express from 'express';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@as-integrations/express4';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import helmet from 'helmet';
+import { connectDB } from '@configs/db.config.js';
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+app.use(helmet());
 
 const typeDefs = `#graphql
   type Query {
@@ -29,7 +34,8 @@ const PORT = process.env.PORT || 5000;
 const BASE_PATH = process.env.BASE_PATH || '/api/v1';
 
 async function startServer() {
-
+  // Connect to the database
+  await connectDB();
   // Await the server start
   await server.start();
 
@@ -39,6 +45,7 @@ async function startServer() {
     `${BASE_PATH}/graphql`,
     cors(),
     bodyParser.json(),
+    helmet(),
     expressMiddleware(server, {
       // Optional: context function to pass user info, DBs, etc.
       context: async ({ req }) => ({ token: req.headers.token }),
