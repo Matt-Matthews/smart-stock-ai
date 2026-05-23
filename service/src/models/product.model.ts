@@ -47,6 +47,16 @@ const productSchema = new Schema({
         unique: true,
         trim: true
     },
+    size: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    unit_of_measure: {
+        type: String,
+        required: true,
+        trim: true
+    },
     reorder_level: {
         type: Number,
         required: true,
