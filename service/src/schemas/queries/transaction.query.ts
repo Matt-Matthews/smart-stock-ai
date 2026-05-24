@@ -47,9 +47,11 @@ export const transactionQueryResolvers = {
             const productIds = transactions.map(transaction => transaction.product_id);
             const products = await Product.find({ _id: { $in: productIds }, deleted_at: null }).lean();
             const productMap = new Map(products.map(product => [product._id.toString(), product]));
+            const company = args.company_id ? await Company.findOne({ _id: args.company_id, deleted_at: null }).lean() : null;
             return transactions.map(transaction => ({
                 ...transaction,
                 product: productMap.get(transaction.product_id.toString()) || null,
+                company
             }));
         }
     },
