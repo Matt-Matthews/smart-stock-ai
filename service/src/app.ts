@@ -9,9 +9,14 @@ import helmet from 'helmet';
 import { connectDB } from '@configs/db.config.js';
 import { logSmartStockAI } from '@utils/log-app-name.util.js';
 import { typeDefs, resolvers } from '@schemas/index.js';
-import {authenticateUser} from '@middlewares/auth.middleware.js';
-import requestLogger from '@middlewares/requet-log.middleware.js';
+import { authenticateUser } from '@middlewares/auth.middleware.js';
+import requestLogger from '@middlewares/request-log.middleware.js';
+import authRoutes from '@routes/auth.route.js';
+
+
 const app = express();
+
+//* Global middlewares
 app.use(cors());
 app.use(bodyParser.json());
 app.use(helmet());
@@ -27,13 +32,15 @@ const BASE_PATH = process.env.BASE_PATH || '/api/v1';
 
 async function startServer() {
   logSmartStockAI();
-  // Connect to the database
+
+  //* Connect to the database
   await connectDB();
-  // Await the server start
+
+  //* Await the server start
   await server.start();
 
   // Use Express middleware
-  // Note: cors() and json() are required for the middleware to work
+  //? Note: cors() and json() are required for the middleware to work
   app.use(
     `${BASE_PATH}/graphql`,
     cors(),
@@ -46,12 +53,15 @@ async function startServer() {
     })
   );
 
+  //* Mount routes
+  app.use(`${BASE_PATH}/auth`, authRoutes);
+
   app.get(`${BASE_PATH}/health`, (req, res) => {
     res.send('Hello, World!');
   });
 
   app.listen(PORT, () => {
-    
+
     console.log(`Server is running on port ${PORT}`);
   });
 }

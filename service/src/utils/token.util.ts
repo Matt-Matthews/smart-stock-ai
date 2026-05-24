@@ -60,10 +60,7 @@ export const generateRefreshToken = (userId: string, tokenId: string): any => {
         }
     );
 
-    return {
-        refreshToken,
-        refreshTokenData
-    }
+    return refreshToken;
 }
 
 
