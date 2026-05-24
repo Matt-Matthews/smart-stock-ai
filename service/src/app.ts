@@ -46,6 +46,7 @@ async function startServer() {
     cors(),
     bodyParser.json(),
     helmet(),
+    requestLogger,
     authenticateUser,
     expressMiddleware(server, {
       // Optional: context function to pass user info, DBs, etc.
@@ -54,10 +55,10 @@ async function startServer() {
   );
 
   //* Mount routes
-  app.use(`${BASE_PATH}/auth`, authRoutes);
+  app.use(`${BASE_PATH}/auth`,  authRoutes);
 
   app.get(`${BASE_PATH}/health`, (req, res) => {
-    res.send('Hello, World!');
+    res.send('GraphQL API is healthy');
   });
 
   app.listen(PORT, () => {

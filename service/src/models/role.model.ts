@@ -9,6 +9,11 @@ const roleSchema = new Schema({
         required: true,
         trim: true
     },
+    company_id: {
+        type: String,
+        required: false,
+        ref: 'Company'
+    },
     description: {
         type: String,
         required: true,
