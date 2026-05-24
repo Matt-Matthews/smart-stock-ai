@@ -32,7 +32,9 @@ const createUser = async (userData: IAddUser): Promise<IServiceResult> => {
         });
 
         await user.save();
-        return serviceResult(201, "success", "User created successfully", user);
+        const userObj: any = user.toObject();
+        userObj._id = userObj._id.toString();
+        return serviceResult(201, "success", "User created successfully", userObj);
     } catch (error) {
         return serviceResult(500, "error", "Failed to create user", null, error);
     }

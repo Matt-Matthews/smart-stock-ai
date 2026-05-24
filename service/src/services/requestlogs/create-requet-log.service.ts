@@ -9,12 +9,14 @@ const createRequestLog = async (logData: any): Promise<IServiceResult> => {
             return serviceResult(400, "error", "Request log with this ID already exists", null);
         }
         
-        const log = RequestLog.create(logData);
+        const log = await RequestLog.create(logData);
 
         if (!log) {
             return serviceResult(400, "error", "Failed to create request log", null);
         }
-        return serviceResult(201, "success", "Request log created successfully", log);
+        const logObj: any = log.toObject();
+        logObj._id = logObj._id.toString();
+        return serviceResult(201, "success", "Request log created successfully", logObj);
     }
     catch (error) {
         return serviceResult(500, "error", "Failed to create request log", null, error);

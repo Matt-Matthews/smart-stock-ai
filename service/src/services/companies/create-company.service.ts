@@ -10,14 +10,16 @@ const createCompany = async (companyData: { name: string, address: string, phone
             return serviceResult(400, "error", "Email already in use", null);
         }
 
-        const company = new Company({
+        const company = await Company.create({
             name: companyData.name,
             address: companyData.address,
             phone: companyData.phone,
             email: companyData.email
         });
-        await company.save();
-        return serviceResult(201, "success", "Company created successfully", company);
+        const companyObj: any = company.toObject();
+        companyObj._id = companyObj._id.toString();
+
+        return serviceResult(201, "success", "Company created successfully", companyObj);
     } catch (error) {
         return serviceResult(500, "error", "Failed to create company", null);
     }

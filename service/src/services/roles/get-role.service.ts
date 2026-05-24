@@ -7,13 +7,15 @@ const getRole = async (data: { roleId?: string, name?: string }): Promise<IServi
         const role = await Role.findOne(
             {
                ...(data.roleId ? { _id: data.roleId } : {}),
-               ...(data.name ? { name: data.name } : {})
-            }
-        );
+               ...(data.name ? { name: data.name } : {}),
+            },
+        ).populate('permissions');
         if (!role) {
             return serviceResult(404, "error", "Role not found", null);
         }
-        return serviceResult(200, "success", "Role retrieved successfully", role);
+        const roleObj: any = role.toObject();
+        roleObj._id = roleObj._id.toString();
+        return serviceResult(200, "success", "Role retrieved successfully", roleObj);
     } catch (error) {
         return serviceResult(500, "error", "Failed to retrieve role", null, error);
     }
