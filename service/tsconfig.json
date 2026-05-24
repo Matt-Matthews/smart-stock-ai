@@ -50,7 +50,8 @@
       "@routes/*": ["routes/*"],
       "@utils/*": ["utils/*"],
       "@services/*": ["services/*"],
-      "@schemas/*": ["schemas/*"]
+      "@schemas/*": ["schemas/*"],
+      "@typeDefs/*": ["types/*"]
     }
   }
 }

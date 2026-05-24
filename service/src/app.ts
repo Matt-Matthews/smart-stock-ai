@@ -9,11 +9,13 @@ import helmet from 'helmet';
 import { connectDB } from '@configs/db.config.js';
 import { logSmartStockAI } from '@utils/log-app-name.util.js';
 import { typeDefs, resolvers } from '@schemas/index.js';
-
+import {authenticateUser} from '@middlewares/auth.middleware.js';
+import requestLogger from '@middlewares/requet-log.middleware.js';
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(helmet());
+app.use(requestLogger);
 
 const server = new ApolloServer({
   typeDefs,
@@ -37,6 +39,7 @@ async function startServer() {
     cors(),
     bodyParser.json(),
     helmet(),
+    authenticateUser,
     expressMiddleware(server, {
       // Optional: context function to pass user info, DBs, etc.
       context: async ({ req }) => ({ token: req.headers.token }),

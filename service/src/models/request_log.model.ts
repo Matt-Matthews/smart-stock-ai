@@ -15,6 +15,12 @@ const requestLogSchema = new Schema({
         required: true,
         enum: ['inbound', 'outbound']
     },
+    request_id: {
+        type: String,
+        required: true,
+        unique: true,
+        default: uuidv4
+    },
     endpoint: {
         type: String,
         required: true,
