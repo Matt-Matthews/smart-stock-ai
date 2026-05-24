@@ -3,7 +3,7 @@ import { productMutation, productMutationResolvers } from './mutations/product.m
 
 export const typeDefs = [`#graphql
   type Product {
-    id: String!
+    _id: String!
     company_id: String!
     name: String!
     description: String!
