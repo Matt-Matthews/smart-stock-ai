@@ -6,25 +6,14 @@ import { expressMiddleware } from '@as-integrations/express4';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
-import { connectDB } from '@configs/db.config.js';
-import { logSmartStockAI } from '@utils/log-app-name.util.js';
+import { connectDB } from '@configs/db.config';
+import { logSmartStockAI } from '@utils/log-app-name.util';
+import { typeDefs, resolvers } from '@schemas/index';
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(helmet());
-
-const typeDefs = `#graphql
-  type Query {
-    hello: String
-  }
-`;
-
-const resolvers = {
-  Query: {
-    hello: () => 'Hello world!',
-  },
-};
 
 const server = new ApolloServer({
   typeDefs,
