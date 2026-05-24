@@ -6,9 +6,9 @@ import { expressMiddleware } from '@as-integrations/express4';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
-import { connectDB } from '@configs/db.config';
-import { logSmartStockAI } from '@utils/log-app-name.util';
-import { typeDefs, resolvers } from '@schemas/index';
+import { connectDB } from '@configs/db.config.js';
+import { logSmartStockAI } from '@utils/log-app-name.util.js';
+import { typeDefs, resolvers } from '@schemas/index.js';
 
 const app = express();
 app.use(cors());

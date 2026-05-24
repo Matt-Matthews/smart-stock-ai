@@ -3,12 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 const { Schema } = mongoose;
 const transactionSchema = new Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true,
-        default: uuidv4()
-    },
     company_id: {
         type: String,
         required: true,
@@ -53,7 +47,6 @@ const transactionSchema = new Schema({
     },
 }, {
     timestamps: true,
-    _id: false,
 });
 
 const Transaction = mongoose.model('Transaction', transactionSchema);

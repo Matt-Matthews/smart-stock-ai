@@ -5,12 +5,6 @@ const { Schema } = mongoose;
 
 
 const requestLogSchema = new Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true,
-        default: uuidv4()
-    },
     method: {
         type: String,
         required: true,
@@ -67,7 +61,6 @@ const requestLogSchema = new Schema({
     },
 }, {
     timestamps: true,
-    _id: false,
 });
 
 const RequestLog = mongoose.model('RequestLog', requestLogSchema);

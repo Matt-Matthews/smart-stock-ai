@@ -4,12 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 const { Schema } = mongoose;
 
 const roleSchema = new Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true,
-        default: uuidv4()
-    },
     name: {
         type: String,
         required: true,
@@ -39,7 +33,6 @@ const roleSchema = new Schema({
 },
     {
         timestamps: true,
-        _id: false,
     }
 );
 

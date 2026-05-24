@@ -4,12 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true,
-        default: uuidv4()
-    },
     company_id: {
         type: String,
         required: true,
@@ -58,8 +52,8 @@ const userSchema = new Schema({
     }
 }, {
     timestamps: true,
-    _id: false,
 });
+
 
 const User = mongoose.model('User', userSchema);
 

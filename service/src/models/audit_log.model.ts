@@ -4,12 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 const { Schema } = mongoose;
 
 const auditLogSchema = new Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true,
-        default: uuidv4()
-    },
     user_id: {
         type: String,
         required: true,
@@ -31,7 +25,6 @@ const auditLogSchema = new Schema({
     }
 }, {
     timestamps: true,
-    _id: false,
 });
 
 const AuditLog = mongoose.model('AuditLog', auditLogSchema);

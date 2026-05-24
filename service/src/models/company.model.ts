@@ -5,12 +5,6 @@ const { Schema } = mongoose;
 
 
 const companySchema = new Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true,
-        default: uuidv4()
-    },
     name: {
         type: String,
         required: true,
@@ -50,7 +44,6 @@ const companySchema = new Schema({
     }
 }, {
     timestamps: true,
-    _id: false,
 });
 
 const Company = mongoose.model('Company', companySchema);

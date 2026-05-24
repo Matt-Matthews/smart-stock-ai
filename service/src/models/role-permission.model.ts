@@ -5,12 +5,6 @@ const { Schema } = mongoose;
 
 const roleSchema = new Schema(
     {
-        id: {
-            type: String,
-            required: true,
-            unique: true,
-            default: uuidv4()
-        },
         role_id: {
             type: String,
             required: true,
@@ -40,7 +34,6 @@ const roleSchema = new Schema(
     },
     {
         timestamps: true,
-        _id: false,
     }
 );
 

@@ -5,12 +5,6 @@ const { Schema } = mongoose;
 
 
 const permissionSchema = new Schema({
-    id: {
-        type: String,
-        required: true,
-        unique: true,
-        default: uuidv4()
-    },
     name: {
         type: String,
         required: true,
@@ -39,7 +33,6 @@ const permissionSchema = new Schema({
     }
 },{
     timestamps: true,
-    _id: false,
 })
 
 const Permission = mongoose.model('Permission', permissionSchema);
