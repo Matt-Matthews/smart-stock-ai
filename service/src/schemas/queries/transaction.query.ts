@@ -6,7 +6,7 @@ import Transaction from "@models/transaction.model.js";
 export const transactionQuery = `#graphql
   extend type Query {
     transactions: [Transaction!]!
-    transaction(_id: String!): TransactionWithinventoryDetails
+    transaction(_id: String!): TransactionWithInventoryDetails
     transactionsByCompany(company_id: String!): [Transaction!]!
     transactionsByInventory(inventory_id: String!): [Transaction!]!
     transactionsWithInventoryDetails: [TransactionWithInventoryDetails!]!
