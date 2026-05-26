@@ -2,7 +2,7 @@ import Transaction from "@models/transaction.model.js";
 
 export const transactionMutation = `#graphql
   extend type Mutation {
-    createTransaction(company_id: String!, product_id: String!, quantity: Int!): Transaction!
+    createTransaction(company_id: String!, inventory_id: String!, quantity: Int!): Transaction!
     updateTransaction(_id: String!, quantity: Int!): Transaction!
     deleteTransaction(_id: String!): Transaction!
   }
@@ -10,7 +10,7 @@ export const transactionMutation = `#graphql
 
 export const transactionMutationResolvers = {
     Mutation: {
-        createTransaction: async (_parent: unknown, args: { company_id: string, product_id: string, quantity: number }) => {
+        createTransaction: async (_parent: unknown, args: { company_id: string, inventory_id: string, quantity: number }) => {
             const transaction = await Transaction.create(args);
             return transaction;
         },

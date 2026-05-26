@@ -18,6 +18,11 @@ const transactionSchema = new Schema({
         required: true,
         min: 0
     },
+    event_hash: {
+        type: String,
+        required: false,
+        trim: true
+    },
     created_at: {
         type: Date,
         default: Date.now

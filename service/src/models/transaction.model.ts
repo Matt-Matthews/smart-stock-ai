@@ -13,10 +13,10 @@ const transactionSchema = new Schema({
         required: true,
         ref: 'User'
     },
-    product_id: {
+    inventory_id: {
         type: String,
         required: true,
-        ref: 'Product'
+        ref: 'Inventory'
     },
     quantity: {
         type: Number,

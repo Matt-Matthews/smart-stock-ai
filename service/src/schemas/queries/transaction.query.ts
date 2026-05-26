@@ -1,25 +1,26 @@
 import Company from "@models/company.model.js";
-import Product from "@models/product.model.js";
+import Inventory from "@models/inventory.model.js";
+import inventory from "@models/inventory.model.js";
 import Transaction from "@models/transaction.model.js";
 
 export const transactionQuery = `#graphql
   extend type Query {
     transactions: [Transaction!]!
-    transaction(_id: String!): TransactionWithProductDetails
+    transaction(_id: String!): TransactionWithinventoryDetails
     transactionsByCompany(company_id: String!): [Transaction!]!
-    transactionsByProduct(product_id: String!): [Transaction!]!
-    transactionsWithProductDetails: [TransactionWithProductDetails!]!
+    transactionsByInventory(inventory_id: String!): [Transaction!]!
+    transactionsWithInventoryDetails: [TransactionWithInventoryDetails!]!
   }
 
-    type TransactionWithProductDetails {
+    type TransactionWithInventoryDetails {
     _id: String!
     company_id: String!
-    product_id: String!
+    inventory_id: String!
     quantity: Int!
     created_at: String
     updated_at: String
     deleted_at: String
-    product: Product
+    inventory: Inventory
     company: Company
     }
 `;
@@ -30,27 +31,27 @@ export const transactionQueryResolvers = {
         transaction: async (_parent: unknown, args: { _id: string }) => {
             const transaction = await Transaction.findOne({ _id: args._id, deleted_at: null }).lean();
             if (!transaction) return null;
-            const product = await Product.findOne({ _id: transaction.product_id, deleted_at: null }).lean();
+            const inventory = await Inventory.findOne({ _id: transaction.inventory_id, deleted_at: null }).lean();
             const company = await Company.findOne({ _id: transaction.company_id, deleted_at: null }).lean();
             return {
                 ...transaction,
-                product,
+                inventory,
                 company
             };
         },
         transactionsByCompany: async (_parent: unknown, args: { company_id: string }) =>
             await Transaction.find({ company_id: args.company_id, deleted_at: null }).lean(),
-        transactionsByProduct: async (_parent: unknown, args: { product_id: string }) =>
-            await Transaction.find({ product_id: args.product_id, deleted_at: null }).lean(),
-        transactionsWithProductDetails: async (_parent: unknown, args: { company_id?: string }) => {
+        transactionsByInventory: async (_parent: unknown, args: { inventory_id: string }) =>
+            await Transaction.find({ inventory_id: args.inventory_id, deleted_at: null }).lean(),
+        transactionsWithInventoryDetails: async (_parent: unknown, args: { company_id?: string }) => {
             const transactions = await Transaction.find({ deleted_at: null, ...(args.company_id && { company_id: args.company_id }) }).lean();
-            const productIds = transactions.map(transaction => transaction.product_id);
-            const products = await Product.find({ _id: { $in: productIds }, deleted_at: null }).lean();
-            const productMap = new Map(products.map(product => [product._id.toString(), product]));
+            const inventoryIds = transactions.map(transaction => transaction.inventory_id);
+            const inventories = await Inventory.find({ _id: { $in: inventoryIds }, deleted_at: null }).lean();
+            const inventoryMap = new Map(inventories.map(inventory => [inventory._id.toString(), inventory]));
             const company = args.company_id ? await Company.findOne({ _id: args.company_id, deleted_at: null }).lean() : null;
             return transactions.map(transaction => ({
                 ...transaction,
-                product: productMap.get(transaction.product_id.toString()) || null,
+                inventory: inventoryMap.get(transaction.inventory_id.toString()) || null,
                 company
             }));
         }

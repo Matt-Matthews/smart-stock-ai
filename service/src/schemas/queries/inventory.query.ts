@@ -19,6 +19,7 @@ export const inventoryQuery = `#graphql
     updated_at: String
     deleted_at: String
     product: Product
+    event_hash: String
     }
 `;
 
