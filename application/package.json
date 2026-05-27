@@ -3,8 +3,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
+    "build": "NODE_OPTIONS=--max-old-space-size=4096 nuxt build",
+    "dev": "nuxt dev --max-old-space-size=4096",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -12,14 +12,14 @@
   "dependencies": {
     "@apollo/client": "^4.2.0",
     "@nuxt/ui": "^4.8.0",
-    "graphql": "^16.14.0",
+    "@nuxtjs/apollo": "4.0.1-rc.5",
+    "apollo-cache-inmemory": "^1.6.6",
     "nuxt": "^4.4.6",
-    "nuxt-apollo": "^0.2.1",
     "tailwindcss": "^4.3.0",
     "vue": "^3.5.34",
     "vue-router": "^5.0.7"
   },
-  "devDependencies": {
+  " Dependencies": {
     "@types/node": "^25.9.1"
   }
 }

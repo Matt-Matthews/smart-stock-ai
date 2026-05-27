@@ -5,6 +5,6 @@
   </section>
 </template>
 
-<script setup lang="ts">
-const title = 'Inventory Manager'
+<script setup>
+
 </script>
