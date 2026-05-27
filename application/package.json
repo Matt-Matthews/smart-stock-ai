@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "NODE_OPTIONS=--max-old-space-size=4096 nuxt build",
-    "dev": "nuxt dev --max-old-space-size=4096",
+    "dev": "nuxt dev --max-old-space-size=4096 --host",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -17,7 +17,8 @@
     "nuxt": "^4.4.6",
     "tailwindcss": "^4.3.0",
     "vue": "^3.5.34",
-    "vue-router": "^5.0.7"
+    "vue-router": "^5.0.7",
+    "zod": "^4.4.3"
   },
   " Dependencies": {
     "@types/node": "^25.9.1"

@@ -1,7 +1,7 @@
 <template>
-    <div>
-        Index Page
-        
+    <div class="flex items-center justify-center h-screen w-full">
+        <LoginInfo />
+        <LoginForm />
     </div>
 </template>
 
