@@ -4,5 +4,6 @@ allowBuilds:
   core-js: false
   core-js-pure: false
   esbuild: false
+  sharp: false
   vue-demi: false
   yarn: false

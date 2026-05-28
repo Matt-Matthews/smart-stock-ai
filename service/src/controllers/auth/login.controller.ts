@@ -31,13 +31,14 @@ const login = async (req: Request, res: Response) => {
         const user = await getUserByEmail({ email });
 
         if (!user) {
-            return res.status(401).json({ status: 'error', message: 'Invalid credentials' });
+            return res.status(401).json({ status: 'error', message: 'Invalid email or password' });
         }
 
         const isPasswordValid = await validatePassword(user.data.password, password);
-
+        console.log("is valid:::", isPasswordValid)
+        console.log(password)
         if (!isPasswordValid) {
-            return res.status(401).json({ status: 'error', message: 'Invalid credentials' });
+            return res.status(401).json({ status: 'error', message: 'Invalid email or password' });
         }
 
         const permissionsResult = await listRolePermissionsService({ roleId: user.data.roleId }, false);
@@ -57,7 +58,13 @@ const login = async (req: Request, res: Response) => {
             message: 'Login successful',
             data: {
                 accessToken: accessToken.token,
-                expiresIn: accessToken.expiresIn
+                expiresIn: accessToken.expiresIn,
+                user: {
+                    firstName: user.data.firstName,
+                    lastName: user.data.lastName,
+                    email: user.data.email,
+                    company: user.data.company
+                }
             }
         });
 

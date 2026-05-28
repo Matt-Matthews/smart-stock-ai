@@ -1,6 +1,34 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
+:root {
+  --ui-bg: #FBFBFB;
+  --ui-primary: #109aeb;
+  --ui-secondary: #e2e8f0;
+  --ui-success: var(--ui-color-success-500);
+  --ui-info: var(--ui-color-info-400);
+  --ui-warning: var(--ui-color-warning-500);
+  --ui-error: var(--ui-color-error-500);
+  --ui-color-primary-500: #109aeb;
+  --ui-bg-accented: #afc9eb;
+
+  --vis-color0: var(--ui-color-success-500) !important;
+  --vis-color1: var(--ui-color-error-500) !important;
+
+}
+.dark {
+  --ui-bg: #0f172a;
+  --ui-primary: #109aeb;
+  --ui-secondary: #1e293b;
+  --ui-color-primary-500: #109aeb !important;
+  --ui-success: var(--ui-color-success-400);
+  --ui-info: var(--ui-color-info-400);
+  --ui-warning: var(--ui-color-warning-400);
+  --ui-error: var(--ui-color-error-400);
+
+  --vis-color0: var(--ui-color-success-500) !important;
+  --vis-color1: var(--ui-color-error-500) !important;
+}
 
 .material-symbols-outlined {
     font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -18,4 +46,8 @@ body {
 
 .login-gradient {
     background: radial-gradient(circle at 10% 20%, rgba(70, 72, 212, 0.05) 0%, transparent 50%);
+}
+
+button {
+    cursor: pointer;
 }

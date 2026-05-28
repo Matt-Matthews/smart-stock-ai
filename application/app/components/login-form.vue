@@ -2,8 +2,9 @@
     <div class="w-1/2 h-full  flex items-center justify-center text-black">
         <div class="w-2/3 xl:w-1/2">
             <NuxtPageCard class="w-full">
-                <NuxtAuthForm :schema="schema" title="Welcome Back" description="Access your dashboard to manage your
-                    inventory." icon="i-lucide-user" :fields="fields" @submit="onSubmit" class="text-default">
+                <NuxtAuthForm :schema="schema" title="Welcome Back"
+                    description="Access your dashboard to manage your inventory." icon="i-lucide-user" :fields="fields"
+                    @submit="onSubmit" class="text-default" :loading="isLoading" >
                     <template #providers>
                         <!-- Intentionally left empty to remove from top -->
                     </template>
@@ -12,7 +13,8 @@
                         <!-- Move providers to the bottom -->
                         <div class="flex items-center gap-1 justify-center">
                             <!-- <NuxtSeparator label="or" /> -->
-                            <p class="text-xs">Don't have an account?</p> <NuxtLink class="text-xs text-primary" to="/docs/components/link">Request SME Access</NuxtLink>
+                            <p class="text-xs">Don't have an account?</p>
+                            <NuxtLink class="text-xs text-primary" to="/register">Request SME Access</NuxtLink>
                         </div>
                     </template>
                 </NuxtAuthForm>
@@ -52,24 +54,42 @@ const fields: AuthFormField[] = [{
     type: 'checkbox'
 }]
 
-const providers = [{
-    label: 'Google',
-    icon: 'i-simple-icons-google',
-    onClick: () => {
-        toast.add({ title: 'Google', description: 'Login with Google' })
-    }
-}, {
-    label: 'GitHub',
-    icon: 'i-simple-icons-github',
-    onClick: () => {
-        toast.add({ title: 'GitHub', description: 'Login with GitHub' })
-    }
-}]
 
 
 type Schema = z.output<typeof schema>
 
-function onSubmit(payload: FormSubmitEvent<Schema>) {
-    console.log('Submitted', payload)
+const config = useRuntimeConfig()
+const isLoading = ref(false)
+const toastMenu = useToast();
+const token = useAuthToken()
+const userStorage = useUserStore()
+const router = useRouter()
+
+async function onSubmit(payload: FormSubmitEvent<Schema>) {
+    isLoading.value = true
+    const baseUrl = config.public.apiBase;
+    const {email, password} = payload.data;
+    const base64Token = btoa(`${email}:${password}`)
+
+    const { data, error } = await useFetch(`${baseUrl}/auth/login`, {
+        method: "POST",
+        body: {},
+        headers: {
+            Authorization: `Basic ${base64Token}`
+        }
+    });
+
+    if (error.value?.data) {
+        toastMenu.add({
+            title: 'Error',
+            description: error.value?.data?.message,
+            color: 'error',
+        })
+    }else {
+        token.value = (data.value as any)?.data?.accessToken
+        userStorage.setUser((data.value as any)?.data?.user)
+        router.push('/dashboard')
+    }
+    isLoading.value = false
 }
 </script>

@@ -9,6 +9,7 @@ const bodyValidationRules = [
     body('email').notEmpty().isString().withMessage('Email Id must be a valid string'),
     body('password').notEmpty().isString().withMessage('Password must be a valid string'),
     body('companyId').optional().isString().withMessage('Company Id must be a valid string'),
+    body('roleId').optional().isString().withMessage('Role Id must be a valid string'),
     body('company').optional().isObject().withMessage('Company must be a valid object'),
     body('company.name').notEmpty().isString().withMessage('Company name must be a valid string'),
     body('company.address').notEmpty().isString().withMessage('Company address must be a valid string'),
@@ -50,6 +51,7 @@ const register = async (req: Request, res: Response) => {
             email: req.body.email,
             password: req.body.password,
             companyId: companyId || "",
+            userRoleId: req.body.roleId
         });
         
 
