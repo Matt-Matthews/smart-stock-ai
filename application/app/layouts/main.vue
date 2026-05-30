@@ -34,11 +34,13 @@ const items = computed<NavigationMenuItem[]>(
             to: '/products',
             tooltip: { text: 'Products', side: 'right' }
         },
-        // {
-        //     label: 'Transactions',
-        //     icon: 'i-lucide-badge-dollar-sign',
-        //     active: router.currentRoute.value.path.toLowerCase().includes('transactions')
-        // },
+        {
+            label: 'Insight',
+            icon: 'i-lucide-bot',
+            active: router.currentRoute.value.path.toLowerCase().includes('insight'),
+            to: '/insight',
+            tooltip: { text: 'Insight', side: 'right' }
+        },
         {
             label: 'Invoices',
             icon: 'i-lucide-file-text',

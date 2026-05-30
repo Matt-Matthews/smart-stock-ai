@@ -11,13 +11,16 @@
             </div>
             <div class="w-1/3 rounded-sm bg-blue-950 h-full p-4 flex flex-col gap-2 shadow-sm dark:shadow-gray-700/30">
                 <p class="text-xs text-muted font-medium">AI Recommendation</p>
-                <p class="text-sm">Restock low-stock items now could help prevent stock outs.</p>
+                <p class="text-sm text-white">Restock low-stock items now could help prevent stock outs.</p>
                 <NuxtButton variant="solid" :trailing-icon="'i-lucide-sparkles'" class="w-fit text-white text-sm mt-3">
                     Review Analytics</NuxtButton>
             </div>
         </div>
         <div class="bg-elevated w-full mt-6 rounded-sm p-4 flex items-center gap-4 shadow-sm dark:shadow-gray-700/30">
-            <p>Filters</p>
+            <div class="flex items-center gap-2 text-muted text-sm rounded-sm px-3 py-1">
+                <NuxtIcon name="i-lucide-list-filter" class="" />
+                <p>Filters</p>
+            </div>
             <NuxtSelect placeholder="Select Category" :items="items" />
             <NuxtSelect placeholder="Select Status" :items="items" />
             <NuxtButton variant="outline" color="primary" class="ml-auto">Apply Filters</NuxtButton>
@@ -252,7 +255,7 @@ function getRowItems(row: Row<InventoryItem>) {
             label: 'Actions'
         },
         {
-        label: 'Copy Product SKU',
+            label: 'Copy Product SKU',
             onSelect() {
                 copy(row.original.product.sku)
 
