@@ -5,34 +5,51 @@ import type { NavigationMenuItem, SidebarProps } from '@nuxt/ui'
 defineProps<Pick<SidebarProps, 'variant' | 'collapsible' | 'side'>>()
 
 const open = ref(false)
+const router = useRouter()
 
-const items: NavigationMenuItem[] = [
-    {
-        label: 'Dashboard',
-        icon: 'i-lucide-layout-dashboard',
-        active: true
-    },
-    {
-        label: 'Inventory',
-        icon: 'i-lucide-archive',
-    },
-    {
-        label: 'Products',
-        icon: 'i-lucide-apple'
-    },
-    {
-        label: 'Transactions',
-        icon: 'i-lucide-badge-dollar-sign',
-    },
-    {
-        label: 'Invoices',
-        icon: 'i-lucide-file-text'
-    },
-    {
-        label: 'Settings',
-        icon: 'i-lucide-settings',
-    }
-]
+const items = computed<NavigationMenuItem[]>(
+    () => [
+        {
+            label: 'Dashboard',
+            icon: 'i-lucide-layout-dashboard',
+            active: router.currentRoute.value.path.toLowerCase().includes('dashboard'),
+            to: '/dashboard',
+            tooltip: { text: 'Dashboard', side: 'right' }
+        },
+        {
+            label: 'Inventory',
+            icon: 'i-lucide-shelving-unit',
+            active: router.currentRoute.value.path.toLowerCase().includes('inventory'),
+            to: '/inventory',
+            tooltip: { text: 'Inventory', side: 'right' }
+        },
+        {
+            label: 'Products',
+            icon: 'i-lucide-boxes',
+            active: router.currentRoute.value.path.toLowerCase().includes('products'),
+            to: '/products',
+            tooltip: { text: 'Products', side: 'right' }
+        },
+        // {
+        //     label: 'Transactions',
+        //     icon: 'i-lucide-badge-dollar-sign',
+        //     active: router.currentRoute.value.path.toLowerCase().includes('transactions')
+        // },
+        {
+            label: 'Invoices',
+            icon: 'i-lucide-file-text',
+            active: router.currentRoute.value.path.toLowerCase().includes('invoices'),
+            to: '/invoices',
+            tooltip: { text: 'Invoices', side: 'right' }
+        },
+        {
+            label: 'Settings',
+            icon: 'i-lucide-settings',
+            active: router.currentRoute.value.path.toLowerCase().includes('settings'),
+            to: '/settings',
+            tooltip: { text: 'Settings', side: 'right' }
+        }
+    ]);
 </script>
 
 <template>
@@ -51,7 +68,8 @@ const items: NavigationMenuItem[] = [
                 </div>
             </template>
 
-            <NuxtNavigationMenu :items="items" orientation="vertical" :ui="{ link: 'p-1.5 overflow-hidden' }" />
+            <NuxtNavigationMenu :items="items" orientation="vertical" collapsible
+                :ui="{ link: 'p-1.5 py-2 overflow-hidden', list: 'flex flex-col gap-3' }" tooltip />
         </NuxtSidebar>
 
         <div
