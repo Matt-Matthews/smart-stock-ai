@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { NavigationMenuItem, SidebarProps } from '@nuxt/ui'
 
+const { user } = useUserStore()
+
+
+
 // Ignore the props for the example
 defineProps<Pick<SidebarProps, 'variant' | 'collapsible' | 'side'>>()
 
@@ -91,7 +95,7 @@ const items = computed<NavigationMenuItem[]>(
                     <NuxtChip>
                         <NuxtButton icon="i-lucide-bell" size="md" variant="soft" />
                     </NuxtChip>
-                    <NuxtAvatar class="rounded-sm" alt="Mathews Paku" loading="lazy" />
+                    <NuxtAvatar class="rounded-sm" :alt="`${user.firstName} ${user.lastName}`" loading="lazy" />
                 </div>
             </div>
 

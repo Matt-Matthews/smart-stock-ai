@@ -16,6 +16,8 @@
     "@nuxtjs/apollo": "4.0.1-rc.5",
     "@nuxtjs/color-mode": "4.0.0",
     "@pinia/nuxt": "0.11.3",
+    "@tanstack/vue-table": "^8.21.3",
+    "@vueuse/core": "^14.3.0",
     "apollo-cache-inmemory": "^1.6.6",
     "nuxt": "^4.4.6",
     "pinia": "^3.0.4",
