@@ -1,0 +1,166 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/configs/generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model User {
+  id         String    @id @default(uuid())
+  email      String    @unique
+  first_name String    @map("firstName")
+  last_name  String    @map("lastName")
+  company_id String    @map("companyId")
+  role_id    String    @map("roleId")
+  password   String
+  created_at DateTime  @default(now()) @map("createdAt")
+  updated_at DateTime  @updatedAt @map("updatedAt")
+  deleted_at DateTime? @map("deletedAt")
+  enabled    Boolean   @default(true)
+
+  company Company @relation(fields: [company_id], references: [id])
+  role    Role    @relation(fields: [role_id], references: [id])
+}
+
+model Company {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  email       String    @unique
+  address     String?
+  phone       String?
+  created_at  DateTime  @default(now()) @map("createdAt")
+  updated_at  DateTime  @updatedAt @map("updatedAt")
+  deleted_at  DateTime? @map("deletedAt")
+
+  users      User[]
+  roles      Role[]
+  categories Category[]
+  items      Item[]
+}
+
+model Currency {
+  id          String    @id @default(uuid())
+  code        String    @unique
+  name        String
+  created_at  DateTime  @default(now()) @map("createdAt")
+  updated_at  DateTime  @updatedAt @map("updatedAt")
+  deleted_at  DateTime? @map("deletedAt")
+
+  items Item[]
+}
+
+model Role {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?
+  company_id  String    @map("companyId")
+  created_at  DateTime  @default(now()) @map("createdAt")
+  updated_at  DateTime  @updatedAt @map("updatedAt")
+  deleted_at  DateTime? @map("deletedAt")
+
+  users       User[]
+  company     Company          @relation(fields: [company_id], references: [id])
+  permissions RolePermission[]
+}
+
+model Permission {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  description String?
+  created_at  DateTime  @default(now()) @map("createdAt")
+  updated_at  DateTime  @updatedAt @map("updatedAt")
+  deleted_at  DateTime? @map("deletedAt")
+
+  roles RolePermission[]
+}
+
+model RolePermission {
+  id            String    @id @default(uuid())
+  role_id       String    @map("roleId")
+  permission_id String    @map("permissionId")
+  created_at    DateTime  @default(now()) @map("createdAt")
+  updated_at    DateTime  @updatedAt @map("updatedAt")
+  deleted_at    DateTime? @map("deletedAt")
+
+  role       Role       @relation(fields: [role_id], references: [id])
+  permission Permission @relation(fields: [permission_id], references: [id])
+}
+
+model Category {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  company_id  String    @map("companyId")
+  created_at  DateTime  @default(now()) @map("createdAt")
+  updated_at  DateTime  @updatedAt @map("updatedAt")
+  deleted_at  DateTime? @map("deletedAt")
+
+  company Company @relation(fields: [company_id], references: [id])
+  items   Item[]
+}
+
+model Item {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  category_id String    @map("categoryId")
+  company_id  String    @map("companyId")
+  currency_id String    @map("currencyId")
+  created_at  DateTime  @default(now()) @map("createdAt")
+  updated_at  DateTime  @updatedAt @map("updatedAt")
+  deleted_at  DateTime? @map("deletedAt")
+  cost_price  Float     @map("costPrice")
+  sell_price  Float     @map("sellPrice")
+  sku         String?   @unique
+  barcode     String?   @unique
+
+  category  Category   @relation(fields: [category_id], references: [id])
+  company   Company    @relation(fields: [company_id], references: [id])
+  inventory Inventory?
+  currency  Currency   @relation(fields: [currency_id], references: [id])
+}
+
+model Inventory {
+  id         String    @id @default(uuid())
+  item_id    String    @unique @map("itemId")
+  quantity   Int
+  created_at DateTime  @default(now()) @map("createdAt")
+  updated_at DateTime  @updatedAt @map("updatedAt")
+  deleted_at DateTime? @map("deletedAt")
+  event_hash String?   @unique @map("eventHash")
+
+  item            Item             @relation(fields: [item_id], references: [id])
+  transactions    Transaction[]
+  inventoryEvents InventoryEvent[]
+}
+
+model Transaction {
+  id           String    @id @default(uuid())
+  inventory_id String    @map("inventoryId")
+  quantity     Int
+  type         String
+  created_at   DateTime  @default(now()) @map("createdAt")
+  updated_at   DateTime  @updatedAt @map("updatedAt")
+  deleted_at   DateTime? @map("deletedAt")
+
+  inventory Inventory @relation(fields: [inventory_id], references: [id])
+  inventoryEvent InventoryEvent[]
+}
+
+model InventoryEvent {
+  id           String    @id @default(uuid())
+  inventory_id String    @map("inventoryId")
+  transaction_id String?   @map("transactionId")
+  event_type   String
+  event_hash   String    @unique @map("eventHash")
+  payload      Json
+  created_at   DateTime  @default(now()) @map("createdAt")
+  updated_at   DateTime  @updatedAt @map("updatedAt")
+  deleted_at   DateTime? @map("deletedAt")
+
+  inventory Inventory @relation(fields: [inventory_id], references: [id])
+  transaction Transaction? @relation(fields: [transaction_id], references: [id])
+}
