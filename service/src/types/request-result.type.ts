@@ -1,8 +1,8 @@
 type TStatus = "success" | "error"
 
-export interface IServiceResult {
+export interface IServiceResult<T = any> {
     status: TStatus;
     statusCode: number;
     message: string;
-    data?: any | null;
+    data?: T | null;
 }

@@ -1,6 +1,7 @@
 // import { IAccessTokenData, IRefreshTokenData, IRefreshTokenResult } from '@typeDefs/tokenTypes';
 
 import jwt from 'jsonwebtoken';
+import type { User } from '@configs/generated/prisma/index.js';
 
 
 
@@ -10,16 +11,12 @@ import jwt from 'jsonwebtoken';
  * @param {any} user - A user object.
  * @returns {string} - The access token string.
  */
-export const generateAccessToken = (user: any): { token: string, expiresIn: number } => {
+export const generateAccessToken = (user: User): { token: string, expiresIn: number } => {
     const expiresIn = Date.now() + 1000 * 60 * 15;
     return {
         token: jwt.sign(
             {
-                userId: user.id,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                email: user.email,
-                // userRole: user.user_role.access_role.name,
+                user: user,
                 expiresIn: expiresIn,
                 timestamp: Date.now(),
                 issuer: 'identity-service'

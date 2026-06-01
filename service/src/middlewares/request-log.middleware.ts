@@ -35,9 +35,32 @@ const requestLogger = (req: Request, res: Response, next: NextFunction) => {
             response_body: res.locals?.body ? res.locals.body : {},
             request_body: req.body || {},
             request_id: requestId,
+            user_id: req.user ? req.user.id : null,
         }
         eventEmitter.emit('requestLogged', data);
         logger.info(`Completed Request: ${method} ${url} - Status: ${statusCode} - Duration: ${duration}ms - Request ID: ${requestId}`);
+    });
+
+    res.on('error', (err) => {
+        const duration = Date.now() - start;
+        const { statusCode } = res;
+        const data = {
+            method: method,
+            direction: 'inbound',
+            endpoint: url,
+            status_code: statusCode,
+            duration: duration,
+            request_timestamp: start,
+            response_timestamp: Date.now(),
+            request_headers: req.headers || {},
+            response_headers: res.getHeaders() || {},
+            response_body: res.locals?.body ? res.locals.body : {},
+            request_body: req.body || {},
+            request_id: requestId,
+            error_message: err.message,
+        }
+        eventEmitter.emit('requestLogged', data);
+        logger.error(`Error occurred while processing request: ${err.message}`);
     });
 
     next();

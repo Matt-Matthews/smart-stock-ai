@@ -3,7 +3,6 @@ import { validatePassword } from "@utils/password.util.js";
 import getUserByEmail from "@services/users/get-user.service.js";
 import { generateAccessToken, generateRefreshToken } from "@utils/token.util.js";
 import { v7 as uuid } from "uuid";
-import listRolePermissionsService from "@services/role-permissions/list-role-permissions.service.js";
 
 
 const login = async (req: Request, res: Response) => {
@@ -28,28 +27,27 @@ const login = async (req: Request, res: Response) => {
             return res.status(401).json({ status: 'error', message: 'Email and password are required' });
         }
 
-        const user = await getUserByEmail({ email });
+        const user = await getUserByEmail({ email, includeRoles: true });
 
         if (!user) {
             return res.status(401).json({ status: 'error', message: 'Invalid email or password' });
         }
+        const userData = user.data;
+        const userPassword = userData?.password;
+        if (!userPassword) {
+            return res.status(401).json({ status: 'error', message: 'Invalid email or password' });
+        }
 
-        const isPasswordValid = await validatePassword(user.data.password, password);
-        console.log("is valid:::", isPasswordValid)
-        console.log(password)
+        const isPasswordValid = await validatePassword(userPassword, password);
+        
         if (!isPasswordValid) {
             return res.status(401).json({ status: 'error', message: 'Invalid email or password' });
         }
 
-        const permissionsResult = await listRolePermissionsService({ roleId: user.data.roleId }, false);
         
-        if (permissionsResult.status !== "success") {
-            return res.status(permissionsResult.statusCode).json({ status: 'error', message: permissionsResult.message });
-        }
-
         // Generate tokens
-        const accessToken = generateAccessToken({ id: user.data.id, email: user.data.email, firstName: user.data.first_name, lastName: user.data.last_name, role: user.data.role, permissions: permissionsResult.data });
-        const refreshTokenResult = generateRefreshToken(user.data.id, uuid());
+        const accessToken = generateAccessToken(userData);
+        const refreshTokenResult = generateRefreshToken(userData.id, uuid());
 
         res.cookie('refreshToken', refreshTokenResult, { httpOnly: true, secure: true, sameSite: 'none' });
         res.setHeader('Authorization', `Bearer ${accessToken}`);
@@ -60,10 +58,10 @@ const login = async (req: Request, res: Response) => {
                 accessToken: accessToken.token,
                 expiresIn: accessToken.expiresIn,
                 user: {
-                    firstName: user.data.firstName,
-                    lastName: user.data.lastName,
-                    email: user.data.email,
-                    company: user.data.company
+                    firstName: userData.first_name,
+                    lastName: userData.last_name,
+                    email: userData.email,
+                    company: (userData as any)?.company
                 }
             }
         });

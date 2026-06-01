@@ -1,21 +1,24 @@
-import Role from '@models/role.model.js';
+import { prisma } from '@configs/mysql-db.config.js';
 import type { IServiceResult } from '@typeDefs/request-result.type.js';
 import { serviceResult } from '@utils/request-result.util.js';
+import type { Role } from '@configs/generated/prisma/index.js';
 
-const getRole = async (data: { roleId?: string, name?: string }): Promise<IServiceResult> => {
+const getRole = async (data: { roleId?: string, name?: string }): Promise<IServiceResult<Role>> => {
     try {
-        const role = await Role.findOne(
+        const role = await prisma.role.findFirst(
             {
-               ...(data.roleId ? { _id: data.roleId } : {}),
-               ...(data.name ? { name: data.name } : {}),
+                where: {
+                    ...(data.roleId ? { _id: data.roleId } : {}),
+                    ...(data.name ? { name: data.name } : {}),
+                }
             },
-        ).populate('permissions');
+        );
+
         if (!role) {
             return serviceResult(404, "error", "Role not found", null);
         }
-        const roleObj: any = role.toObject();
-        roleObj._id = roleObj._id.toString();
-        return serviceResult(200, "success", "Role retrieved successfully", roleObj);
+        
+        return serviceResult(200, "success", "Role retrieved successfully", role);
     } catch (error) {
         return serviceResult(500, "error", "Failed to retrieve role", null, error);
     }

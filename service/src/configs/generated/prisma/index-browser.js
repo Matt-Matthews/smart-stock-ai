@@ -241,12 +241,36 @@ exports.Prisma.InventoryEventScalarFieldEnum = {
   deleted_at: 'deleted_at'
 };
 
+exports.Prisma.RequestLogScalarFieldEnum = {
+  id: 'id',
+  request_id: 'request_id',
+  direction: 'direction',
+  method: 'method',
+  endpoint: 'endpoint',
+  status_code: 'status_code',
+  duration: 'duration',
+  request_timestamp: 'request_timestamp',
+  response_timestamp: 'response_timestamp',
+  request_headers: 'request_headers',
+  request_body: 'request_body',
+  response_headers: 'response_headers',
+  response_body: 'response_body',
+  created_at: 'created_at',
+  user_id: 'user_id',
+  error_message: 'error_message'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
 };
 
 exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
 };
 
@@ -348,6 +372,16 @@ exports.Prisma.InventoryEventOrderByRelevanceFieldEnum = {
   event_hash: 'event_hash'
 };
 
+exports.Prisma.RequestLogOrderByRelevanceFieldEnum = {
+  id: 'id',
+  request_id: 'request_id',
+  direction: 'direction',
+  method: 'method',
+  endpoint: 'endpoint',
+  user_id: 'user_id',
+  error_message: 'error_message'
+};
+
 
 exports.Prisma.ModelName = {
   User: 'User',
@@ -360,7 +394,8 @@ exports.Prisma.ModelName = {
   Item: 'Item',
   Inventory: 'Inventory',
   Transaction: 'Transaction',
-  InventoryEvent: 'InventoryEvent'
+  InventoryEvent: 'InventoryEvent',
+  RequestLog: 'RequestLog'
 };
 
 /**

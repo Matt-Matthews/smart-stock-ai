@@ -164,3 +164,22 @@ model InventoryEvent {
   inventory   Inventory    @relation(fields: [inventory_id], references: [id])
   transaction Transaction? @relation(fields: [transaction_id], references: [id])
 }
+
+model RequestLog {
+  id                 String    @id @default(uuid())
+  request_id         String    @unique @map("requestId")
+  direction          String
+  method             String
+  endpoint           String
+  status_code        Int       @map("statusCode")
+  duration           Int
+  request_timestamp  DateTime  @default(now()) @map("requestTimestamp")
+  response_timestamp DateTime? @map("responseTimestamp")
+  request_headers    Json?     @map("requestHeaders")
+  request_body       Json?     @map("requestBody")
+  response_headers   Json?     @map("responseHeaders")
+  response_body      Json?     @map("responseBody")
+  created_at         DateTime  @default(now()) @map("createdAt")
+  user_id            String?   @map("userId")
+  error_message      String?   @map("errorMessage")
+}
