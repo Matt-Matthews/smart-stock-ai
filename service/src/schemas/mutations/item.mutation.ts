@@ -1,6 +1,6 @@
 import { prisma } from "@configs/mysql-db.config.js";
 
-interface CreateProductInput {
+interface CreateItemInput {
   company_id: string
   name: string
   description: string
@@ -12,14 +12,14 @@ interface CreateProductInput {
   category_id: string
 }
 
-export const productMutation = `#graphql
+export const itemMutation = `#graphql
   extend type Mutation {
-    createProduct(input: CreateProductInput!): Product!
-    updateProduct(id: String!, input: UpdateProductInput!): Product!
-    deleteProduct(id: String!): Product!
+    createItem(input: CreateItemInput!): Item!
+    updateItem(id: String!, input: UpdateItemInput!): Item!
+    deleteItem(id: String!): Item!
   }
 
-  input CreateProductInput {
+  input CreateItemInput {
     company_id: String!
     name: String!
     description: String!
@@ -34,7 +34,7 @@ export const productMutation = `#graphql
     # reorder_level: Int!
   }
 
-  input UpdateProductInput {
+  input UpdateItemInput {
     company_id: String
     name: String
     description: String
@@ -50,30 +50,30 @@ export const productMutation = `#graphql
   }
 `;
 
-export const productMutationResolvers = {
+export const itemMutationResolvers = {
   Mutation: {
-    createProduct: async (_parent: unknown, args: CreateProductInput) => {
-      const product = await prisma.item.create({
+    createItem: async (_parent: unknown, args: CreateItemInput) => {
+      const item = await prisma.item.create({
         data: args,
       });
-      return product;
+      return item;
     },
-    updateProduct: async (_parent: unknown, args: { id: string, input: Record<string, any> }) => {
-      const product = await prisma.item.update({
+    updateItem: async (_parent: unknown, args: { id: string, input: Record<string, any> }) => {
+      const item = await prisma.item.update({
         where: { id: args.id, deleted_at: null },
         data: args.input
       });
-      return product;
+      return item;
     },
-    deleteProduct: async (_parent: unknown, args: { id: string }) => {
-      const product = await prisma.item.update({
+    deleteItem: async (_parent: unknown, args: { id: string }) => {
+      const item = await prisma.item.update({
         where: { id: args.id, deleted_at: null },
         data: {
           deleted_at: new Date(),
           enabled: false
         }
       });
-      return product;
+      return item;
     },
   },
 };

@@ -42,12 +42,12 @@ model Company {
 }
 
 model Currency {
-  id          String    @id @default(uuid())
-  code        String    @unique
-  name        String
-  created_at  DateTime  @default(now()) @map("createdAt")
-  updated_at  DateTime  @updatedAt @map("updatedAt")
-  deleted_at  DateTime? @map("deletedAt")
+  id         String    @id @default(uuid())
+  code       String    @unique
+  name       String
+  created_at DateTime  @default(now()) @map("createdAt")
+  updated_at DateTime  @updatedAt @map("updatedAt")
+  deleted_at DateTime? @map("deletedAt")
 
   items Item[]
 }
@@ -127,6 +127,7 @@ model Inventory {
   id         String    @id @default(uuid())
   item_id    String    @unique @map("itemId")
   quantity   Int
+  company_id String    @map("companyId")
   created_at DateTime  @default(now()) @map("createdAt")
   updated_at DateTime  @updatedAt @map("updatedAt")
   deleted_at DateTime? @map("deletedAt")
@@ -140,47 +141,47 @@ model Inventory {
 model Transaction {
   id           String    @id @default(uuid())
   inventory_id String    @map("inventoryId")
+  company_id   String    @map("companyId")
   quantity     Int
   type         String
   created_at   DateTime  @default(now()) @map("createdAt")
   updated_at   DateTime  @updatedAt @map("updatedAt")
   deleted_at   DateTime? @map("deletedAt")
 
-  inventory Inventory @relation(fields: [inventory_id], references: [id])
+  inventory      Inventory        @relation(fields: [inventory_id], references: [id])
   inventoryEvent InventoryEvent[]
 }
 
 model InventoryEvent {
-  id           String    @id @default(uuid())
-  inventory_id String    @map("inventoryId")
+  id             String    @id @default(uuid())
+  inventory_id   String    @map("inventoryId")
   transaction_id String?   @map("transactionId")
-  event_type   String
-  event_hash   String    @unique @map("eventHash")
-  payload      Json
-  created_at   DateTime  @default(now()) @map("createdAt")
-  updated_at   DateTime  @updatedAt @map("updatedAt")
-  deleted_at   DateTime? @map("deletedAt")
+  event_type     String
+  event_hash     String    @unique @map("eventHash")
+  payload        Json
+  created_at     DateTime  @default(now()) @map("createdAt")
+  updated_at     DateTime  @updatedAt @map("updatedAt")
+  deleted_at     DateTime? @map("deletedAt")
 
-  inventory Inventory @relation(fields: [inventory_id], references: [id])
+  inventory   Inventory    @relation(fields: [inventory_id], references: [id])
   transaction Transaction? @relation(fields: [transaction_id], references: [id])
 }
 
-
 model RequestLog {
-  id         String    @id @default(uuid())
-  request_id  String    @unique @map("requestId")
-  direction   String
-  method      String
-  endpoint    String
-  status_code Int     @map("statusCode")
-  duration    Int
-  request_timestamp DateTime  @default(now()) @map("requestTimestamp")
+  id                 String    @id @default(uuid())
+  request_id         String    @unique @map("requestId")
+  direction          String
+  method             String
+  endpoint           String
+  status_code        Int       @map("statusCode")
+  duration           Int
+  request_timestamp  DateTime  @default(now()) @map("requestTimestamp")
   response_timestamp DateTime? @map("responseTimestamp")
-  request_headers Json?   @map("requestHeaders")
-  request_body    Json?   @map("requestBody")
-  response_headers Json?   @map("responseHeaders")
-  response_body    Json?   @map("responseBody")
-  created_at  DateTime  @default(now()) @map("createdAt")
-  user_id     String?   @map("userId")
-  error_message String?   @map("errorMessage")
-} 
+  request_headers    Json?     @map("requestHeaders")
+  request_body       Json?     @map("requestBody")
+  response_headers   Json?     @map("responseHeaders")
+  response_body      Json?     @map("responseBody")
+  created_at         DateTime  @default(now()) @map("createdAt")
+  user_id            String?   @map("userId")
+  error_message      String?   @map("errorMessage")
+}

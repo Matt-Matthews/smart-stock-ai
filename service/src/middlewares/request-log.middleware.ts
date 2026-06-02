@@ -14,13 +14,13 @@ eventEmitter.on('requestLogged', async (data) => {
 });
 
 const requestLogger = (req: Request, res: Response, next: NextFunction) => {
-    const start = Date.now();
+    const start = new Date();
     const { method, url } = req;
     const requestId = uuidv4();
     logger.info(`Incoming Request: ${method} ${url} - Request ID: ${requestId}`);
 
     res.on('finish', () => {
-        const duration = Date.now() - start;
+        const duration = Date.now() - start.getTime();
         const { statusCode } = res;
         const data = {
             method: method,
@@ -29,7 +29,7 @@ const requestLogger = (req: Request, res: Response, next: NextFunction) => {
             status_code: statusCode,
             duration: duration,
             request_timestamp: start,
-            response_timestamp: Date.now(),
+            response_timestamp: new Date(),
             request_headers: req.headers || {},
             response_headers: res.getHeaders() || {},
             response_body: res.locals?.body ? res.locals.body : {},
@@ -42,7 +42,7 @@ const requestLogger = (req: Request, res: Response, next: NextFunction) => {
     });
 
     res.on('error', (err) => {
-        const duration = Date.now() - start;
+        const duration = Date.now() - start.getTime();
         const { statusCode } = res;
         const data = {
             method: method,
@@ -51,7 +51,7 @@ const requestLogger = (req: Request, res: Response, next: NextFunction) => {
             status_code: statusCode,
             duration: duration,
             request_timestamp: start,
-            response_timestamp: Date.now(),
+            response_timestamp: new Date(),
             request_headers: req.headers || {},
             response_headers: res.getHeaders() || {},
             response_body: res.locals?.body ? res.locals.body : {},

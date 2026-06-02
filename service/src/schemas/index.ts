@@ -1,5 +1,5 @@
-import { productQuery, productQueryResolvers } from './queries/product.query.js';
-import { productMutation, productMutationResolvers } from './mutations/product.mutation.js';
+import { itemQuery, itemQueryResolvers } from './queries/item.query.js';
+import { itemMutation, itemMutationResolvers } from './mutations/item.mutation.js';
 import { inventoryMutation, inventoryMutationResolvers } from './mutations/inventory.mutation.js';
 import { inventoryQuery, inventoryQueryResolvers } from './queries/inventory.query.js';
 import { transactionQuery, transactionQueryResolvers } from "./queries/transaction.query.js";
@@ -14,47 +14,74 @@ import { permissionQuery, permissionQueryResolvers } from "./queries/permission.
 import { permissionMutation, permissionMutationResolvers } from "./mutations/permission.mutation.js";
 import { rolePermissionQuery, rolePermissionQueryResolvers } from "./queries/role-permission.query.js";
 import { rolePermissionMutation, rolePermissionMutationResolvers } from "./mutations/role-permission.mutation.js";
+import {categoryQuery, categoryQueryResolvers } from "./queries/category.query.js";
+import {currencyQuery, currencyQueryResolvers } from "./queries/currency.query.js";
+import { categoryMutation, categoryMutationResolvers } from "./mutations/category.mutation.js";
+import { currencyMutation, currencyMutationResolvers } from "./mutations/currency.mutation.js";
 
 export const typeDefs = [`#graphql
-  type Product {
-    _id: String!
+  type Currency {
+    id: String!
+    code: String!
+    name: String!
+    created_at: String
+    updated_at: String
+    deleted_at: String
+  }
+
+  type Category {
+    id: String!
+    company_id: String!
+    name: String!
+    description: String!
+    created_at: String
+    updated_at: String
+    deleted_at: String
+  }
+
+  type Item {
+    id: String!
     company_id: String!
     name: String!
     description: String!
     cost_price: Float!
-    selling_price: Float!
+    sell_price: Float!
     sku: String!
     barcode: String!
-    size: String!
-    unit_of_measure: String!
-    reorder_level: Int!
+    currency_id: String!
+    category_id: String!
+    currency: Currency
+    category: Category
     created_at: String
     updated_at: String
     deleted_at: String
   }
 
   type Inventory {
-    _id: String!
+    id: String!
     company_id: String!
-    product_id: String!
+    item_id: String!
     quantity: Int!
     created_at: String
     updated_at: String
     deleted_at: String
+    item: Item
+    event_hash: String
   }
 
   type Transaction {
-    _id: String!
+    id: String!
     company_id: String!
-    product_id: String!
+    inventory_id: String!
     quantity: Int!
     created_at: String
     updated_at: String
     deleted_at: String
+    inventory: Inventory
   }
 
   type User {
-    _id: String!
+    id: String!
     company_id: String!
     first_name: String!
     last_name: String!
@@ -66,7 +93,7 @@ export const typeDefs = [`#graphql
   }
 
   type Company {
-    _id: String!
+    id: String!
     name: String!
     address: String!
     phone: String!
@@ -77,7 +104,7 @@ export const typeDefs = [`#graphql
   }
 
   type Role {
-    _id: String!
+    id: String!
     name: String!
     description: String!
     created_at: String
@@ -86,7 +113,7 @@ export const typeDefs = [`#graphql
   }
 
   type Permission {
-    _id: String!
+    id: String!
     name: String!
     description: String!
     created_at: String
@@ -95,7 +122,7 @@ export const typeDefs = [`#graphql
   }
 
   type RolePermission {
-    _id: String!
+    id: String!
     role_id: String!
     permission_id: String!
     created_at: String
@@ -110,8 +137,8 @@ export const typeDefs = [`#graphql
   type Mutation {
     _empty: String
   }
-`, productQuery,
-  productMutation,
+`, itemQuery,
+  itemMutation,
   inventoryQuery,
   inventoryMutation,
   transactionQuery,
@@ -125,17 +152,21 @@ export const typeDefs = [`#graphql
   permissionQuery,
   permissionMutation,
   rolePermissionQuery,
-  rolePermissionMutation
+  rolePermissionMutation,
+  categoryQuery,
+  categoryMutation,
+  currencyQuery,
+  currencyMutation
 ];
 
-export const resolvers = [
+export const resolvers: Record<string, any> = [
   {
     Query: {
       health: () => 'GraphQL API is healthy',
     },
   },
-  productQueryResolvers,
-  productMutationResolvers,
+  itemQueryResolvers,
+  itemMutationResolvers,
   inventoryQueryResolvers,
   inventoryMutationResolvers,
   transactionQueryResolvers,
@@ -149,5 +180,9 @@ export const resolvers = [
   permissionQueryResolvers,
   permissionMutationResolvers,
   rolePermissionQueryResolvers,
-  rolePermissionMutationResolvers
+  rolePermissionMutationResolvers,
+  categoryQueryResolvers,
+  categoryMutationResolvers,
+  currencyQueryResolvers,
+  currencyMutationResolvers
 ];

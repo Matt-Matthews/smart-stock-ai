@@ -39,7 +39,7 @@ VALUES
 -- Users
 INSERT INTO `User` (`id`, `email`, `firstName`, `lastName`, `companyId`, `roleId`, `password`, `createdAt`, `updatedAt`, `deletedAt`, `enabled`)
 VALUES
-  (@user1, 'alice@example.com', 'Alice', 'Admin', @company1, @role_admin, '$2b$10$ca.CnrQ9YOCUPdZ9HzjMBOnJKIbUvB/ZzdmrY.T5kpLlLT8iAISoi', NOW(), NOW(), NULL, TRUE);
+  (@user1, 'mathewspaku@gmail.com', 'Matt', 'Paku', @company1, @role_admin, '$2b$10$ca.CnrQ9YOCUPdZ9HzjMBOnJKIbUvB/ZzdmrY.T5kpLlLT8iAISoi', NOW(), NOW(), NULL, TRUE);
 
 -- Currencies
 INSERT INTO `Currency` (`id`, `code`, `name`, `createdAt`, `updatedAt`, `deletedAt`)
@@ -57,14 +57,14 @@ VALUES
   (@item_pen, 'Ballpoint Pen', 'Smooth ink pen, blue', @category_office, @company1, @currency_usd, NOW(), NOW(), NULL, 0.5, 1.25, 'PEN-001', '0123456789012');
 
 -- Inventory (one per item)
-INSERT INTO `Inventory` (`id`, `itemId`, `quantity`, `createdAt`, `updatedAt`, `deletedAt`, `eventHash`)
+INSERT INTO `Inventory` (`id`, `itemId`, `quantity`, `createdAt`, `updatedAt`, `deletedAt`, `eventHash`, `companyId`)
 VALUES
-  (@inventory_pen, @item_pen, 100, NOW(), NOW(), NULL, CONCAT('evt_', REPLACE(UUID(), '-', '')));
+  (@inventory_pen, @item_pen, 100, NOW(), NOW(), NULL, CONCAT('evt_', REPLACE(UUID(), '-', '')), @company1);
 
 -- Transactions
-INSERT INTO `Transaction` (`id`, `inventoryId`, `quantity`, `type`, `createdAt`, `updatedAt`, `deletedAt`)
+INSERT INTO `Transaction` (`id`, `inventoryId`, `quantity`, `type`, `createdAt`, `updatedAt`, `deletedAt`, `companyId`)
 VALUES
-  (@transaction1, @inventory_pen, 100, 'IN', NOW(), NOW(), NULL);
+  (@transaction1, @inventory_pen, 100, 'IN', NOW(), NOW(), NULL, @company1);
 
 -- InventoryEvent
 INSERT INTO `InventoryEvent` (`id`, `inventoryId`, `transactionId`, `eventType`, `eventHash`, `payload`, `createdAt`, `updatedAt`, `deletedAt`)

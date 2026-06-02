@@ -213,6 +213,7 @@ exports.Prisma.InventoryScalarFieldEnum = {
   id: 'id',
   item_id: 'item_id',
   quantity: 'quantity',
+  company_id: 'company_id',
   created_at: 'created_at',
   updated_at: 'updated_at',
   deleted_at: 'deleted_at',
@@ -222,6 +223,7 @@ exports.Prisma.InventoryScalarFieldEnum = {
 exports.Prisma.TransactionScalarFieldEnum = {
   id: 'id',
   inventory_id: 'inventory_id',
+  company_id: 'company_id',
   quantity: 'quantity',
   type: 'type',
   created_at: 'created_at',
@@ -344,12 +346,14 @@ exports.Prisma.ItemOrderByRelevanceFieldEnum = {
 exports.Prisma.InventoryOrderByRelevanceFieldEnum = {
   id: 'id',
   item_id: 'item_id',
+  company_id: 'company_id',
   event_hash: 'event_hash'
 };
 
 exports.Prisma.TransactionOrderByRelevanceFieldEnum = {
   id: 'id',
   inventory_id: 'inventory_id',
+  company_id: 'company_id',
   type: 'type'
 };
 
