@@ -82,28 +82,35 @@ const { data, error } = await useFetch(config.public.apiBase + '/graphql', {
         query: `
                 query InventoryByCompany {
                     inventoryByCompany(company_id: "${companyId}") {
-                        _id
+                        id
                         company_id
-                        product_id
+                        item_id
                         quantity
                         created_at
                         updated_at
                         deleted_at
-                        product {
-                            _id
+                        event_hash
+                        item {
+                            id
                             company_id
                             name
                             description
                             cost_price
-                            selling_price
+                            sell_price
                             sku
                             barcode
-                            size
-                            unit_of_measure
-                            reorder_level
+                            currency_id
+                            category_id
                             created_at
                             updated_at
                             deleted_at
+                            currency {
+                                code
+                                name
+                            }
+                            category {
+                                name
+                            }
                         }
                         event_hash
                     }
@@ -133,26 +140,30 @@ type InventoryItem = {
     created_at: string;
     deleted_at: null | string;
     event_hash: null | string;
-    product: {
-        _id: string;
+    item: {
+        id: string;
         company_id: string;
         name: string;
         description: string;
         cost_price: number;
-        selling_price: number;
+        sell_price: number;
         sku: string;
         barcode: string;
-        size: string;
-        unit_of_measure: string;
-        reorder_level: number;
         created_at: string;
         updated_at: string;
         deleted_at: null | string;
+        currency: {
+            code: string;
+            name: string;
+        }
+        category: {
+            name: string;
+        }
     };
-    product_id: string;
+    item_id: string;
     quantity: number;
     updated_at: string;
-    _id: string;
+    id: string;
 };
 
 
@@ -164,14 +175,19 @@ const columns: TableColumn<InventoryItem>[] = [
         cell: ({ row }) => `${Number(row.id) + 1}`
     },
     {
-        accessorKey: 'product',
+        accessorKey: 'item',
         header: 'Product',
-        cell: ({ row }) => (row.getValue('product') as any)?.name || 'N/A'
+        cell: ({ row }) => (row.getValue('item') as any)?.name || 'N/A'
+    },
+    {
+        accessorKey: 'item',
+        header: 'Category',
+        cell: ({ row }) => (row.getValue('item') as any)?.category?.name || 'N/A'
     },
     {
         accessorKey: 'sku',
         header: 'SKU',
-        cell: ({ row }) => (row.getValue('product') as any)?.sku || 'N/A'
+        cell: ({ row }) => (row.getValue('item') as any)?.sku || 'N/A'
     },
     {
         accessorKey: 'quantity',
@@ -179,28 +195,30 @@ const columns: TableColumn<InventoryItem>[] = [
         cell: ({ row }) => row.getValue('quantity')
     },
     {
-        accessorKey: 'product',
+        accessorKey: 'item',
         header: 'Selling Price',
         cell: ({ row }) => {
-            const price = (row.getValue('product') as any)?.selling_price
+            const price = (row.getValue('item') as any)?.sell_price
+            const currency = (row.getValue('item') as any)?.currency?.code || 'ZAR'
             if (price == null) return 'N/A'
 
             return new Intl.NumberFormat('en-US', {
                 style: 'currency',
-                currency: 'EUR'
+                currency: currency
             }).format(price)
         }
     },
     {
-        accessorKey: 'product',
+        accessorKey: 'item',
         header: 'Cost Price',
         cell: ({ row }) => {
-            const price = (row.getValue('product') as any)?.cost_price
+            const price = (row.getValue('item') as any)?.cost_price
+            const currency = (row.getValue('item') as any)?.currency?.code || 'ZAR'
             if (price == null) return 'N/A'
 
             return new Intl.NumberFormat('en-US', {
                 style: 'currency',
-                currency: 'EUR'
+                currency: currency
             }).format(price)
         }
     },
@@ -257,7 +275,7 @@ function getRowItems(row: Row<InventoryItem>) {
         {
             label: 'Copy Product SKU',
             onSelect() {
-                copy(row.original.product.sku)
+                copy(row.original.item.sku)
 
                 toast.add({
                     title: 'Product SKU copied to clipboard!',

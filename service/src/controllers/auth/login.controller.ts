@@ -48,7 +48,7 @@ const login = async (req: Request, res: Response) => {
         // Generate tokens
         const accessToken = generateAccessToken(userData);
         const refreshTokenResult = generateRefreshToken(userData.id, uuid());
-
+        
         res.cookie('refreshToken', refreshTokenResult, { httpOnly: true, secure: true, sameSite: 'none' });
         res.setHeader('Authorization', `Bearer ${accessToken}`);
         res.status(200).send({
@@ -58,8 +58,8 @@ const login = async (req: Request, res: Response) => {
                 accessToken: accessToken.token,
                 expiresIn: accessToken.expiresIn,
                 user: {
-                    firstName: userData.first_name,
-                    lastName: userData.last_name,
+                    firstName: userData.firstName,
+                    lastName: userData.lastName,
                     email: userData.email,
                     company: (userData as any)?.company
                 }

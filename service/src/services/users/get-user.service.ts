@@ -4,7 +4,7 @@ import { serviceResult } from '@utils/request-result.util.js';
 import type { User } from '@configs/generated/prisma/index.js';
 import { prisma } from '@configs/mysql-db.config.js';
 
-const getUser = async (data: { userId?: string, email?: string, includeRoles: boolean }): Promise<IServiceResult<User>> => {
+const getUser = async (data: { userId?: string, email?: string, includeRoles: boolean }): Promise<IServiceResult<any>> => {
     try {
         const user = await prisma.user.findFirst(
             {

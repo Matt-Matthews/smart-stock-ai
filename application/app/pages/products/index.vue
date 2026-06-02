@@ -92,22 +92,29 @@ const { data, error } = await useFetch(config.public.apiBase + '/graphql', {
     method: 'POST',
     body: {
         query: `
-                query ProductsByCompany {
-                    productsByCompany(companyId: "${companyId}") {
-                        _id
+                query ItemsByCompany {
+                    itemsByCompany(companyId: "${companyId}") {
+                        id
                         company_id
                         name
                         description
                         cost_price
-                        selling_price
+                        sell_price
                         sku
                         barcode
-                        size
-                        unit_of_measure
-                        reorder_level
+                        currency_id
+                        category_id
                         created_at
                         updated_at
                         deleted_at
+                        currency {
+                            code
+                            name
+                        }
+                        category {
+                            name
+                            description
+                        }
                     }
                 }
             `,
@@ -122,7 +129,7 @@ if (error.value) {
         color: 'error',
     })
 } else {
-    products.value = (data.value as any)?.data?.productsByCompany || []
+    products.value = (data.value as any)?.data?.itemsByCompany || []
 }
 
 
