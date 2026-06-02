@@ -1,4 +1,4 @@
-import Role from "@models/role.model.js";
+import { prisma } from "@configs/mysql-db.config.js";
 
 export const roleQuery = `#graphql
     extend type Query {
@@ -11,12 +11,12 @@ export const roleQuery = `#graphql
 
 export const roleQueryResolvers = {
     Query: {
-        roles: async () => await Role.find({ deleted_at: null }).lean(),
+        roles: async () => await prisma.role.findMany({ where: { deleted_at: null } }),
         role: async (_parent: unknown, args: { _id: string }) =>
-            await Role.findOne({ _id: args._id, deleted_at: null }).lean(),
+            await prisma.role.findUnique({ where: { id: args._id, deleted_at: null } }),
         rolesByCompany: async (_parent: unknown, args: { company_id: string }) =>
-            await Role.find({ company_id: args.company_id, deleted_at: null }).lean(),
+            await prisma.role.findMany({ where: { company_id: args.company_id, deleted_at: null } }),
         roleWithoutCompany: async () =>
-            await Role.find({ company_id: null, deleted_at: null }).lean(),
+            await prisma.role.findMany({ where: { deleted_at: null } }),
     },
 };

@@ -1,16 +1,16 @@
-import Company from "@models/company.model.js";
+import { prisma } from "@configs/mysql-db.config.js";
 
 export const companyQuery = `#graphql
   extend type Query {
     companies: [Company!]!
-    company(_id: String!): Company
+    company(id: String!): Company
   }
 `;
 
 export const companyQueryResolvers = {
     Query: {
-        companies: async () => await Company.find({ deleted_at: null }).lean(),
-        company: async (_parent: unknown, args: { _id: string }) =>
-            await Company.findOne({ _id: args._id, deleted_at: null }).lean(),
+        companies: async () => await prisma.company.findMany({ where: { deleted_at: null } }),
+        company: async (_parent: unknown, args: { id: string }) =>
+            await prisma.company.findUnique({ where: { id: args.id, deleted_at: null } }),
     },
 };

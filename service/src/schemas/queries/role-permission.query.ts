@@ -1,11 +1,9 @@
-import Permission from "@models/permission.model.js";
-import RolePermission from "@models/role-permission.model.js";
-import Role from "@models/role.model.js";
+import { prisma } from "@configs/mysql-db.config.js";
 
 export const rolePermissionQuery = `#graphql
     extend type Query {
         rolePermissions: [RolePermission!]!
-        rolePermission(_id: String!): RolePermissionData
+        rolePermission(id: String!): RolePermissionData
         permissionsByRole(role_id: String!): [RolePermission!]!
         rolesByPermission(permission_id: String!): [RolePermission!]!
     }
@@ -24,20 +22,20 @@ export const rolePermissionQuery = `#graphql
 
 export const rolePermissionQueryResolvers = {
     Query: {
-        rolePermissions: async () => await RolePermission.find({ deleted_at: null }).lean(),
-        rolePermission: async (_parent: unknown, args: { _id: string }) =>{
-            const rolePermission = await RolePermission.findOne({ _id: args._id, deleted_at: null }).lean();
-            const role = await Role.findOne({ _id: rolePermission?.role_id, deleted_at: null }).lean();
-            const permission = await Permission.findOne({ _id: rolePermission?.permission_id, deleted_at: null }).lean();
-            return {
-                ...rolePermission,
-                role,
-                permission
-            };
+        rolePermissions: async () => await prisma.rolePermission.findMany({ where: { deleted_at: null } }),
+        rolePermission: async (_parent: unknown, args: { id: string }) =>{
+            const rolePermission = await prisma.rolePermission.findUnique({ 
+                where: { id: args.id, deleted_at: null },
+                include: {
+                    permission: true,
+                    role: true
+                }
+            });
+            return rolePermission;
         },
         permissionsByRole: async (_parent: unknown, args: { role_id: string }) =>
-            await RolePermission.find({ role_id: args.role_id, deleted_at: null }).lean(),
+            await prisma.rolePermission.findMany({ where: { role_id: args.role_id, deleted_at: null } }),
         rolesByPermission: async (_parent: unknown, args: { permission_id: string }) =>
-            await RolePermission.find({ permission_id: args.permission_id, deleted_at: null }).lean()
+            await prisma.rolePermission.findMany({ where: { permission_id: args.permission_id, deleted_at: null } })
     }
 };

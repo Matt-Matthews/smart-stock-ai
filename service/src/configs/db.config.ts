@@ -2,16 +2,16 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import "@models/audit_log.model.js";
-import "@models/product.model.js";
-import "@models/user.model.js";
-import "@models/role.model.js";
-import "@models/permission.model.js";
-import "@models/transaction.model.js";
-import "@models/company.model.js";
-import "@models/inventory.model.js";
-import "@models/request_log.model.js";
-import "@models/role-permission.model.js";
+// import "@models/audit_log.model.js";
+// import "@models/product.model.js";
+// import "@models/user.model.js";
+// import "@models/role.model.js";
+// import "@models/permission.model.js";
+// import "@models/transaction.model.js";
+// import "@models/company.model.js";
+// import "@models/inventory.model.js";
+// import "@models/request_log.model.js";
+// import "@models/role-permission.model.js";
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/inventory';
 
