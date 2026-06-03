@@ -1,15 +1,31 @@
 <script setup lang="ts">
 import type { NavigationMenuItem, SidebarProps } from '@nuxt/ui'
 
-const { user } = useUserStore()
-
-
 
 // Ignore the props for the example
 defineProps<Pick<SidebarProps, 'variant' | 'collapsible' | 'side'>>()
 
 const open = ref(false)
 const router = useRouter()
+const isLoading = ref(false)
+
+const config = useRuntimeConfig()
+const userStore = useUserStore()
+const authToken = useAuthToken()
+const { user } = storeToRefs(userStore)
+const { fetchMasterData } = useFetchMasterData()
+
+const companyId = user.value?.company?.id
+const toggleIsLoading = ():void => {
+    isLoading.value = !isLoading.value
+}
+
+if (user.value && authToken.value) {
+    fetchMasterData(config.public.apiBase, authToken.value, companyId, toggleIsLoading);
+} else {
+    router.push('/login')
+}
+
 
 const items = computed<NavigationMenuItem[]>(
     () => [
@@ -56,10 +72,13 @@ const items = computed<NavigationMenuItem[]>(
             tooltip: { text: 'Settings', side: 'right' }
         }
     ]);
+
+
 </script>
 
 <template>
-    <div class="flex flex-1" :class="[
+    <LoadingScreen v-show="isLoading" />
+    <div v-show="!isLoading" class="flex flex-1" :class="[
         variant === 'inset' && 'bg-neutral-50 dark:bg-neutral-950',
         side === 'right' && 'flex-row-reverse'
     ]">
