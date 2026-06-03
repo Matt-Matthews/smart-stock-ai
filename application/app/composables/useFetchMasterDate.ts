@@ -61,9 +61,9 @@ export const useFetchMasterData = () => {
                 color: 'error',
             })
         } else {
-            categoryStore.setCategories((data.value as any).categoriesByCompany)
-            itemStore.setItems((data.value as any).itemsByCompany)
-            currencyStore.setCurrencies((data.value as any).currencies)
+            categoryStore.setCategories((data.value as any).data?.categoriesByCompany)
+            itemStore.setItems((data.value as any).data?.itemsByCompany)
+            currencyStore.setCurrencies((data.value as any).data?.currencies)
         }
 
         callback()

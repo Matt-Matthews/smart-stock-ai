@@ -10,16 +10,16 @@ export const inventoryMutation = `#graphql
 
 export const inventoryMutationResolvers = {
     Mutation: {
-        createInventoryEntry: async (_parent: unknown, args: { company_id: string, item_id: string, quantity: number, event_hash: string }) => {
+        createInventoryEntry: async (_parent: unknown, args: { company_id: string, item_id: string, quantity: number, event_hash: string, status: string }) => {
             const entry = await prisma.inventory.create({
                 data: args,
             });
             return entry;
         },
-        updateInventoryEntry: async (_parent: unknown, args: { id: string, quantity: number, event_hash: string }) => {
+        updateInventoryEntry: async (_parent: unknown, args: { id: string, quantity: number, event_hash: string, status: string }) => {
             const entry = await prisma.inventory.update({
                 where: { id: args.id },
-                data: { quantity: args.quantity, event_hash: args.event_hash },
+                data: { quantity: args.quantity, event_hash: args.event_hash, status: args.status },
             });
             return entry;
         },

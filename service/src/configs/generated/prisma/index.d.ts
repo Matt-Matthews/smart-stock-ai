@@ -10130,6 +10130,7 @@ export namespace Prisma {
     id: string | null
     item_id: string | null
     quantity: number | null
+    status: string | null
     company_id: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -10141,6 +10142,7 @@ export namespace Prisma {
     id: string | null
     item_id: string | null
     quantity: number | null
+    status: string | null
     company_id: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -10152,6 +10154,7 @@ export namespace Prisma {
     id: number
     item_id: number
     quantity: number
+    status: number
     company_id: number
     created_at: number
     updated_at: number
@@ -10173,6 +10176,7 @@ export namespace Prisma {
     id?: true
     item_id?: true
     quantity?: true
+    status?: true
     company_id?: true
     created_at?: true
     updated_at?: true
@@ -10184,6 +10188,7 @@ export namespace Prisma {
     id?: true
     item_id?: true
     quantity?: true
+    status?: true
     company_id?: true
     created_at?: true
     updated_at?: true
@@ -10195,6 +10200,7 @@ export namespace Prisma {
     id?: true
     item_id?: true
     quantity?: true
+    status?: true
     company_id?: true
     created_at?: true
     updated_at?: true
@@ -10293,6 +10299,7 @@ export namespace Prisma {
     id: string
     item_id: string
     quantity: number
+    status: string
     company_id: string
     created_at: Date
     updated_at: Date
@@ -10323,6 +10330,7 @@ export namespace Prisma {
     id?: boolean
     item_id?: boolean
     quantity?: boolean
+    status?: boolean
     company_id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -10340,6 +10348,7 @@ export namespace Prisma {
     id?: boolean
     item_id?: boolean
     quantity?: boolean
+    status?: boolean
     company_id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -10347,7 +10356,7 @@ export namespace Prisma {
     event_hash?: boolean
   }
 
-  export type InventoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "item_id" | "quantity" | "company_id" | "created_at" | "updated_at" | "deleted_at" | "event_hash", ExtArgs["result"]["inventory"]>
+  export type InventoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "item_id" | "quantity" | "status" | "company_id" | "created_at" | "updated_at" | "deleted_at" | "event_hash", ExtArgs["result"]["inventory"]>
   export type InventoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     item?: boolean | ItemDefaultArgs<ExtArgs>
     transactions?: boolean | Inventory$transactionsArgs<ExtArgs>
@@ -10366,6 +10375,7 @@ export namespace Prisma {
       id: string
       item_id: string
       quantity: number
+      status: string
       company_id: string
       created_at: Date
       updated_at: Date
@@ -10746,6 +10756,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Inventory", 'String'>
     readonly item_id: FieldRef<"Inventory", 'String'>
     readonly quantity: FieldRef<"Inventory", 'Int'>
+    readonly status: FieldRef<"Inventory", 'String'>
     readonly company_id: FieldRef<"Inventory", 'String'>
     readonly created_at: FieldRef<"Inventory", 'DateTime'>
     readonly updated_at: FieldRef<"Inventory", 'DateTime'>
@@ -14354,6 +14365,7 @@ export namespace Prisma {
     id: 'id',
     item_id: 'item_id',
     quantity: 'quantity',
+    status: 'status',
     company_id: 'company_id',
     created_at: 'created_at',
     updated_at: 'updated_at',
@@ -14535,6 +14547,7 @@ export namespace Prisma {
   export const InventoryOrderByRelevanceFieldEnum: {
     id: 'id',
     item_id: 'item_id',
+    status: 'status',
     company_id: 'company_id',
     event_hash: 'event_hash'
   };
@@ -15265,6 +15278,7 @@ export namespace Prisma {
     id?: StringFilter<"Inventory"> | string
     item_id?: StringFilter<"Inventory"> | string
     quantity?: IntFilter<"Inventory"> | number
+    status?: StringFilter<"Inventory"> | string
     company_id?: StringFilter<"Inventory"> | string
     created_at?: DateTimeFilter<"Inventory"> | Date | string
     updated_at?: DateTimeFilter<"Inventory"> | Date | string
@@ -15279,6 +15293,7 @@ export namespace Prisma {
     id?: SortOrder
     item_id?: SortOrder
     quantity?: SortOrder
+    status?: SortOrder
     company_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -15298,6 +15313,7 @@ export namespace Prisma {
     OR?: InventoryWhereInput[]
     NOT?: InventoryWhereInput | InventoryWhereInput[]
     quantity?: IntFilter<"Inventory"> | number
+    status?: StringFilter<"Inventory"> | string
     company_id?: StringFilter<"Inventory"> | string
     created_at?: DateTimeFilter<"Inventory"> | Date | string
     updated_at?: DateTimeFilter<"Inventory"> | Date | string
@@ -15311,6 +15327,7 @@ export namespace Prisma {
     id?: SortOrder
     item_id?: SortOrder
     quantity?: SortOrder
+    status?: SortOrder
     company_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -15330,6 +15347,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Inventory"> | string
     item_id?: StringWithAggregatesFilter<"Inventory"> | string
     quantity?: IntWithAggregatesFilter<"Inventory"> | number
+    status?: StringWithAggregatesFilter<"Inventory"> | string
     company_id?: StringWithAggregatesFilter<"Inventory"> | string
     created_at?: DateTimeWithAggregatesFilter<"Inventory"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Inventory"> | Date | string
@@ -16259,6 +16277,7 @@ export namespace Prisma {
   export type InventoryCreateInput = {
     id?: string
     quantity: number
+    status: string
     company_id: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -16273,6 +16292,7 @@ export namespace Prisma {
     id?: string
     item_id: string
     quantity: number
+    status: string
     company_id: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -16285,6 +16305,7 @@ export namespace Prisma {
   export type InventoryUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     company_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16299,6 +16320,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     item_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     company_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16312,6 +16334,7 @@ export namespace Prisma {
     id?: string
     item_id: string
     quantity: number
+    status: string
     company_id: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -16322,6 +16345,7 @@ export namespace Prisma {
   export type InventoryUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     company_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -16333,6 +16357,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     item_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     company_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -17247,6 +17272,7 @@ export namespace Prisma {
     id?: SortOrder
     item_id?: SortOrder
     quantity?: SortOrder
+    status?: SortOrder
     company_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -17262,6 +17288,7 @@ export namespace Prisma {
     id?: SortOrder
     item_id?: SortOrder
     quantity?: SortOrder
+    status?: SortOrder
     company_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -17273,6 +17300,7 @@ export namespace Prisma {
     id?: SortOrder
     item_id?: SortOrder
     quantity?: SortOrder
+    status?: SortOrder
     company_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -19549,6 +19577,7 @@ export namespace Prisma {
   export type InventoryCreateWithoutItemInput = {
     id?: string
     quantity: number
+    status: string
     company_id: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -19561,6 +19590,7 @@ export namespace Prisma {
   export type InventoryUncheckedCreateWithoutItemInput = {
     id?: string
     quantity: number
+    status: string
     company_id: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -19684,6 +19714,7 @@ export namespace Prisma {
   export type InventoryUpdateWithoutItemInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     company_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19696,6 +19727,7 @@ export namespace Prisma {
   export type InventoryUncheckedUpdateWithoutItemInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     company_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19942,6 +19974,7 @@ export namespace Prisma {
   export type InventoryCreateWithoutTransactionsInput = {
     id?: string
     quantity: number
+    status: string
     company_id: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -19955,6 +19988,7 @@ export namespace Prisma {
     id?: string
     item_id: string
     quantity: number
+    status: string
     company_id: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -20014,6 +20048,7 @@ export namespace Prisma {
   export type InventoryUpdateWithoutTransactionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     company_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20027,6 +20062,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     item_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     company_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20054,6 +20090,7 @@ export namespace Prisma {
   export type InventoryCreateWithoutInventoryEventsInput = {
     id?: string
     quantity: number
+    status: string
     company_id: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -20067,6 +20104,7 @@ export namespace Prisma {
     id?: string
     item_id: string
     quantity: number
+    status: string
     company_id: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -20121,6 +20159,7 @@ export namespace Prisma {
   export type InventoryUpdateWithoutInventoryEventsInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     company_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20134,6 +20173,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     item_id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
     company_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string

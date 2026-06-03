@@ -62,6 +62,7 @@ export const typeDefs = [`#graphql
     company_id: String!
     item_id: String!
     quantity: Int!
+    status: String!
     created_at: String
     updated_at: String
     deleted_at: String

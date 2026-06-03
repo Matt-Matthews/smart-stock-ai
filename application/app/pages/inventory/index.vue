@@ -21,13 +21,22 @@
                 <NuxtIcon name="i-lucide-list-filter" class="" />
                 <p>Filters</p>
             </div>
-            <NuxtSelect placeholder="Select Category" :items="items" />
-            <NuxtSelect placeholder="Select Status" :items="items" />
-            <NuxtButton variant="outline" color="primary" class="ml-auto">Apply Filters</NuxtButton>
-            <NuxtButton variant="outline" color="primary">Clear Filters</NuxtButton>
+            <NuxtSelect placeholder="Select Category" class="w-48" v-model="selectedCategory"
+                :items="categoryOPtions" />
+            <NuxtSelect placeholder="Select Currency" class="w-48" v-model="selectedCurrency"
+                :items="currencyOptions" />
+            <NuxtSelect placeholder="Select Status" class="w-48" v-model="selectedStatus" :items="items" />
+            <NuxtChip class="ml-auto" :show="hasFiltersApplied">
+                <NuxtButton variant="outline" color="primary" @click="applyFilters">
+                    Apply Filters
+                </NuxtButton>
+            </NuxtChip>
+            <NuxtButton variant="outline" color="primary" @click="clearFilters">
+                Clear Filters
+            </NuxtButton>
         </div>
         <div class="mt-6 border rounded-sm border-muted p-4">
-            <NuxtTable :data="inventoryItems" :columns="columns" class="flex-1" ref="table" />
+            <NuxtTable :data="filteredItems" :columns="columns" class="flex-1" ref="table" />
             <div class="flex justify-end border-t border-default pt-4 px-4">
                 <NuxtPagination :page="(table?.tableApi?.getState().pagination.pageIndex || 0) + 1"
                     :items-per-page="table?.tableApi?.getState().pagination.pageSize"
@@ -45,254 +54,71 @@
 </template>
 
 <script setup lang="ts">
-import { h, resolveComponent } from 'vue'
-import type { TableColumn } from '@nuxt/ui'
-import type { Row } from '@tanstack/vue-table'
-import { useClipboard } from '@vueuse/core'
-
-
-const UButton = resolveComponent('NuxtButton')
-const UBadge = resolveComponent('NuxtBadge')
-const UDropdownMenu = resolveComponent('NuxtDropdownMenu')
-
-const toast = useToast()
-const { copy } = useClipboard()
+import type { InventoryItem } from '~/types/inventoryTypes'
+import { resolveComponent } from 'vue'
 
 const table = useTemplateRef('table')
+const inventoryItems: InventoryItem[] | any = ref([])
+const filteredItems: InventoryItem[] | any = ref([])
+const selectedCategory = ref('')
+const selectedCurrency = ref('')
+const selectedStatus = ref('')
+
+const { columns } = useInventoryColumns(
+    resolveComponent('NuxtButton'),
+    resolveComponent('NuxtBadge'),
+    resolveComponent('NuxtDropdownMenu')
+);
 
 
-const inventoryItems = ref([])
-// const getInventories = async () => {
 const config = useRuntimeConfig()
-const userStore = useUserStore()
-const { user } = storeToRefs(userStore)
 const authToken = useAuthToken()
+
+const userStore = useUserStore()
+const categoryStore = useCategoryStore()
+const currencyStore = useCurrencyStore()
+
+const { user } = storeToRefs(userStore)
+const { categories } = storeToRefs(categoryStore)
+const { currencies } = storeToRefs(currencyStore)
+
+const categoryOPtions = computed(() => categories.value?.map(c => c.name) ?? [])
+const currencyOptions = computed(() => currencies.value?.map(c => c.code) ?? [])
 const companyId = user.value?.company.id
 
-const items = ref(['Backlog', 'Todo', 'In Progress', 'Done'])
-const value = ref('Backlog')
+const items = ref(['In Stock', 'Low Stock', 'Out of Stock', 'Refunded'])
 
+const { listInventoryItems } = useInventoryRequests()
 
-const { data, error } = await useFetch(config.public.apiBase + '/graphql', {
-    headers: {
-        Authorization: `Bearer ${authToken.value}`
-    },
-    method: 'POST',
-    body: {
-        query: `
-                query InventoryByCompany {
-                    inventoryByCompany(company_id: "${companyId}") {
-                        id
-                        company_id
-                        item_id
-                        quantity
-                        created_at
-                        updated_at
-                        deleted_at
-                        event_hash
-                        item {
-                            id
-                            company_id
-                            name
-                            description
-                            cost_price
-                            sell_price
-                            sku
-                            barcode
-                            currency_id
-                            category_id
-                            created_at
-                            updated_at
-                            deleted_at
-                            currency {
-                                code
-                                name
-                            }
-                            category {
-                                name
-                            }
-                        }
-                        event_hash
-                    }
-                }
-            `,
-        variables: {}
-    },
-})
-
-if (error.value) {
-    toast.add({
-        title: 'Error',
-        description: error.value?.data?.message || 'Failed to fetch inventory data.',
-        color: 'error',
-    })
-} else {
-    inventoryItems.value = (data.value as any)?.data?.inventoryByCompany || []
+if (companyId && authToken.value) {
+    inventoryItems.value = await listInventoryItems(config.public.apiBase, authToken.value, companyId)
+    filteredItems.value = inventoryItems.value
 }
 
+const applyFilters = () => {
+    hasFiltersApplied.value = selectedCategory.value !== '' ||
+        selectedCurrency.value !== '' || selectedStatus.value !== '';
+    filteredItems.value = inventoryItems.value.filter((item: InventoryItem) => {
+        const matchesCategory = selectedCategory.value ? item.item.category.name === selectedCategory.value : true
+        const matchesCurrency = selectedCurrency.value ? item.item.currency.code === selectedCurrency.value : true
+        const matchesStatus = selectedStatus.value ? item.status === selectedStatus.value : true
+
+        return matchesCategory && matchesCurrency && matchesStatus
+    })
+}
+
+const hasFiltersApplied = ref(false)
+
+const clearFilters = () => {
+    filteredItems.value = inventoryItems.value
+    selectedCategory.value = ''
+    selectedCurrency.value = ''
+    selectedStatus.value = ''
+    hasFiltersApplied.value = false
+}
 
 definePageMeta({
     layout: 'main'
 })
 
-type InventoryItem = {
-    company_id: string;
-    created_at: string;
-    deleted_at: null | string;
-    event_hash: null | string;
-    item: {
-        id: string;
-        company_id: string;
-        name: string;
-        description: string;
-        cost_price: number;
-        sell_price: number;
-        sku: string;
-        barcode: string;
-        created_at: string;
-        updated_at: string;
-        deleted_at: null | string;
-        currency: {
-            code: string;
-            name: string;
-        }
-        category: {
-            name: string;
-        }
-    };
-    item_id: string;
-    quantity: number;
-    updated_at: string;
-    id: string;
-};
-
-
-
-const columns: TableColumn<InventoryItem>[] = [
-    {
-        accessorKey: 'id',
-        header: '#',
-        cell: ({ row }) => `${Number(row.id) + 1}`
-    },
-    {
-        accessorKey: 'item',
-        header: 'Product',
-        cell: ({ row }) => (row.getValue('item') as any)?.name || 'N/A'
-    },
-    {
-        accessorKey: 'item',
-        header: 'Category',
-        cell: ({ row }) => (row.getValue('item') as any)?.category?.name || 'N/A'
-    },
-    {
-        accessorKey: 'sku',
-        header: 'SKU',
-        cell: ({ row }) => (row.getValue('item') as any)?.sku || 'N/A'
-    },
-    {
-        accessorKey: 'quantity',
-        header: 'Quantity',
-        cell: ({ row }) => row.getValue('quantity')
-    },
-    {
-        accessorKey: 'item',
-        header: 'Selling Price',
-        cell: ({ row }) => {
-            const price = (row.getValue('item') as any)?.sell_price
-            const currency = (row.getValue('item') as any)?.currency?.code || 'ZAR'
-            if (price == null) return 'N/A'
-
-            return new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: currency
-            }).format(price)
-        }
-    },
-    {
-        accessorKey: 'item',
-        header: 'Cost Price',
-        cell: ({ row }) => {
-            const price = (row.getValue('item') as any)?.cost_price
-            const currency = (row.getValue('item') as any)?.currency?.code || 'ZAR'
-            if (price == null) return 'N/A'
-
-            return new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: currency
-            }).format(price)
-        }
-    },
-    {
-        accessorKey: 'status',
-        header: 'Status',
-        cell: ({ row }) => {
-            const color = {
-                paid: 'success' as const,
-                'Low Stock': 'error' as const,
-                refunded: 'neutral' as const
-            }[row.getValue('status') as string || 'Low Stock']
-
-            return h(UBadge, { class: 'capitalize', variant: 'subtle', color }, () =>
-                row.getValue('status') || 'Low Stock'
-            )
-        }
-    },
-    {
-        id: 'actions',
-        meta: {
-            class: {
-                td: 'text-right'
-            }
-        },
-        cell: ({ row }) => {
-            return h(
-                UDropdownMenu,
-                {
-                    content: {
-                        align: 'end'
-                    },
-                    items: getRowItems(row),
-                    'aria-label': 'Actions dropdown'
-                },
-                () =>
-                    h(UButton, {
-                        icon: 'i-lucide-ellipsis-vertical',
-                        color: 'neutral',
-                        variant: 'ghost',
-                        'aria-label': 'Actions dropdown'
-                    })
-            )
-        }
-    }
-]
-
-function getRowItems(row: Row<InventoryItem>) {
-    return [
-        {
-            type: 'label',
-            label: 'Actions'
-        },
-        {
-            label: 'Copy Product SKU',
-            onSelect() {
-                copy(row.original.item.sku)
-
-                toast.add({
-                    title: 'Product SKU copied to clipboard!',
-                    color: 'success',
-                    icon: 'i-lucide-circle-check'
-                })
-            }
-        },
-        {
-            type: 'separator'
-        },
-        {
-            label: 'View product details'
-        },
-        {
-            label: 'View inventory history'
-        }
-    ]
-}
 </script>

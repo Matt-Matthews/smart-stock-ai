@@ -213,6 +213,7 @@ exports.Prisma.InventoryScalarFieldEnum = {
   id: 'id',
   item_id: 'item_id',
   quantity: 'quantity',
+  status: 'status',
   company_id: 'company_id',
   created_at: 'created_at',
   updated_at: 'updated_at',
@@ -346,6 +347,7 @@ exports.Prisma.ItemOrderByRelevanceFieldEnum = {
 exports.Prisma.InventoryOrderByRelevanceFieldEnum = {
   id: 'id',
   item_id: 'item_id',
+  status: 'status',
   company_id: 'company_id',
   event_hash: 'event_hash'
 };
