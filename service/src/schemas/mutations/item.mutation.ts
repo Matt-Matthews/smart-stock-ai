@@ -52,9 +52,9 @@ export const itemMutation = `#graphql
 
 export const itemMutationResolvers = {
   Mutation: {
-    createItem: async (_parent: unknown, args: CreateItemInput) => {
+    createItem: async (_parent: unknown, args: { input: CreateItemInput }) => {
       const item = await prisma.item.create({
-        data: args,
+        data: args.input,
       });
       return item;
     },

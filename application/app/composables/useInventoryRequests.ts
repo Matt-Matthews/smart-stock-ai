@@ -66,15 +66,15 @@ export const useInventoryRequests = () => {
 
     const addInventoryItem = async (basePath: string, token: string, item: {companyId: string, productId: string, quantity: number, status: string}) => {
         
-        const { data, error } = await useFetch(basePath + '/graphql', {
+        const response = await $fetch(basePath + '/graphql', {
             headers: {
                 Authorization: `Bearer ${token}`
             },
             method: 'POST',
             body: {
-                mutation: `
+                query: `
                 mutation CreateInventoryEntry {
-                    createInventoryEntry(company_id: "${item.companyId}", product_id: "${item.productId}", quantity: ${item.quantity}, status: "${item.status}") {
+                    createInventoryEntry(company_id: "${item.companyId}", item_id: "${item.productId}", quantity: ${item.quantity}, status: "${item.status}") {
                         id
                         company_id
                         item_id
@@ -84,6 +84,21 @@ export const useInventoryRequests = () => {
                         updated_at
                         deleted_at
                         event_hash
+                        item {
+                            id
+                            company_id
+                            name
+                            description
+                            cost_price
+                            sell_price
+                            sku
+                            barcode
+                            currency_id
+                            category_id
+                            created_at
+                            updated_at
+                            deleted_at
+                        }
                     }
                 }
             `,
@@ -91,16 +106,20 @@ export const useInventoryRequests = () => {
             },
         })
 
-        if (error.value) {
+        
+        if ((response as any).errors) {
+            const error = (response as any).errors[0]
             toast.add({
                 title: 'Error',
-                description: error.value?.data?.message || 'Failed to create inventory data.',
+                description: error.data?.message || 'Failed to create inventory data.',
                 color: 'error',
             })
 
             return []
         } else {
-            return (data.value as any)?.data?.inventoryByCompany || []
+            const data = (response as any).data
+            
+            return (data as any)?.createInventoryEntry || []
         }
     }
 

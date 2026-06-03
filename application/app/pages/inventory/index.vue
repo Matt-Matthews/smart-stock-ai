@@ -45,10 +45,11 @@
             </div>
         </div>
         <div class="w-full mt-6 flex justify-end">
-            <NuxtButton class="text-white">
+            <!-- <NuxtButton class="text-white">
                 <NuxtIcon name="i-lucide-plus" class="text-[20px]" />
                 Add Inventory Item
-            </NuxtButton>
+            </NuxtButton> -->
+            <AddInventoryItem @submitted="onSubmitted" />
         </div>
     </div>
 </template>
@@ -69,6 +70,11 @@ const { columns } = useInventoryColumns(
     resolveComponent('NuxtBadge'),
     resolveComponent('NuxtDropdownMenu')
 );
+
+const onSubmitted = (value: any) => {
+    
+    inventoryItems.value.push(value)
+}
 
 
 const config = useRuntimeConfig()
