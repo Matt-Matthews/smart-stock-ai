@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col h-screen w-full">
+    <div class="flex flex-col flex-1">
         <div class="flex items-center w-full gap-2">
             <div class="w-1/3">
                 <h1 class="font-bold text-4xl">Inventory Overview</h1>
@@ -59,6 +59,7 @@ import type { InventoryItem } from '~/types/inventoryTypes'
 import { resolveComponent } from 'vue'
 
 const table = useTemplateRef('table')
+
 const inventoryItems: InventoryItem[] | any = ref([])
 const filteredItems: InventoryItem[] | any = ref([])
 const selectedCategory = ref('')

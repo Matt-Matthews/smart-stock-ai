@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col h-screen w-full">
+    <div class="flex flex-col flex-1">
         <div class="flex items-center w-full gap-2">
             <div class="w-1/2">
                 <h1 class="font-bold text-4xl">Invoice Management</h1>

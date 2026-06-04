@@ -14,11 +14,14 @@ const userStore = useUserStore()
 const authToken = useAuthToken()
 const { user } = storeToRefs(userStore)
 const { fetchMasterData } = useFetchMasterData()
+const { isPrivateAuthenticated } = useAuthValidator()
 
 const companyId = user.value?.company?.id
 const toggleIsLoading = ():void => {
     isLoading.value = !isLoading.value
 }
+
+isPrivateAuthenticated()
 
 if (user.value && authToken.value) {
     fetchMasterData(config.public.apiBase, authToken.value, companyId, toggleIsLoading);
