@@ -22,13 +22,21 @@
                 <NuxtIcon name="i-lucide-list-filter" class="" />
                 <p>Filters</p>
             </div>
-            <NuxtSelect placeholder="Select Category" :items="items" />
-            <NuxtSelect placeholder="Select Unit of Measure" :items="items" />
-            <NuxtButton variant="outline" color="primary" class="ml-auto">Apply Filters</NuxtButton>
-            <NuxtButton variant="outline" color="primary">Clear Filters</NuxtButton>
+            <NuxtSelect placeholder="Select Category" class="w-48" v-model="selectedCategory"
+                :items="categoryOPtions" />
+            <NuxtSelect placeholder="Select Currency" class="w-48" v-model="selectedCurrency"
+                :items="currencyOptions" />
+            <NuxtChip class="ml-auto" :show="hasFiltersApplied">
+                <NuxtButton variant="outline" color="primary" @click="applyFilters">
+                    Apply Filters
+                </NuxtButton>
+            </NuxtChip>
+            <NuxtButton variant="outline" color="primary" @click="clearFilters">
+                Clear Filters
+            </NuxtButton>
         </div>
         <div class="mt-6 border rounded-sm border-muted p-4">
-            <NuxtTable :data="products" :columns="columns" class="flex-1" ref="table" />
+            <NuxtTable :data="filteredProducts" :columns="columns" class="flex-1" ref="table" />
             <div class="flex justify-end border-t border-default pt-4 px-4">
                 <NuxtPagination :page="(table?.tableApi?.getState().pagination.pageIndex || 0) + 1"
                     :items-per-page="table?.tableApi?.getState().pagination.pageSize"
@@ -41,39 +49,31 @@
 
 <script setup lang="ts">
 
-import { h, resolveComponent } from 'vue'
-import type { TableColumn } from '@nuxt/ui'
-import type { Row } from '@tanstack/vue-table'
-import { useClipboard } from '@vueuse/core'
+import { resolveComponent } from 'vue'
+import type { Product } from '~/types/productTypes'
 
-type Product = {
-    _id: string;
-    company_id: string;
-    name: string;
-    description: string;
-    cost_price: number;
-    selling_price: number;
-    sku: string;
-    barcode: string;
-    size: string;
-    unit_of_measure: string;
-    reorder_level: number;
-    created_at: string;
-    updated_at: string;
-    deleted_at: null | string;
-}
+const selectedCategory = ref('')
+const selectedCurrency = ref('')
+const hasFiltersApplied = ref(false)
+
+const categoryStore = useCategoryStore()
+const currencyStore = useCurrencyStore()
+
+const { categories } = storeToRefs(categoryStore)
+const { currencies } = storeToRefs(currencyStore)
+
+const categoryOPtions = computed(() => categories.value?.map(c => c.name) ?? [])
+const currencyOptions = computed(() => currencies.value?.map(c => c.code) ?? [])
+
+
 
 const UButton = resolveComponent('NuxtButton')
-const UBadge = resolveComponent('NuxtBadge')
 const UDropdownMenu = resolveComponent('NuxtDropdownMenu')
-
-const toast = useToast()
-const { copy } = useClipboard()
-
+const { columns } = useProductColumns(UButton, UDropdownMenu)
 const table = useTemplateRef<any>('table')
 
-
 const products = ref<Product[]>([])
+const filteredProducts = ref<Product[]>([])
 
 const config = useRuntimeConfig()
 const userStore = useUserStore()
@@ -81,194 +81,30 @@ const { user } = storeToRefs(userStore)
 const authToken = useAuthToken()
 const companyId = user.value?.company.id;
 
-const items = ref(['Backlog', 'Todo', 'In Progress', 'Done'])
-const value = ref('Backlog')
+const { listProducts } = useProductRequests()
 
-
-const { data, error } = await useFetch(config.public.apiBase + '/graphql', {
-    headers: {
-        Authorization: `Bearer ${authToken.value}`
-    },
-    method: 'POST',
-    body: {
-        query: `
-                query ItemsByCompany {
-                    itemsByCompany(companyId: "${companyId}") {
-                        id
-                        company_id
-                        name
-                        description
-                        cost_price
-                        sell_price
-                        sku
-                        barcode
-                        currency_id
-                        category_id
-                        created_at
-                        updated_at
-                        deleted_at
-                        currency {
-                            code
-                            name
-                        }
-                        category {
-                            name
-                            description
-                        }
-                    }
-                }
-            `,
-        variables: {}
-    },
-})
-
-if (error.value) {
-    toast.add({
-        title: 'Error',
-        description: error.value?.data?.message || 'Failed to fetch products data.',
-        color: 'error',
-    })
-} else {
-    products.value = (data.value as any)?.data?.itemsByCompany || []
+if (companyId && authToken.value) {
+    products.value = await listProducts(config.public.apiBase, authToken.value, companyId);
+    filteredProducts.value = products.value
 }
 
+const clearFilters = () => {
+    selectedCategory.value = '',
+        selectedCurrency.value = ''
+    filteredProducts.value = products.value
+    hasFiltersApplied.value = false
+}
 
+const applyFilters = () => {
+    hasFiltersApplied.value = selectedCategory.value !== '' ||
+        selectedCurrency.value !== '';
 
+    filteredProducts.value = products.value.filter(product => {
+        const matchesCategory = selectedCategory.value ? product.category.name === selectedCategory.value : true
+        const matchesCurrency = selectedCurrency.value ? product.currency.code === selectedCurrency.value : true
 
-
-const columns: TableColumn<Product>[] = [
-    {
-        accessorKey: '_id',
-        header: '#',
-        meta: {
-            class: {
-                td: 'text-right',
-                th: 'text-right'
-            }
-        },
-        cell: ({ row }) => `${Number(row.id) + 1}`
-    },
-    {
-        accessorKey: 'name',
-        header: 'Name',
-        cell: ({ row }) => row.getValue('name') || 'N/A'
-    },
-    {
-        accessorKey: 'sku',
-        header: 'SKU',
-        cell: ({ row }) => row.getValue('sku') || 'N/A'
-    },
-    {
-        accessorKey: 'barcode',
-        header: 'Barcode',
-        cell: ({ row }) => row.getValue('barcode') || 'N/A'
-    },
-    {
-        accessorKey: 'selling_price',
-        header: () => h('span', { class: 'text-right' }, 'Selling Price'),
-        meta: {
-            class: {
-                td: 'text-right',
-                th: 'text-right'
-            }
-        },
-        cell: ({ row }) => {
-            const price = (row.getValue('selling_price') as any)
-            if (price == null) return 'N/A'
-            const formattedPrice = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'EUR'
-            }).format(price)
-            return h('span', { class: 'text-right' }, formattedPrice)
-        }
-    },
-    {
-        accessorKey: 'size',
-        header: 'Size',
-        cell: ({ row }) => row.getValue('size') || 'N/A',
-        meta: {
-            class: {
-                td: 'text-center',
-                th: 'text-center'
-            }
-        },
-    },
-    {
-        accessorKey: 'unit_of_measure',
-        header: 'Unit of Measure',
-        cell: ({ row }) => row.getValue('unit_of_measure') || 'N/A',
-        meta: {
-            class: {
-                td: 'text-center',
-                th: 'text-center'
-            }
-        },
-    },
-    {
-        accessorKey: 'reorder_level',
-        header: 'Reorder Level',
-        meta: {
-            class: {
-                td: 'text-center',
-                th: 'text-center'
-            }
-        },
-        cell: ({ row }) => row.getValue('reorder_level') || 'N/A'
-    },
-    {
-        id: 'actions',
-        meta: {
-            class: {
-                td: 'text-right'
-            }
-        },
-        cell: ({ row }) => {
-            return h(
-                UDropdownMenu,
-                {
-                    content: {
-                        align: 'end'
-                    },
-                    items: getRowItems(row),
-                    'aria-label': 'Actions dropdown'
-                },
-                () =>
-                    h(UButton, {
-                        icon: 'i-lucide-ellipsis-vertical',
-                        color: 'neutral',
-                        variant: 'ghost',
-                        'aria-label': 'Actions dropdown'
-                    })
-            )
-        }
-    }
-]
-
-function getRowItems(row: Row<Product>) {
-    return [
-        {
-            type: 'label',
-            label: 'Actions'
-        },
-        {
-            label: 'Copy Product SKU',
-            onSelect() {
-                copy(row.original.sku)
-
-                toast.add({
-                    title: 'Product SKU copied to clipboard!',
-                    color: 'success',
-                    icon: 'i-lucide-circle-check'
-                })
-            }
-        },
-        {
-            type: 'separator'
-        },
-        {
-            label: 'View product details'
-        },
-    ]
+        return matchesCategory && matchesCurrency
+    })
 }
 
 definePageMeta(
