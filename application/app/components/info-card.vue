@@ -1,5 +1,5 @@
 <template>
-    <div class="p-4 flex flex-col gap-2 rounded-sm shadow-sm dark:shadow-gray-700/30 bg-elevated w-1/2 h-full">
+    <div class="p-4 flex flex-col gap-2 rounded-sm border border-muted  w-1/2 h-full">
         <p class="text-sm">{{ title }}</p>
         <h3 class="text-2xl font-bold">{{ value }}</h3>
         <div class="flex items-center gap-3">

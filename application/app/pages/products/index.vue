@@ -17,7 +17,7 @@
                 </NuxtButton>
             </div>
         </div>
-        <div class="bg-elevated w-full mt-6 rounded-sm p-4 flex items-center gap-4 shadow-sm dark:shadow-gray-700/30">
+        <div class=" w-full mt-6 rounded-sm p-4 flex items-center gap-4 border border-muted">
             <div class="flex items-center gap-2 text-muted text-sm rounded-sm px-3 py-1">
                 <NuxtIcon name="i-lucide-list-filter" class="" />
                 <p>Filters</p>
@@ -27,7 +27,7 @@
             <NuxtSelect placeholder="Select Currency" class="w-48" v-model="selectedCurrency"
                 :items="currencyOptions" />
             <NuxtChip class="ml-auto" :show="hasFiltersApplied">
-                <NuxtButton variant="outline" color="primary" @click="applyFilters">
+                <NuxtButton color="primary" class="text-white" @click="applyFilters">
                     Apply Filters
                 </NuxtButton>
             </NuxtChip>

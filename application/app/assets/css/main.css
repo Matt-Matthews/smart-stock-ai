@@ -17,9 +17,9 @@
 
 }
 .dark {
-  --ui-bg: #0f172a;
+  --ui-bg: #040D12;
   --ui-primary: #109aeb;
-  --ui-secondary: #1e293b;
+  --ui-secondary: #171717;
   --ui-color-primary-500: #109aeb !important;
   --ui-success: var(--ui-color-success-400);
   --ui-info: var(--ui-color-info-400);

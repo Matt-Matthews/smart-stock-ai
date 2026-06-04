@@ -112,7 +112,7 @@ const items = computed<NavigationMenuItem[]>(
                 <div class="flex items-center gap-10">
                     <NuxtInput icon="i-lucide-search" size="md" variant="outline"
                         placeholder="Search product or SKU..." />
-                    <NuxtButton>Upgrade Plan</NuxtButton>
+                    <NuxtButton class="text-white">Upgrade Plan</NuxtButton>
                 </div>
                 <div class="flex items-center gap-3 pr-4">
                     <NuxtColorModeButton />
