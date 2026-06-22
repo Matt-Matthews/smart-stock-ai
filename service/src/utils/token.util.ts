@@ -12,7 +12,7 @@ import type { User } from '@configs/generated/prisma/index.js';
  * @returns {string} - The access token string.
  */
 export const generateAccessToken = (user: User): { token: string, expiresIn: number } => {
-    const expiresIn = Date.now() + 1000 * 60 * 15;
+    const expiresIn = Date.now() + 1000 * 60 * 60 * 24;
     return {
         token: jwt.sign(
             {

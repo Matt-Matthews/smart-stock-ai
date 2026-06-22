@@ -22,6 +22,7 @@ export default defineNuxtConfig({
     optimizeDeps: {
       include: [
         'zod',
+        '@tanstack/vue-table'
       ]
     }
   },

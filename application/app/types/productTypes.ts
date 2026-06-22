@@ -22,3 +22,15 @@ export type Product = {
     updated_at: string;
     deleted_at: null | string;
 }
+
+export type ProductAdd = {
+    companyId: string;
+    name: string;
+    description?: string;
+    costPrice: number;
+    sellPrice: number;
+    sku: string;
+    barcode: string;
+    categoryId: string;
+    currencyId: string;
+}
