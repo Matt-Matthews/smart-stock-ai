@@ -19,17 +19,17 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
     "ignoreDeprecations": "6.0",
-    "baseUrl": "./src",
+    // "baseUrl": "./src",
     "paths": {
-      "@models/*": ["models/*"],
-      "@controllers/*": ["controllers/*"],
-      "@configs/*": ["configs/*"],
-      "@middlewares/*": ["middlewares/*"],
-      "@routes/*": ["routes/*"],
-      "@utils/*": ["utils/*"],
-      "@services/*": ["services/*"],
-      "@schemas/*": ["schemas/*"],
-      "@typeDefs/*": ["types/*"]
+      "@models/*": ["./src/models/*"],
+      "@controllers/*": ["./src/controllers/*"],
+      "@configs/*": ["./src/configs/*"],
+      "@middlewares/*": ["./src/middlewares/*"],
+      "@routes/*": ["./src/routes/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@services/*": ["./src/services/*"],
+      "@schemas/*": ["./src/schemas/*"],
+      "@typeDefs/*": ["./src/types/*"]
     }
   }
 }

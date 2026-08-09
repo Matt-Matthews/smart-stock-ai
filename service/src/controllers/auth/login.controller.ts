@@ -27,9 +27,9 @@ const login = async (req: Request, res: Response) => {
         if (!email || !password) {
             return res.status(401).json({ status: 'error', message: 'Email and password are required' });
         }
-
+        console.log('Attempting login for email:', email);
         const user = await getUserByEmail({ email, includeRoles: true });
-
+        console.log('User retrieved:', user);
         if (!user) {
             return res.status(401).json({ status: 'error', message: 'Invalid email or password' });
         }

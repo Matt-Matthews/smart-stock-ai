@@ -8,10 +8,11 @@ import { useClipboard } from '@vueuse/core'
 export const useProductColumns = (UButton: any, UDropdownMenu: any) => {
     const { copy } = useClipboard()
     const toast = useToast()
+    const router = useRouter()
 
     const columns: TableColumn<Product>[] = [
         {
-            accessorKey: '_id',
+            accessorKey: 'id',
             header: '#',
             meta: {
                 class: {
@@ -137,7 +138,10 @@ export const useProductColumns = (UButton: any, UDropdownMenu: any) => {
                 type: 'separator'
             },
             {
-                label: 'View product details'
+                label: 'View product details',
+                onSelect() {
+                    router.push(`/products/${row.original.id}`)
+                }
             },
         ]
     }

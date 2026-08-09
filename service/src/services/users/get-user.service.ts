@@ -26,7 +26,7 @@ const getUser = async (data: { userId?: string, email?: string, includeRoles: bo
                 }
             }
         );
-
+        console.log('User retrieved from database:', user);
         if (!user) {
             return serviceResult(404, "error", "User not found", null);
         }

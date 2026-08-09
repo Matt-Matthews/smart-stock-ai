@@ -112,8 +112,65 @@ export const useProductRequests = () => {
 
     }
 
+    const getProduct = async (basePath: string, token: string, productId: string) => {
+        const response = await $fetch(basePath + '/graphql', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            method: 'POST',
+            body: {
+                query: `
+                    query Item {
+                        item(id: "${productId}") {
+                            id
+                            company_id
+                            name
+                            description
+                            cost_price
+                            sell_price
+                            sku
+                            barcode
+                            currency_id
+                            category_id
+                            created_at
+                            updated_at
+                            deleted_at
+                            currency {
+                                id
+                                code
+                                name
+                            }
+                            category {
+                                id
+                                company_id
+                                name
+                                description
+                            }
+                        }
+                    }
+                `,
+                variables: {}
+            },
+        })
+
+        if ((response as any).errors) {
+            const error = (response as any).errors[0]
+            toast.add({
+                title: 'Error',
+                description: error.data?.message || 'Failed to retrieve product data.',
+                color: 'error',
+            })
+
+            return []
+        } else {
+            const data = (response as any).data
+            return (data as any)?.item || []
+        }
+    }
+
     return {
         listProducts,
-        addProduct
+        addProduct,
+        getProduct
     }
 }
