@@ -9,6 +9,7 @@ export const useInventoryColumns = (UButton: any, UBadge: any, UDropdownMenu: an
 
     const { copy } = useClipboard()
     const toast = useToast()
+    const router = useRouter()
 
     const columns: TableColumn<InventoryItem>[] = [
         {
@@ -131,7 +132,10 @@ export const useInventoryColumns = (UButton: any, UBadge: any, UDropdownMenu: an
                 type: 'separator'
             },
             {
-                label: 'View product details'
+                label: 'View product details',
+                onSelect() {
+                    router.push(`/products/${row.original.item.id}`)
+                }
             },
             {
                 label: 'View inventory history'
