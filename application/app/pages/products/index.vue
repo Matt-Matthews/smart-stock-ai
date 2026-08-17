@@ -98,6 +98,7 @@ const { listProducts } = useProductRequests()
 
 if (companyId && authToken.value) {
     const result = await listProducts(config.public.apiBase, authToken.value, companyId);
+    console.log('Products fetched:', result);
     // populate item store so other parts of the app react to changes
     itemStore.setItems(result)
     filteredProducts.value = result

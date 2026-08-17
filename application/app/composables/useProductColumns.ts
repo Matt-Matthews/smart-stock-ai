@@ -48,13 +48,14 @@ export const useProductColumns = (UButton: any, UDropdownMenu: any) => {
             },
             cell: ({ row }) => {
                 const price = (row.getValue('sell_price') as any)
+                const currency = (row.original.currency as any)?.code || 'ZAR'
                 if (price == null) return 'N/A'
                 const formattedPrice = new Intl.NumberFormat('en-US', {
                     style: 'currency',
-                    currency: 'EUR'
+                    currency: currency
                 }).format(price)
                 return h('span', { class: 'text-right' }, formattedPrice)
-            }
+            },
         },
         {
             accessorKey: 'cost_price',
@@ -66,11 +67,13 @@ export const useProductColumns = (UButton: any, UDropdownMenu: any) => {
                 }
             },
             cell: ({ row }) => {
+
+                const currency = (row.original.currency as any)?.code || 'ZAR'
                 const price = (row.getValue('cost_price') as any)
                 if (price == null) return 'N/A'
                 const formattedPrice = new Intl.NumberFormat('en-US', {
                     style: 'currency',
-                    currency: 'EUR'
+                    currency: currency
                 }).format(price)
                 return h('span', { class: 'text-right' }, formattedPrice)
             }
