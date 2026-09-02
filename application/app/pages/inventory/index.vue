@@ -5,16 +5,6 @@
                 <h1 class="font-bold text-4xl">Inventory Overview</h1>
                 <p class="text-sm">Manage your inventory items and their details.</p>
             </div>
-            <div class="w-1/3 flex items-center gap-2 h-full">
-                <InfoCard title="Total Products" :value="inventoryItems.length" :isPositive="true" trend="+10%" />
-                <InfoCard title="Low Stock Items" value="3" :isPositive="false" trend="-20%" />
-            </div>
-            <div class="w-1/3 rounded-sm bg-blue-950 h-full p-3.5 flex flex-col gap-2">
-                <p class="text-xs text-muted font-medium">AI Recommendation</p>
-                <p class="text-sm text-white">Restock low-stock items now could help prevent stock outs.</p>
-                <NuxtButton variant="solid" :leading-icon="'i-lucide-sparkles'" class="w-fit text-white text-sm mt-3">
-                    Review Analytics</NuxtButton>
-            </div>
         </div>
         <div class="w-full mt-6 rounded-sm p-4 flex items-center gap-4  border border-muted">
             <div class="flex items-center gap-2 text-muted text-sm rounded-sm px-3 py-1">
@@ -45,10 +35,6 @@
             </div>
         </div>
         <div class="w-full mt-6 flex justify-end">
-            <!-- <NuxtButton class="text-white">
-                <NuxtIcon name="i-lucide-plus" class="text-[20px]" />
-                Add Inventory Item
-            </NuxtButton> -->
             <AddInventoryItem @submitted="onSubmitted" />
         </div>
     </div>

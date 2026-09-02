@@ -136,7 +136,7 @@ const dropdownItems: DropdownMenuItem[] = [
         variant === 'inset' && 'bg-neutral-50 dark:bg-neutral-950',
         side === 'right' && 'flex-row-reverse'
     ]">
-        <NuxtSidebar v-model:open="open" :variant="'sidebar'" class="relative border-0" :collapsible="'icon'"
+        <NuxtSidebar v-model:open="open"  :variant="'sidebar'" class="relative border-0" :collapsible="'icon'"
             :side="'left'" :ui="{
                 container: 'h-full',
             }">
@@ -176,10 +176,9 @@ const dropdownItems: DropdownMenuItem[] = [
                 </div>
             </div>
 
-            <!-- <div class="flex-1 p-4">
+            <div class="flex-1 p-4">
                 <slot />
-
-            </div> -->
+            </div>
         </div>
     </div>
 </template>

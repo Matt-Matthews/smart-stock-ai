@@ -11,13 +11,14 @@
   --ui-error: var(--ui-color-error-500);
   --ui-color-primary-500: #109aeb;
   --ui-bg-accented: #afc9eb;
+  /* --ui-bg-elevated: #bacde7; */
 
   --vis-color0: var(--ui-color-success-500) !important;
   --vis-color1: var(--ui-color-error-500) !important;
 
 }
 .dark {
-  --ui-bg: #040D12;
+  --ui-bg: #000000;
   --ui-primary: #109aeb;
   --ui-secondary: #171717;
   --ui-color-primary-500: #109aeb !important;
@@ -25,6 +26,7 @@
   --ui-info: var(--ui-color-info-400);
   --ui-warning: var(--ui-color-warning-400);
   --ui-error: var(--ui-color-error-400);
+  /* --ui-bg-elevated: #b9defc; */
 
   --vis-color0: var(--ui-color-success-500) !important;
   --vis-color1: var(--ui-color-error-500) !important;
