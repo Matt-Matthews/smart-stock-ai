@@ -107,7 +107,7 @@ const items = computed<NavigationMenuItem[]>(
                     side === 'right' && 'justify-end'
                 ]">
                     <NuxtButton :icon="side === 'left' ? 'i-lucide-panel-left' : 'i-lucide-panel-right'" color="neutral"
-                        variant="ghost" aria-label="Toggle sidebar" @click="open = !open" />
+                        variant="ghost" aria-label="Toggle sidebar" @click="() => { open = !open }" />
                 </div>
                 <div class="flex items-center gap-10">
                     <NuxtInput icon="i-lucide-search" size="md" variant="outline"
