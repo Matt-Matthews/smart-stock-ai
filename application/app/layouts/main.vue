@@ -151,7 +151,7 @@ const dropdownItems: DropdownMenuItem[] = [
             <NuxtButton :icon="open ? 'i-lucide-chevron-left' : 'i-lucide-chevron-right'" color="neutral" variant="soft"
                 aria-label="Toggle sidebar" class="absolute -right-4 top-3" size="sm" @click="() => { open = !open }" />
 
-            <NuxtNavigationMenu :items="items" orientation="vertical" collapsible
+            <NuxtNavigationMenu variant="link" :items="items" orientation="vertical" collapsible
                 :ui="{ link: 'p-1.5 py-2 overflow-hidden', list: 'flex flex-col gap-3' }" tooltip />
         </NuxtSidebar>
 
