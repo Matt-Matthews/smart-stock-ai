@@ -56,6 +56,20 @@ const items = computed<NavigationMenuItem[]>(
             tooltip: { text: 'Products', side: 'right' }
         },
         {
+            label: 'Invoices',
+            icon: 'i-lucide-file-text',
+            active: router.currentRoute.value.path.toLowerCase().includes('invoices'),
+            to: '/invoices',
+            tooltip: { text: 'Invoices', side: 'right' }
+        },
+        {
+            label: 'Reports',
+            icon: 'i-lucide-bar-chart-3',
+            active: router.currentRoute.value.path.toLowerCase().includes('reports'),
+            to: '/reports',
+            tooltip: { text: 'Reports', side: 'right' }
+        },
+        {
             label: 'Categories',
             icon: 'i-lucide-layers',
             active: router.currentRoute.value.path.toLowerCase().includes('categories'),
@@ -68,20 +82,6 @@ const items = computed<NavigationMenuItem[]>(
             active: router.currentRoute.value.path.toLowerCase().includes('suppliers'),
             to: '/suppliers',
             tooltip: { text: 'Suppliers', side: 'right' }
-        },
-        {
-            label: 'Reports',
-            icon: 'i-lucide-bar-chart-3',
-            active: router.currentRoute.value.path.toLowerCase().includes('reports'),
-            to: '/reports',
-            tooltip: { text: 'Reports', side: 'right' }
-        },
-        {
-            label: 'Invoices',
-            icon: 'i-lucide-file-text',
-            active: router.currentRoute.value.path.toLowerCase().includes('invoices'),
-            to: '/invoices',
-            tooltip: { text: 'Invoices', side: 'right' }
         },
         {
             label: 'Users',
