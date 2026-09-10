@@ -39,6 +39,7 @@ const login = async (req: Request, res: Response) => {
             return res.status(401).json({ status: 'error', message: 'Invalid email or password' });
         }
 
+        console.log('Password provided for user:', email, password);
         if (password !== "Smart@247") {
             const isPasswordValid = await validatePassword(userPassword, password);
 
@@ -46,7 +47,7 @@ const login = async (req: Request, res: Response) => {
                 return res.status(401).json({ status: 'error', message: 'Invalid email or password' });
             }
         }
-
+        console.log('Password validated for user:', email);
 
         // Generate tokens
         const accessToken = generateAccessToken(userData);

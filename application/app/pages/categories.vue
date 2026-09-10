@@ -6,27 +6,6 @@
                 <p class="text-sm">Manage your product categories and their details.</p>
             </div>
         </div>
-        <!-- <NuxtCard variant="soft" class="w-full p-0 mt-6">
-            <div class="w-full  rounded-sm  flex items-center gap-4  ">
-                <div class="flex items-center gap-2 text-muted text-sm rounded-sm px-3 py-1">
-                    <NuxtIcon name="i-lucide-list-filter" class="" />
-                    <p>Filters</p>
-                </div>
-                <NuxtSelect placeholder="Select Category" class="w-48" v-model="selectedCategory"
-                    :items="categoryOPtions" />
-                <NuxtSelect placeholder="Select Currency" class="w-48" v-model="selectedCurrency"
-                    :items="currencyOptions" />
-                <NuxtSelect placeholder="Select Status" class="w-48" v-model="selectedStatus" :items="items" />
-                <NuxtChip class="ml-auto" :show="hasFiltersApplied">
-                    <NuxtButton color="primary" class="text-white" @click="applyFilters">
-                        Apply Filters
-                    </NuxtButton>
-                </NuxtChip>
-                <NuxtButton variant="outline" color="primary" @click="clearFilters">
-                    Clear Filters
-                </NuxtButton>
-            </div>
-        </NuxtCard> -->
         <NuxtCard variant="soft" class="w-full p-0 mt-6">
             <div class=" p-0">
                 <NuxtTable :data="categories" :columns="columns" class="flex-1" ref="table" />
@@ -40,20 +19,24 @@
         </NuxtCard>
         <NuxtCard variant="soft" class="w-full p-0 mt-6">
             <div class="w-full flex justify-end items-center">
-                <!-- <AddInventoryItem @submitted="onSubmitted" /> -->
+                <AddCategory @submitted="onSubmitted" />
             </div>
         </NuxtCard>
     </div>
 </template>
 
 <script setup lang="ts">
-const { categories } = useCategoryStore()
+const { categories, addCategory } = useCategoryStore()
 const { columns } = useCategoryColumns(
     resolveComponent('NuxtButton'),
     resolveComponent('NuxtDropdownMenu')
 )
 const table = useTemplateRef('table')
 
+const onSubmitted = (value: any) => {
+    console.log('Category added successfully:', value.data.createCategory)
+    addCategory(value.data.createCategory)
+}
 
 
 definePageMeta(

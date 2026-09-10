@@ -65,18 +65,22 @@ export const useCategoryColumns = (UButton: any, UDropdownMenu: any) => {
                 label: 'Actions'
             },
             {
-                label: 'Copy Product SKU',
+                label: 'Edit category',
+                icon: 'i-lucide-pencil',
                 onSelect() {
-                    
-                }
+
+                },
+
             },
             {
                 type: 'separator'
             },
             {
-                label: 'View product details',
+                label: 'Delete category',
+                icon: 'i-lucide-trash-2',
+                color: 'error',
                 onSelect() {
-                   
+
                 }
             },
         ]
