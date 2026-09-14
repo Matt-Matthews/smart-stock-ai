@@ -6,7 +6,7 @@ import { expressMiddleware } from '@as-integrations/express4';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import helmet from 'helmet';
-import { connectDB } from '@configs/db.config.js';
+// import { connectDB } from '@configs/db.config.js';
 import { logSmartStockAI } from '@utils/log-app-name.util.js';
 import { typeDefs, resolvers } from '@schemas/index.js';
 import { authenticateUser } from '@middlewares/auth.middleware.js';
@@ -34,7 +34,7 @@ async function startServer() {
   logSmartStockAI();
 
   //* Connect to the database
-  await connectDB();
+  // await connectDB();
 
   //* Await the server start
   await server.start();
