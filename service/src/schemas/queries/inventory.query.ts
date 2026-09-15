@@ -16,6 +16,7 @@ export const inventoryQueryResolvers = {
         inventoryEntry: async (_parent: unknown, args: { id: string }) =>
             await prisma.inventory.findUnique({
                 where: { id: args.id, deleted_at: null }, include: {
+                    transactions: { where: { deleted_at: null }, orderBy: { created_at: 'desc' } },
                     item: {
                         include: {
                             category: true,

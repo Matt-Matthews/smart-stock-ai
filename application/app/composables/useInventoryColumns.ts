@@ -138,7 +138,10 @@ export const useInventoryColumns = (UButton: any, UBadge: any, UDropdownMenu: an
                 }
             },
             {
-                label: 'View inventory history'
+                label: 'View inventory history',
+                onSelect() {
+                    router.push(`/inventory/${row.original.id}`)
+                }
             }
         ]
     }

@@ -146,6 +146,14 @@ export const useProductRequests = () => {
                                 name
                                 description
                             }
+                            inventory {
+                                id
+                                quantity
+                                status
+                                created_at
+                                updated_at
+                                deleted_at
+                            }
                         }
                     }
                 `,

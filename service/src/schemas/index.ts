@@ -64,6 +64,7 @@ export const typeDefs = [`#graphql
     category_id: String!
     currency: Currency
     category: Category
+    inventory: Inventory
     created_at: String
     updated_at: String
     deleted_at: String
@@ -79,6 +80,7 @@ export const typeDefs = [`#graphql
     updated_at: String
     deleted_at: String
     item: Item
+    transactions: [Transaction!]!
     event_hash: String
   }
 
@@ -87,6 +89,7 @@ export const typeDefs = [`#graphql
     company_id: String!
     inventory_id: String!
     quantity: Int!
+    type: String!
     created_at: String
     updated_at: String
     deleted_at: String

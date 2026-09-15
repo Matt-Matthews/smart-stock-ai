@@ -1,126 +1,123 @@
 <template>
-    <div class="p-4">
-        <div class="w-full flex items-center justify-between">
-            <div>
-                <h1 class="text-2xl font-bold">{{ product.name }}</h1>
-                <p class="text-sm">{{ product.sku }}</p>
-            </div>
-
-            <div class="w-fit flex items-center gap-4 text-white">
-                <NuxtButton color="primary" class="text-white" leading-icon="i-lucide-pen">Edit Product</NuxtButton>
-                <NuxtButton color="error" class="text-white" leading-icon="i-lucide-trash-2">Delete</NuxtButton>
-            </div>
-
+    <div class="mx-auto flex w-full max-w-7xl flex-col gap-6">
+        <div class="flex items-center justify-between gap-4">
+            <NuxtButton to="/products" variant="ghost" color="neutral" icon="i-lucide-arrow-left">
+                Back to products
+            </NuxtButton>
+            <NuxtButton to="/inventory" variant="outline" color="neutral" icon="i-lucide-warehouse">
+                View inventory
+            </NuxtButton>
         </div>
-        <div class="w-full flex flex-col items-start justify-between mt-4 gap-4">
-            <NuxtCard class="w-full flex items-center">
-                <div class="flex flex-col md:flex-row gap-6 w-full">
-                    <div
-                        class="w-full md:w-3/4 aspect-square bg-surface-container-low rounded-lg overflow-hidden relative group">
-                        <img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            data-alt="A premium 1-liter carton of oat milk set against a minimalist, bright studio background. The lighting is crisp and modern, highlighting the clean typography and professional packaging design of the carton. The color palette is composed of pristine whites and neutral grays, emphasizing a high-end corporate food product aesthetic. The mood is fresh, healthy, and sophisticated."
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2id8wI1Y6ire0rAKC3QwQUspf2OSEr2H3__ZjQLsgPH3yY-CZpwXYuwxArsUcaaCneBvKLr8Quvn1NXFBpjEHyvqxlwfYbPxuyevNut3msYj496su-ljaCy_GJOrkhbfg0vmOd5Wwe12xcm1eJ5RbKzOlV1YLUp1OfIm8JcTUe7qGKr0-s-ivTOe1K91LOxn4w_OUU6kIxgyTkzD7gaIobTSIufmXJKQxbE6KJl9DmlBvbeX4PWP4xMzrOPOlPVgJTrf8Eq2lE-c" />
-                        <div class="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full">
-                            <NuxtIcon name="i-lucide-zoom-in" class="text-[20px] text-black" />
-                        </div>
+
+        <section class="flex flex-col justify-between gap-6 border-b border-default pb-6 md:flex-row md:items-end">
+            <div class="flex items-start gap-4">
+                <div class="flex size-16 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <NuxtIcon name="i-lucide-package-2" size="32" />
+                </div>
+                <div>
+                    <div class="mb-2 flex flex-wrap items-center gap-2">
+                        <NuxtChip v-if="product.category?.name" color="neutral" variant="subtle">{{ product.category.name }}</NuxtChip>
+                        <NuxtChip :color="stockColor" variant="subtle">{{ product.inventory?.status || 'Not stocked' }}</NuxtChip>
                     </div>
-                    <div class="flex md:flex-col gap-3 w-full md:w-1/4">
-                        <div
-                            class="flex-1 aspect-square rounded-lg border-2 border-secondary overflow-hidden cursor-pointer">
-                            <img class="w-full h-full object-cover"
-                                data-alt="Close up product photography of premium oat milk packaging. Minimalist layout."
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLX1lzI_Tlscjm5DfTUUB1wv5bfSpfP4R4_encQ2UbTzZmhvQIgGNohDgZiTvevnleCvhP3CDOfEA_o0UIJ6TqMKSmZrkhOelNBu3sSHMjwXVDxom9S5tdWNHQ3-aR3e6RiDxctw9mvdlVBnbb9xdXtDtSKvrgYxCKr4cnibEgt7PdNkmazQTA4kOH-ES6w9taetxff-Wk9oVdOgGPD5l-SOEnYjR-HR1gnwHlXcHswxXIPmQYPNixnTgIPnIqNV2q_PXxafhkNso" />
-                        </div>
-                        <div
-                            class="flex-1 aspect-square rounded-lg border border-outline-variant overflow-hidden cursor-pointer hover:border-secondary transition-all">
-                            <img class="w-full h-full object-cover"
-                                data-alt="A lifestyle shot of oat milk being poured into a glass of iced coffee in a bright, modern kitchen."
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBp6XDuVpC71ERlqevZGMHWNoiP88ywJROFnVaaf1aRT9gOzaG9mpwdZYvlBZc-BAoTft3pfQOVEax4e5u6Wpw-bce2FvciN1h5SlH8y0J6jdvqEbpNA8HQorguOxTx2RmDw2d0CDrDlvyP7mrTYiLe8fDvXVIPRDJ-3gGIkFWZIYbldKzbUXwcyKdGf3JudDv9yY2IFNGy18At6qrkqe2aAST57Uv32AtdJqGPtWtVUXDBkM51IpCueL55Cz5h4pdkgFPBQqBWz2Q" />
-                        </div>
-                        <div
-                            class="flex-1 aspect-square rounded-lg border border-outline-variant overflow-hidden cursor-pointer hover:border-secondary transition-all">
-                            <img class="w-full h-full object-cover"
-                                data-alt="Detailed view of the nutrition label and ingredients list on an oat milk carton. High-density information design."
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgyO_0f8IeOfz3asLFho20UAhH5tB6-Me80hkZGYcu6iS4zvzqGAXgeeoO7VioIifK7Avky0wapFp7MgAYDZ71Bf66m_01jRaTWoFUs7oHI_PyOmvtw8bFD5r1ZtS-VXe05_k63CQ_YXXVRh9X_cVMxSIXLc2TTq1so1xWZFOBhAgeLQeSgHWAi6Jw0WtyRmlHKbHSnM4E7eMXb42YBTtgtlav89d25jZ_fLodD-keNlsZ_KsuoXZfgUa_6nAGNgVsOfn04AazWoA" />
-                        </div>
+                    <h1 class="text-3xl font-bold tracking-tight md:text-4xl">{{ product.name }}</h1>
+                    <p class="mt-1 font-mono text-sm text-muted">SKU {{ product.sku || 'Not assigned' }}</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <NuxtButton variant="outline" color="neutral" icon="i-lucide-copy" @click="copySku">Copy SKU</NuxtButton>
+                <NuxtButton color="primary" icon="i-lucide-pencil" disabled>Edit product</NuxtButton>
+            </div>
+        </section>
+
+        <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
+            <section class="flex flex-col gap-6">
+                <div class="grid gap-4 sm:grid-cols-2">
+                    <div class="rounded-xl border border-default bg-elevated p-5">
+                        <p class="text-sm text-muted">Selling price</p>
+                        <p class="mt-2 text-3xl font-bold text-primary">{{ formatPrice(product.sell_price) }}</p>
+                        <p class="mt-1 text-xs text-muted">Per unit in {{ product.currency?.code || 'local currency' }}</p>
+                    </div>
+                    <div class="rounded-xl border border-default bg-elevated p-5">
+                        <p class="text-sm text-muted">Cost price</p>
+                        <p class="mt-2 text-3xl font-bold">{{ formatPrice(product.cost_price) }}</p>
+                        <p class="mt-1 text-xs text-muted">Margin {{ marginPercent }}%</p>
                     </div>
                 </div>
-            </NuxtCard>
-            <NuxtCard class="w-full">
-                <section
-                    class="bg-surface-container-lowest rounded-xl p-card-padding shadow-[0px_1px_3px_rgba(15,23,42,0.08)] space-y-6">
-                    <div class="grid grid-cols-12 gap-gutter">
-                        <div class="col-span-12 lg:col-span-8 space-y-6">
-                            <div>
-                                <h2
-                                    class="font-headline-md text-headline-md text-primary border-b border-outline-variant/30 pb-3 mb-4">
-                                    Detailed Description</h2>
-                                <p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
-                                    {{ product.description }}
-                                </p>
-                            </div>
-                            <!-- <div class="space-y-4">
-                                <h3
-                                    class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
-                                    Ingredients
-                                </h3>
-                                <p class="font-body-lg text-body-lg text-on-surface-variant italic">Water, Gluten-free
-                                    Oats (10%),
-                                    Rapeseed Oil, Calcium Carbonate, Sea Salt, Riboflavin, Vitamin D2, Vitamin B12.</p>
-                            </div> -->
+
+                <section class="rounded-xl border border-default bg-elevated p-6">
+                    <div class="mb-5 flex items-center justify-between gap-4">
+                        <div>
+                            <h2 class="text-lg font-semibold">Product description</h2>
+                            <p class="text-sm text-muted">Information shown across your stock workspace.</p>
                         </div>
-                        <div
-                            class="col-span-12 lg:col-span-4 bg-surface-container-low p-6 rounded-xl border border-outline-variant/20">
-                            <h3
-                                class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-6">
-                                Specifications</h3>
-                            <ul class="space-y-4">
-                                <li class="flex justify-between items-center border-b border-outline-variant/10 pb-3">
-                                    <span class="text-on-surface-variant font-body-md">Category</span><span
-                                        class="font-data-mono text-primary font-bold">{{ product?.category?.name
-                                        }}</span>
-                                </li>
-                                <li class="flex justify-between items-center border-b border-outline-variant/10 pb-3">
-                                    <span class="text-on-surface-variant font-body-md">Currency</span><span
-                                        class="font-data-mono text-primary font-bold">{{ product?.currency?.code
-                                        }}</span>
-                                </li>
-                                <li class="flex justify-between items-center border-b border-outline-variant/10 pb-3">
-                                    <span class="text-on-surface-variant font-body-md">Selling Price</span><span
-                                        class="font-data-mono text-primary font-bold">{{
-                                            formatAmount(product?.sell_price) }}</span>
-                                </li>
-                                <li class="flex justify-between items-center border-b border-outline-variant/10 pb-3">
-                                    <span class="text-on-surface-variant font-body-md">Cost Price</span><span
-                                        class="font-data-mono text-primary font-bold">{{
-                                        formatAmount(product?.cost_price) }}</span>
-                                </li>
-                                <li class="flex justify-between items-center"><span
-                                        class="text-on-surface-variant font-body-md">Barcode</span><span
-                                        class="font-data-mono text-primary font-bold">{{ product?.barcode }}</span></li>
-                            </ul>
-                        </div>
+                        <NuxtIcon name="i-lucide-file-text" class="text-muted" size="22" />
+                    </div>
+                    <p class="max-w-3xl whitespace-pre-line leading-7 text-muted">{{ product.description || 'No description has been added for this product.' }}</p>
+                </section>
+
+                <section class="rounded-xl border border-default bg-elevated p-6">
+                    <h2 class="mb-5 text-lg font-semibold">Product information</h2>
+                    <dl class="grid gap-x-8 gap-y-5 sm:grid-cols-2">
+                        <div><dt class="text-xs uppercase tracking-wide text-muted">Category</dt><dd class="mt-1 font-medium">{{ product.category?.name || 'Not assigned' }}</dd></div>
+                        <div><dt class="text-xs uppercase tracking-wide text-muted">Currency</dt><dd class="mt-1 font-medium">{{ product.currency?.name || product.currency?.code || 'Not assigned' }}</dd></div>
+                        <div><dt class="text-xs uppercase tracking-wide text-muted">Barcode</dt><dd class="mt-1 font-mono text-sm">{{ product.barcode || 'Not assigned' }}</dd></div>
+                        <div><dt class="text-xs uppercase tracking-wide text-muted">Product ID</dt><dd class="mt-1 break-all font-mono text-sm">{{ product.id }}</dd></div>
+                    </dl>
+                </section>
+            </section>
+
+            <aside class="flex flex-col gap-6">
+                <section class="rounded-xl border border-default bg-elevated p-6">
+                    <div class="flex items-start justify-between gap-4">
+                        <div><p class="text-sm text-muted">Available stock</p><p class="mt-2 text-4xl font-bold">{{ product.inventory?.quantity ?? 0 }}</p></div>
+                        <div class="rounded-lg bg-primary/10 p-3 text-primary"><NuxtIcon name="i-lucide-boxes" size="24" /></div>
+                    </div>
+                    <div class="mt-6 flex items-center justify-between border-t border-default pt-4 text-sm">
+                        <span class="text-muted">Inventory status</span><span class="font-medium">{{ product.inventory?.status || 'Not stocked' }}</span>
                     </div>
                 </section>
-            </NuxtCard>
+                <section class="rounded-xl border border-default bg-elevated p-6">
+                    <h2 class="mb-5 text-lg font-semibold">Record history</h2>
+                    <dl class="space-y-4 text-sm">
+                        <div class="flex items-center justify-between gap-4"><dt class="text-muted">Created</dt><dd>{{ formatDate(product.created_at) }}</dd></div>
+                        <div class="flex items-center justify-between gap-4"><dt class="text-muted">Last updated</dt><dd>{{ formatDate(product.updated_at) }}</dd></div>
+                    </dl>
+                </section>
+            </aside>
         </div>
     </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 const { getProduct } = useProductRequests()
 const config = useRuntimeConfig()
 const authToken = useAuthToken()
-const router = useRouter()
-const { formatAmount } = useFormat()
+const route = useRoute()
+const toast = useToast()
+const product = await getProduct(config.public.apiBase, authToken.value!, route.params.id as string)
 
-const productId = router.currentRoute.value.params.id
+const stockColor = computed(() => {
+    if (product.inventory?.status === 'In Stock') return 'success' as const
+    if (product.inventory?.status === 'Low Stock') return 'warning' as const
+    if (product.inventory?.status === 'Out of Stock') return 'error' as const
+    return 'neutral' as const
+})
+const marginPercent = computed(() => {
+    if (!product.cost_price || !product.sell_price) return '0.0'
+    return (((product.sell_price - product.cost_price) / product.sell_price) * 100).toFixed(1)
+})
+const formatPrice = (value: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: product.currency?.code || 'ZAR' }).format(value || 0)
+const formatDate = (value: string | number | Date | null | undefined) => {
+    if (value === null || value === undefined || value === '') return 'N/A'
+    const numericValue = typeof value === 'number' || (typeof value === 'string' && /^\d+$/.test(value)) ? Number(value) : NaN
+    const date = Number.isFinite(numericValue) ? new Date(numericValue < 1e12 ? numericValue * 1000 : numericValue) : new Date(value)
+    return Number.isNaN(date.getTime()) ? 'N/A' : date.toDateString()
+}
+async function copySku() {
+    if (!product.sku) return
+    await navigator.clipboard.writeText(product.sku)
+    toast.add({ title: 'SKU copied', description: 'The product SKU is on your clipboard.', color: 'success' })
+}
 
-const product = await getProduct(config.public.apiBase, authToken.value!, productId as string)
-
-definePageMeta(
-    {
-        layout: 'main'
-    }
-)
+definePageMeta({ layout: 'main' })
 </script>
