@@ -263,6 +263,49 @@ exports.Prisma.RequestLogScalarFieldEnum = {
   error_message: 'error_message'
 };
 
+exports.Prisma.SuppliersScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  company_id: 'company_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at'
+};
+
+exports.Prisma.InvoicesScalarFieldEnum = {
+  id: 'id',
+  supplier_id: 'supplier_id',
+  company_id: 'company_id',
+  amount: 'amount',
+  vat: 'vat',
+  total: 'total',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at'
+};
+
+exports.Prisma.Invoice_itemsScalarFieldEnum = {
+  id: 'id',
+  invoice_id: 'invoice_id',
+  item_id: 'item_id',
+  quantity: 'quantity',
+  price: 'price',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at'
+};
+
+exports.Prisma.ReportsScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  company_id: 'company_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -388,6 +431,32 @@ exports.Prisma.RequestLogOrderByRelevanceFieldEnum = {
   error_message: 'error_message'
 };
 
+exports.Prisma.suppliersOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  company_id: 'company_id'
+};
+
+exports.Prisma.invoicesOrderByRelevanceFieldEnum = {
+  id: 'id',
+  supplier_id: 'supplier_id',
+  company_id: 'company_id'
+};
+
+exports.Prisma.invoice_itemsOrderByRelevanceFieldEnum = {
+  id: 'id',
+  invoice_id: 'invoice_id',
+  item_id: 'item_id'
+};
+
+exports.Prisma.reportsOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  company_id: 'company_id'
+};
+
 
 exports.Prisma.ModelName = {
   User: 'User',
@@ -401,7 +470,11 @@ exports.Prisma.ModelName = {
   Inventory: 'Inventory',
   Transaction: 'Transaction',
   InventoryEvent: 'InventoryEvent',
-  RequestLog: 'RequestLog'
+  RequestLog: 'RequestLog',
+  suppliers: 'suppliers',
+  invoices: 'invoices',
+  invoice_items: 'invoice_items',
+  reports: 'reports'
 };
 
 /**

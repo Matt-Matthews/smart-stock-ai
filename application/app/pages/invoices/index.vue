@@ -1,36 +1,69 @@
 <template>
     <div class="flex flex-col flex-1">
-        <div class="flex items-center w-full gap-2">
-            <div class="w-1/2">
+        <div class="flex items-center justify-between gap-2">
+            <div>
                 <h1 class="font-bold text-4xl">Invoice Management</h1>
-                <p class="text-sm">Manage and process your documents with AI-powered OCR.</p>
+                <p class="text-sm">Manage supplier invoices and their totals.</p>
             </div>
+            <NuxtButton class="text-white" @click="invoiceModal = true"><NuxtIcon name="i-lucide-plus" class="text-[20px]" /> Add Invoice</NuxtButton>
         </div>
-        <NuxtFileUpload color="neutral" highlight label="Scan New Invoice"
-            description="Drag and drop your PDF or Image files here. Our OCR engine will automatically extract vendor data, totals, and line items. SVG, PNG, JPG or GIF (max. 2MB)"
-            class="w-full min-h-56 mt-6 bg-elevated" :icon="'i-lucide-cloud-upload'" multiple :ui="{
-                description: 'w-1/2',
-            }" size="xl" />
-      
-        <div class="bg-elevated w-full mt-6 rounded-sm p-4 flex items-center gap-4 shadow-sm dark:shadow-gray-700/30">
-            <div class="flex items-center gap-2 text-muted text-sm rounded-sm px-3 py-1">
-                <NuxtIcon name="i-lucide-list-filter" class="" />
-                <p>Filters</p>
+        <NuxtFileUpload color="neutral" highlight label="Scan New Invoice" description="Upload an invoice for future OCR processing."
+            class="w-full min-h-40 mt-6 bg-elevated" icon="i-lucide-cloud-upload" multiple size="xl" />
+        <NuxtCard variant="soft" class="w-full p-0 mt-6">
+            <div class="w-full flex items-center gap-4">
+                <NuxtIcon name="i-lucide-list-filter" class="text-muted" />
+                <NuxtInput v-model="search" placeholder="Search by supplier or invoice id" class="w-80" />
+                <NuxtButton variant="outline" color="primary" class="ml-auto" @click="search = ''">Clear Filters</NuxtButton>
             </div>
-            <NuxtSelect placeholder="Select Status" :items="items" />
-            <NuxtSelect placeholder="Select Document Type" :items="items" />
-            <NuxtButton variant="outline" color="primary" class="ml-auto">Apply Filters</NuxtButton>
-            <NuxtButton variant="outline" color="primary">Clear Filters</NuxtButton>
-        </div>
+        </NuxtCard>
+        <NuxtCard variant="soft" class="w-full p-0 mt-6">
+            <NuxtTable :data="filteredInvoices" :columns="columns" ref="table" class="flex-1" />
+            <div class="flex justify-end border-t border-default pt-4 px-4">
+                <NuxtPagination :page="(table?.tableApi?.getState().pagination.pageIndex || 0) + 1" :items-per-page="table?.tableApi?.getState().pagination.pageSize" :total="table?.tableApi?.getFilteredRowModel().rows.length" @update:page="(page) => table?.tableApi?.setPageIndex(page - 1)" />
+            </div>
+        </NuxtCard>
+        <NuxtModal v-model:open="invoiceModal" title="Add Invoice" description="Create an invoice record." :ui="{ footer: 'justify-end' }">
+            <template #body>
+                <form id="invoice-form" class="flex flex-col gap-4" @submit.prevent="submitInvoice">
+                    <NuxtFormField label="Supplier ID"><NuxtInput v-model="invoiceForm.supplierId" required class="w-full" /></NuxtFormField>
+                    <NuxtFormField label="Amount"><NuxtInput v-model.number="invoiceForm.amount" type="number" min="0" required class="w-full" /></NuxtFormField>
+                    <NuxtFormField label="VAT"><NuxtInput v-model.number="invoiceForm.vat" type="number" min="0" required class="w-full" /></NuxtFormField>
+                    <NuxtFormField label="Total"><NuxtInput v-model.number="invoiceForm.total" type="number" min="0" required class="w-full" /></NuxtFormField>
+                </form>
+            </template>
+            <template #footer="{ close }"><NuxtButton label="Cancel" color="neutral" variant="outline" @click="close" /><NuxtButton label="Submit" form="invoice-form" type="submit" color="neutral" /></template>
+        </NuxtModal>
     </div>
 </template>
 
 <script setup lang="ts">
-
-const items = ref(['Backlog', 'Todo', 'In Progress', 'Done'])
-definePageMeta(
-    {
-        layout: 'main'
-    }
-)
+import type { TableColumn } from '@nuxt/ui'
+const invoiceStore = useInvoiceStore()
+const { invoices } = storeToRefs(invoiceStore)
+const { listInvoices, addInvoice } = useInvoiceRequests()
+const config = useRuntimeConfig()
+const authToken = useAuthToken()
+const { user } = storeToRefs(useUserStore())
+const search = ref('')
+const invoiceModal = ref(false)
+const invoiceForm = reactive({ supplierId: '', amount: 0, vat: 0, total: 0 })
+const table = useTemplateRef<any>('table')
+const columns: TableColumn<any>[] = [
+    { accessorKey: 'id', header: '#', cell: ({ row }) => row.index + 1 },
+    { accessorKey: 'supplier_id', header: 'Supplier' },
+    { accessorKey: 'amount', header: 'Amount', cell: ({ row }) => formatMoney(row.original.amount) },
+    { accessorKey: 'vat', header: 'VAT', cell: ({ row }) => formatMoney(row.original.vat) },
+    { accessorKey: 'total', header: 'Total', cell: ({ row }) => formatMoney(row.original.total) },
+    { accessorKey: 'created_at', header: 'Created At', cell: ({ row }) => formatDate(row.original.created_at) }
+]
+const formatMoney = (value: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'ZAR' }).format(value || 0)
+const formatDate = (value: string | null) => value ? new Date(value).toLocaleDateString() : 'N/A'
+const filteredInvoices = computed(() => invoices.value.filter(invoice => `${invoice.id} ${invoice.supplier_id}`.toLowerCase().includes(search.value.toLowerCase())))
+async function submitInvoice() {
+    const invoice = await addInvoice(config.public.apiBase, authToken.value!, { ...invoiceForm, companyId: user.value.company.id })
+    if (invoice?.id) invoiceStore.addInvoice(invoice)
+    invoiceForm.supplierId = ''; invoiceForm.amount = 0; invoiceForm.vat = 0; invoiceForm.total = 0; invoiceModal.value = false
+}
+if (user.value.company.id && authToken.value) invoiceStore.setInvoices(await listInvoices(config.public.apiBase, authToken.value, user.value.company.id))
+definePageMeta({ layout: 'main' })
 </script>

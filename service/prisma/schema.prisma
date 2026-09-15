@@ -196,3 +196,36 @@ model suppliers {
   updated_at  DateTime  @updatedAt @map("updatedAt")
   deleted_at  DateTime? @map("deletedAt")
 }
+
+model invoices {
+  id          String    @id @default(uuid())
+  supplier_id String    @map("supplierId")
+  company_id  String    @map("companyId")
+  amount      Float
+  vat         Float
+  total       Float
+  created_at  DateTime  @default(now()) @map("createdAt")
+  updated_at  DateTime  @updatedAt @map("updatedAt")
+  deleted_at  DateTime? @map("deletedAt")
+}
+
+model invoice_items {
+  id         String    @id @default(uuid())
+  invoice_id String    @map("invoiceId")
+  item_id    String    @map("itemId")
+  quantity   Int
+  price      Float
+  created_at DateTime  @default(now()) @map("createdAt")
+  updated_at DateTime  @updatedAt @map("updatedAt")
+  deleted_at DateTime? @map("deletedAt")
+}
+
+model reports {
+  id          String    @id @default(uuid())
+  name        String
+  description String?
+  company_id  String    @map("companyId")
+  created_at  DateTime  @default(now()) @map("createdAt")
+  updated_at  DateTime  @updatedAt @map("updatedAt")
+  deleted_at  DateTime? @map("deletedAt")
+}

@@ -18,6 +18,14 @@ import {categoryQuery, categoryQueryResolvers } from "./queries/category.query.j
 import {currencyQuery, currencyQueryResolvers } from "./queries/currency.query.js";
 import { categoryMutation, categoryMutationResolvers } from "./mutations/category.mutation.js";
 import { currencyMutation, currencyMutationResolvers } from "./mutations/currency.mutation.js";
+import { supplierQuery, supplierQueryResolvers } from './queries/supplier.query.js';
+import { supplierMutation, supplierMutationResolvers } from './mutations/supplier.mutation.js';
+import { invoiceQuery, invoiceQueryResolvers } from './queries/invoice.query.js';
+import { invoiceMutation, invoiceMutationResolvers } from './mutations/invoice.mutation.js';
+import { invoiceItemQuery, invoiceItemQueryResolvers } from './queries/invoice-item.query.js';
+import { invoiceItemMutation, invoiceItemMutationResolvers } from './mutations/invoice-item.mutation.js';
+import { reportQuery, reportQueryResolvers } from './queries/report.query.js';
+import { reportMutation, reportMutationResolvers } from './mutations/report.mutation.js';
 
 export const typeDefs = [`#graphql
   type Currency {
@@ -91,6 +99,8 @@ export const typeDefs = [`#graphql
     created_at: String
     updated_at: String
     deleted_at: String
+    enabled: Boolean!
+    role: Role
   }
 
   type Company {
@@ -131,6 +141,49 @@ export const typeDefs = [`#graphql
     deleted_at: String
   }
 
+  type Supplier {
+    id: String!
+    name: String!
+    description: String
+    company_id: String!
+    created_at: String
+    updated_at: String
+    deleted_at: String
+  }
+
+  type Invoice {
+    id: String!
+    supplier_id: String!
+    company_id: String!
+    amount: Float!
+    vat: Float!
+    total: Float!
+    created_at: String
+    updated_at: String
+    deleted_at: String
+  }
+
+  type InvoiceItem {
+    id: String!
+    invoice_id: String!
+    item_id: String!
+    quantity: Int!
+    price: Float!
+    created_at: String
+    updated_at: String
+    deleted_at: String
+  }
+
+  type Report {
+    id: String!
+    name: String!
+    description: String
+    company_id: String!
+    created_at: String
+    updated_at: String
+    deleted_at: String
+  }
+
   type Query {
     health: String
   }
@@ -157,7 +210,15 @@ export const typeDefs = [`#graphql
   categoryQuery,
   categoryMutation,
   currencyQuery,
-  currencyMutation
+  currencyMutation,
+  supplierQuery,
+  supplierMutation,
+  invoiceQuery,
+  invoiceMutation,
+  invoiceItemQuery,
+  invoiceItemMutation,
+  reportQuery,
+  reportMutation
 ];
 
 export const resolvers: Record<string, any> = [
@@ -185,5 +246,13 @@ export const resolvers: Record<string, any> = [
   categoryQueryResolvers,
   categoryMutationResolvers,
   currencyQueryResolvers,
-  currencyMutationResolvers
+  currencyMutationResolvers,
+  supplierQueryResolvers,
+  supplierMutationResolvers,
+  invoiceQueryResolvers,
+  invoiceMutationResolvers,
+  invoiceItemQueryResolvers,
+  invoiceItemMutationResolvers,
+  reportQueryResolvers,
+  reportMutationResolvers
 ];
