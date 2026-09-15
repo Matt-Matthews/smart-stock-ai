@@ -42,7 +42,7 @@ export const userMutationResolvers = {
         updateUser: async (_parent: unknown, args: { id: string, input: { first_name?: string, last_name?: string, email?: string, password?: string, role_id?: string } }) => {
             const { password, ...data } = args.input;
             const user = await prisma.user.update({
-                where: { id },
+                where: { id: args.id },
                 data: password ? { ...data, password: await hashPassword(password) } : data,
                 include: { role: true }
             });

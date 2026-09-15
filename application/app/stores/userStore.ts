@@ -4,6 +4,7 @@ import type { User } from '~/types/userTypes'
 export const useUserStore = defineStore('userStore', {
     state: () => ({
         user: {
+            id: '',
             firstName: '',
             lastName: '',
             email: '',

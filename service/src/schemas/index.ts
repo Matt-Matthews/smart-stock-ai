@@ -26,6 +26,10 @@ import { invoiceItemQuery, invoiceItemQueryResolvers } from './queries/invoice-i
 import { invoiceItemMutation, invoiceItemMutationResolvers } from './mutations/invoice-item.mutation.js';
 import { reportQuery, reportQueryResolvers } from './queries/report.query.js';
 import { reportMutation, reportMutationResolvers } from './mutations/report.mutation.js';
+import { notificationQuery, notificationQueryResolvers } from './queries/notification.query.js';
+import { notificationMutation, notificationMutationResolvers } from './mutations/notification.mutation.js';
+import { dashboardQuery, dashboardQueryResolvers } from './queries/dashboard.query.js';
+import { profileMutation, profileMutationResolvers } from './mutations/profile.mutation.js';
 
 export const typeDefs = [`#graphql
   type Currency {
@@ -184,6 +188,18 @@ export const typeDefs = [`#graphql
     deleted_at: String
   }
 
+  type Notification {
+    id: String!
+    user_id: String!
+    company_id: String!
+    title: String!
+    message: String!
+    type: String!
+    read_at: String
+    created_at: String
+    updated_at: String
+  }
+
   type Query {
     health: String
   }
@@ -218,7 +234,11 @@ export const typeDefs = [`#graphql
   invoiceItemQuery,
   invoiceItemMutation,
   reportQuery,
-  reportMutation
+  reportMutation,
+  notificationQuery,
+  notificationMutation,
+  dashboardQuery,
+  profileMutation
 ];
 
 export const resolvers: Record<string, any> = [
@@ -254,5 +274,9 @@ export const resolvers: Record<string, any> = [
   invoiceItemQueryResolvers,
   invoiceItemMutationResolvers,
   reportQueryResolvers,
-  reportMutationResolvers
+  reportMutationResolvers,
+  notificationQueryResolvers,
+  notificationMutationResolvers,
+  dashboardQueryResolvers,
+  profileMutationResolvers
 ];

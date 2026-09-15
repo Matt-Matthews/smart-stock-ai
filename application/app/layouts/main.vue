@@ -15,6 +15,9 @@ const config = useRuntimeConfig()
 const userStore = useUserStore()
 const authToken = useAuthToken()
 const { user } = storeToRefs(userStore)
+const notificationStore = useNotificationStore()
+const { listNotifications, markNotificationRead } = useNotificationRequests()
+const { notifications } = storeToRefs(notificationStore)
 const { fetchMasterData } = useFetchMasterData()
 const { isPrivateAuthenticated } = useAuthValidator()
 
@@ -27,6 +30,7 @@ isPrivateAuthenticated()
 
 if (user.value && authToken.value) {
     fetchMasterData(config.public.apiBase, authToken.value, companyId, toggleIsLoading);
+    if (user.value.id) notificationStore.setNotifications(await listNotifications(config.public.apiBase, authToken.value, user.value.id));
 } else {
     router.push('/login')
 }
@@ -128,6 +132,17 @@ const dropdownItems: DropdownMenuItem[] = [
         to: '/logout'
     }
 ]
+
+const notificationItems = computed<DropdownMenuItem[]>(() => notifications.value.length
+    ? notifications.value.map(notification => ({
+        label: notification.title,
+        description: notification.message,
+        onSelect: async () => {
+            await markNotificationRead(config.public.apiBase, authToken.value!, notification.id)
+            notificationStore.markRead(notification.id)
+        }
+    }))
+    : [{ label: 'No notifications', icon: 'i-lucide-check', disabled: true }])
 </script>
 
 <template>
@@ -167,9 +182,11 @@ const dropdownItems: DropdownMenuItem[] = [
                 </div>
                 <div class="flex items-center gap-4 pr-4">
                     <NuxtColorModeSwitch />
-                    <NuxtChip>
-                        <NuxtButton icon="i-lucide-bell" size="md" variant="soft" />
-                    </NuxtChip>
+                    <NuxtDropdownMenu :items="notificationItems">
+                        <NuxtChip :text="notificationStore.unreadCount" :show="notificationStore.unreadCount > 0">
+                            <NuxtButton icon="i-lucide-bell" size="md" variant="soft" aria-label="Notifications" />
+                        </NuxtChip>
+                    </NuxtDropdownMenu>
                     <NuxtDropdownMenu :items="dropdownItems" :arrow="{}">
                         <NuxtAvatar class="rounded-sm" :alt="`${user.firstName} ${user.lastName}`" loading="lazy" />
                     </NuxtDropdownMenu>

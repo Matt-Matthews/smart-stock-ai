@@ -62,6 +62,7 @@ const login = async (req: Request, res: Response) => {
                 accessToken: accessToken.token,
                 expiresIn: accessToken.expiresIn,
                 user: {
+                    id: userData.id,
                     firstName: userData.firstName,
                     lastName: userData.lastName,
                     email: userData.email,

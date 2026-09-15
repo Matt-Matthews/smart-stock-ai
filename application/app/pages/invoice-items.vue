@@ -54,7 +54,12 @@ const columns: TableColumn<any>[] = [
     { accessorKey: 'created_at', header: 'Created At', cell: ({ row }) => formatDate(row.original.created_at) }
 ]
 const formatMoney = (value: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'ZAR' }).format(value || 0)
-const formatDate = (value: string | null) => value ? new Date(value).toLocaleDateString() : 'N/A'
+const formatDate = (value: string | number | Date | null | undefined) => {
+    if (value === null || value === undefined || value === '') return 'N/A'
+    const numericValue = typeof value === 'number' || (typeof value === 'string' && /^\d+$/.test(value)) ? Number(value) : NaN
+    const date = Number.isFinite(numericValue) ? new Date(numericValue < 1e12 ? numericValue * 1000 : numericValue) : new Date(value)
+    return Number.isNaN(date.getTime()) ? 'N/A' : date.toDateString()
+}
 const filteredItems = computed(() => invoiceItems.value.filter(item => `${item.invoice_id} ${item.item_id}`.toLowerCase().includes(search.value.toLowerCase())))
 async function submitItem() {
     const invoiceItem = await addInvoiceItem(config.public.apiBase, authToken.value!, itemForm)

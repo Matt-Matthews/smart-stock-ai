@@ -66,7 +66,12 @@ const columns: TableColumn<any>[] = [
     { accessorKey: 'created_at', header: 'Created At', cell: ({ row }) => formatDate(row.original.created_at) },
     { id: 'actions', header: '', cell: ({ row }) => h(resolveComponent('NuxtButton'), { icon: 'i-lucide-trash-2', color: 'error', variant: 'ghost', 'aria-label': 'Delete user', onClick: () => deleteManagedUser(row.original.id) }) }
 ]
-const formatDate = (value: string | null) => value ? new Date(value).toLocaleDateString() : 'N/A'
+const formatDate = (value: string | number | Date | null | undefined) => {
+    if (value === null || value === undefined || value === '') return 'N/A'
+    const numericValue = typeof value === 'number' || (typeof value === 'string' && /^\d+$/.test(value)) ? Number(value) : NaN
+    const date = Number.isFinite(numericValue) ? new Date(numericValue < 1e12 ? numericValue * 1000 : numericValue) : new Date(value)
+    return Number.isNaN(date.getTime()) ? 'N/A' : date.toDateString()
+}
 const filteredUsers = computed(() => users.value.filter(item => {
     const textMatch = `${item.first_name} ${item.last_name} ${item.email}`.toLowerCase().includes(search.value.toLowerCase())
     const roleMatch = selectedRole.value ? item.role?.name === selectedRole.value : true

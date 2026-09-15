@@ -53,7 +53,12 @@ const columns: TableColumn<any>[] = [
     { accessorKey: 'created_at', header: 'Created At', cell: ({ row }) => formatDate(row.original.created_at) },
     { accessorKey: 'updated_at', header: 'Updated At', cell: ({ row }) => formatDate(row.original.updated_at) }
 ]
-const formatDate = (value: string | null) => value ? new Date(value).toLocaleDateString() : 'N/A'
+const formatDate = (value: string | number | Date | null | undefined) => {
+    if (value === null || value === undefined || value === '') return 'N/A'
+    const numericValue = typeof value === 'number' || (typeof value === 'string' && /^\d+$/.test(value)) ? Number(value) : NaN
+    const date = Number.isFinite(numericValue) ? new Date(numericValue < 1e12 ? numericValue * 1000 : numericValue) : new Date(value)
+    return Number.isNaN(date.getTime()) ? 'N/A' : date.toDateString()
+}
 const filteredReports = computed(() => reports.value.filter(report => `${report.name} ${report.description || ''}`.toLowerCase().includes(search.value.toLowerCase())))
 async function submitReport() {
     const report = await addReport(config.public.apiBase, authToken.value!, { ...reportForm, companyId: user.value.company.id })

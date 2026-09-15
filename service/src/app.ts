@@ -12,6 +12,7 @@ import { typeDefs, resolvers } from '@schemas/index.js';
 import { authenticateUser } from '@middlewares/auth.middleware.js';
 import requestLogger from '@middlewares/request-log.middleware.js';
 import authRoutes from '@routes/auth.route.js';
+import invoiceRoutes from '@routes/invoice.route.js';
 
 
 const app = express();
@@ -56,6 +57,7 @@ async function startServer() {
 
   //* Mount routes
   app.use(`${BASE_PATH}/auth`,  authRoutes);
+  app.use(`${BASE_PATH}/invoices`, invoiceRoutes);
 
   app.get(`${BASE_PATH}/health`, (req, res) => {
     res.send('GraphQL API is healthy');

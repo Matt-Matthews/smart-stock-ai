@@ -306,6 +306,34 @@ exports.Prisma.ReportsScalarFieldEnum = {
   deleted_at: 'deleted_at'
 };
 
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  company_id: 'company_id',
+  title: 'title',
+  message: 'message',
+  type: 'type',
+  read_at: 'read_at',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at'
+};
+
+exports.Prisma.OcrDocumentScalarFieldEnum = {
+  id: 'id',
+  company_id: 'company_id',
+  user_id: 'user_id',
+  original_name: 'original_name',
+  mime_type: 'mime_type',
+  storage_path: 'storage_path',
+  status: 'status',
+  extracted_data: 'extracted_data',
+  error_message: 'error_message',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -457,6 +485,26 @@ exports.Prisma.reportsOrderByRelevanceFieldEnum = {
   company_id: 'company_id'
 };
 
+exports.Prisma.NotificationOrderByRelevanceFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  company_id: 'company_id',
+  title: 'title',
+  message: 'message',
+  type: 'type'
+};
+
+exports.Prisma.OcrDocumentOrderByRelevanceFieldEnum = {
+  id: 'id',
+  company_id: 'company_id',
+  user_id: 'user_id',
+  original_name: 'original_name',
+  mime_type: 'mime_type',
+  storage_path: 'storage_path',
+  status: 'status',
+  error_message: 'error_message'
+};
+
 
 exports.Prisma.ModelName = {
   User: 'User',
@@ -474,7 +522,9 @@ exports.Prisma.ModelName = {
   suppliers: 'suppliers',
   invoices: 'invoices',
   invoice_items: 'invoice_items',
-  reports: 'reports'
+  reports: 'reports',
+  Notification: 'Notification',
+  OcrDocument: 'OcrDocument'
 };
 
 /**

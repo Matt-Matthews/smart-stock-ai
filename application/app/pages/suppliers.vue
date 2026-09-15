@@ -67,7 +67,12 @@ const columns: TableColumn<any>[] = [
     { accessorKey: 'updated_at', header: 'Updated At', cell: ({ row }) => formatDate(row.original.updated_at) }
 ]
 
-const formatDate = (value: string | null) => value ? new Date(value).toLocaleDateString() : 'N/A'
+const formatDate = (value: string | number | Date | null | undefined) => {
+    if (value === null || value === undefined || value === '') return 'N/A'
+    const numericValue = typeof value === 'number' || (typeof value === 'string' && /^\d+$/.test(value)) ? Number(value) : NaN
+    const date = Number.isFinite(numericValue) ? new Date(numericValue < 1e12 ? numericValue * 1000 : numericValue) : new Date(value)
+    return Number.isNaN(date.getTime()) ? 'N/A' : date.toDateString()
+}
 const filteredSuppliers = computed(() => suppliers.value.filter(supplier =>
     `${supplier.name} ${supplier.description || ''}`.toLowerCase().includes(search.value.toLowerCase())
 ))

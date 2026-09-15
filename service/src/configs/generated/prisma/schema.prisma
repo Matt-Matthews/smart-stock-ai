@@ -229,3 +229,31 @@ model reports {
   updated_at  DateTime  @updatedAt @map("updatedAt")
   deleted_at  DateTime? @map("deletedAt")
 }
+
+model Notification {
+  id         String    @id @default(uuid())
+  user_id    String    @map("userId")
+  company_id String    @map("companyId")
+  title      String
+  message    String
+  type       String    @default("info")
+  read_at    DateTime? @map("readAt")
+  created_at DateTime  @default(now()) @map("createdAt")
+  updated_at DateTime  @updatedAt @map("updatedAt")
+  deleted_at DateTime? @map("deletedAt")
+}
+
+model OcrDocument {
+  id             String    @id @default(uuid())
+  company_id     String    @map("companyId")
+  user_id        String    @map("userId")
+  original_name  String    @map("originalName")
+  mime_type      String    @map("mimeType")
+  storage_path   String    @map("storagePath")
+  status         String    @default("pending")
+  extracted_data Json?
+  error_message  String?   @map("errorMessage")
+  created_at     DateTime  @default(now()) @map("createdAt")
+  updated_at     DateTime  @updatedAt @map("updatedAt")
+  deleted_at     DateTime? @map("deletedAt")
+}
