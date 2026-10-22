@@ -29,7 +29,8 @@
       "@utils/*": ["./src/utils/*"],
       "@services/*": ["./src/services/*"],
       "@schemas/*": ["./src/schemas/*"],
-      "@typeDefs/*": ["./src/types/*"]
+      "@typeDefs/*": ["./src/types/*"],
+      "@schedulers/*": ["./src/schedulers/*"]
     }
   }
 }

@@ -36,7 +36,8 @@
     "@configs": "src/configs",
     "@types": "src/types",
     "@routes": "src/routes",
-    "@typeDefs": "src/types"
+    "@typeDefs": "src/types",
+    "@schedulers": "src/schedulers"
   },
   "dependencies": {
     "@apollo/server": "^5.5.1",
@@ -57,6 +58,8 @@
     "jsonwebtoken": "^9.0.3",
     "module-alias": "^2.3.4",
     "mongoose": "^9.6.2",
+    "node-cron": "^4.6.0",
+    "openai": "^7.20.0",
     "socket.io": "^4.8.3",
     "uuid": "^14.0.0",
     "winston": "^3.19.0",

@@ -25,7 +25,7 @@
             <div class="w-full flex items-center gap-4">
                 <NuxtIcon name="i-lucide-list-filter" class="text-muted" />
                 <NuxtInput v-model="search" placeholder="Search by supplier or invoice id" class="w-80" />
-                <NuxtButton variant="outline" color="primary" class="ml-auto" @click="search = ''">Clear Filters</NuxtButton>
+                <NuxtButton variant="outline" color="primary" class="ml-auto" @click="() =>{search = ''}">Clear Filters</NuxtButton>
             </div>
         </NuxtCard>
         <NuxtCard variant="soft" class="w-full p-0 mt-6">

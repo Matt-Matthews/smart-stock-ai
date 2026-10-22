@@ -45,7 +45,7 @@ export const typeDefs = [`#graphql
     id: String!
     company_id: String!
     name: String!
-    description: String!
+    description: String
     created_at: String
     updated_at: String
     deleted_at: String
@@ -58,8 +58,8 @@ export const typeDefs = [`#graphql
     description: String!
     cost_price: Float!
     sell_price: Float!
-    sku: String!
-    barcode: String!
+    sku: String
+    barcode: String
     currency_id: String!
     category_id: String!
     currency: Currency

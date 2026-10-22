@@ -13,6 +13,7 @@ import { authenticateUser } from '@middlewares/auth.middleware.js';
 import requestLogger from '@middlewares/request-log.middleware.js';
 import authRoutes from '@routes/auth.route.js';
 import invoiceRoutes from '@routes/invoice.route.js';
+import initializeInventoryMonitoring from '@schedulers/inventory-monitor.scheduler.js';
 
 
 const app = express();
@@ -51,7 +52,10 @@ async function startServer() {
     authenticateUser,
     expressMiddleware(server, {
       // Optional: context function to pass user info, DBs, etc.
-      context: async ({ req }) => ({ token: req.headers.token }),
+      context: async ({ res }) => ({
+        token: res.locals.accessToken,
+        user: res.locals.authenticatedUser
+      }),
     })
   );
 
@@ -62,6 +66,8 @@ async function startServer() {
   app.get(`${BASE_PATH}/health`, (req, res) => {
     res.send('GraphQL API is healthy');
   });
+
+  initializeInventoryMonitoring();
 
   app.listen(PORT, () => {
 

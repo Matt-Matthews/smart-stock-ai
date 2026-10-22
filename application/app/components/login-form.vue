@@ -1,27 +1,27 @@
 <template>
-    <div class="w-1/2 h-full  flex items-center justify-center text-black">
-        <div class="w-2/3 xl:w-1/2">
-            <NuxtPageCard class="w-full">
-                <NuxtAuthForm :schema="schema" title="Welcome Back"
-                    description="Access your dashboard to manage your inventory." icon="i-lucide-user" :fields="fields"
-                    @submit="onSubmit" class="text-default" :loading="isLoading" >
-                    <template #providers>
-                        <!-- Intentionally left empty to remove from top -->
-                    </template>
-
-                    <template #footer>
-                        <!-- Move providers to the bottom -->
-                        <div class="flex items-center gap-1 justify-center">
-                            <!-- <NuxtSeparator label="or" /> -->
-                            <p class="text-xs">Don't have an account?</p>
-                            <NuxtLink class="text-xs text-primary" to="/register">Request SME Access</NuxtLink>
-                        </div>
-                    </template>
-                </NuxtAuthForm>
-
-            </NuxtPageCard>
-        </div>
-    </div>
+  <div class="w-full">
+    <NuxtPageCard class="w-full">
+      <NuxtAuthForm
+        :schema="schema"
+        title="Welcome Back"
+        description="Access your dashboard to manage your inventory."
+        icon="i-lucide-user"
+        :fields="fields"
+        :loading="isLoading"
+        class="text-default"
+        @submit="onSubmit"
+      >
+        <template #footer>
+          <div class="flex items-center justify-center gap-1">
+            <p class="text-xs">Don't have an account?</p>
+            <NuxtLink class="text-xs text-primary" to="/register">
+              Request SME Access
+            </NuxtLink>
+          </div>
+        </template>
+      </NuxtAuthForm>
+    </NuxtPageCard>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -33,8 +33,6 @@ const schema = z.object({
     email: z.email('Please enter a valid email'),
     password: z.string("Please enter a password").min(8, 'Must be at least 8 characters').regex(/[A-Z]/, 'Must contain an uppercase letter').regex(/[a-z]/, 'Must contain a lowercase letter').regex(/[0-9]/, 'Must contain a number').regex(/[@$!%*?&]/, 'Must contain a special character')
 })
-
-const toast = useToast()
 
 const fields: AuthFormField[] = [{
     name: 'email',
