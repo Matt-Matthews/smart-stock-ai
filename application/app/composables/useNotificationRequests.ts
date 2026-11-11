@@ -1,6 +1,6 @@
 export const useNotificationRequests = () => {
     const toast = useToast()
-    const fields = 'id user_id company_id title message type read_at created_at updated_at'
+    const fields = 'id user_id company_id title message link type read_at created_at updated_at'
 
     const listNotifications = async (basePath: string, token: string, userId: string) => {
         const { data, error } = await useFetch(basePath + '/graphql', { headers: { Authorization: `Bearer ${token}` }, method: 'POST', body: { query: `query($userId: String!) { notificationsByUser(user_id: $userId) { ${fields} } }`, variables: { userId } } })

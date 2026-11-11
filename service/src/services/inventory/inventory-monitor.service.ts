@@ -20,6 +20,11 @@ interface IInventoryAlert {
   reason: string;
 }
 
+interface IInventoryMonitorResult {
+  alerts: IInventoryAlert[];
+  reports: { id: string; companyId: string }[];
+}
+
 const normalizeTransactionType = (value: string) => value.toLowerCase().trim();
 
 const getOutboundQuantity = (type: string, quantity: number) => {
@@ -95,9 +100,28 @@ const getForecastFromAi = async (itemName: string, currentQuantity: number, aver
   }
 };
 
-const createReorderNotification = async (companyId: string, itemName: string, alert: IInventoryAlert) => {
+const createInventoryReport = async (companyId: string, alerts: IInventoryAlert[], notificationUserId?: string) => {
+  const generatedAt = new Date();
+  const report = await prisma.reports.create({
+    data: {
+      company_id: companyId,
+      name: 'Inventory Reorder Report',
+      description: `${alerts.length} reorder alert${alerts.length === 1 ? '' : 's'} found.`,
+      data: JSON.stringify({
+        type: 'inventory_reorder',
+        generatedAt: generatedAt.toISOString(),
+        alerts,
+      }),
+    },
+  });
+
+  if (alerts.length === 0) {
+    return report;
+  }
+
   const user = await prisma.user.findFirst({
     where: {
+      ...(notificationUserId ? { id: notificationUserId } : {}),
       company_id: companyId,
       deleted_at: null,
       enabled: true,
@@ -111,17 +135,24 @@ const createReorderNotification = async (companyId: string, itemName: string, al
     data: {
       user_id: user?.id || 'system',
       company_id: companyId,
-      title: `Reorder required: ${itemName}`,
-      message: `${itemName} is low on stock. Current quantity: ${alert.currentQuantity}. Avg daily usage: ${alert.averageDailyUsage.toFixed(2)}. Forecast: ${alert.forecastDaysLeft.toFixed(1)} days left. Recommended order: ${alert.recommendedOrderQty} units. ${alert.reason}`,
+      title: 'Inventory reorder recommendations',
+      message: `${alerts.length} item${alerts.length === 1 ? '' : 's'} require attention. Open the report for recommendations.`,
+      link: `/reports?reportId=${report.id}`,
       type: 'warning',
     },
   });
+
+  return report;
 };
 
-export const monitorInventoryForReorders = async () => {
+export const monitorInventoryForReorders = async (
+  companyId?: string,
+  notificationUserId?: string
+): Promise<IInventoryMonitorResult> => {
   const inventories = await prisma.inventory.findMany({
     where: {
       deleted_at: null,
+      ...(companyId ? { company_id: companyId } : {}),
     },
     include: {
       item: true,
@@ -170,11 +201,26 @@ export const monitorInventoryForReorders = async () => {
     }
   }
 
+  const alertsByCompany = new Map<string, IInventoryAlert[]>();
+  for (const inventory of inventories) {
+    if (!alertsByCompany.has(inventory.company_id)) {
+      alertsByCompany.set(inventory.company_id, []);
+    }
+  }
+  if (companyId && !alertsByCompany.has(companyId)) {
+    alertsByCompany.set(companyId, []);
+  }
   for (const alert of alerts) {
-    await createReorderNotification(alert.companyId, alert.itemName, alert);
+    alertsByCompany.get(alert.companyId)?.push(alert);
   }
 
-  return alerts;
+  const reports: IInventoryMonitorResult['reports'] = [];
+  for (const [alertCompanyId, companyAlerts] of alertsByCompany) {
+    const report = await createInventoryReport(alertCompanyId, companyAlerts, notificationUserId);
+    reports.push({ id: report.id, companyId: alertCompanyId });
+  }
+
+  return { alerts, reports };
 };
 
 export const startInventoryMonitoring = () => {
@@ -182,8 +228,8 @@ export const startInventoryMonitoring = () => {
 
   const task = async () => {
     try {
-      const alerts = await monitorInventoryForReorders();
-      console.log(`[inventory-monitor] checked stock levels. Alerts generated: ${alerts.length}`);
+      const result = await monitorInventoryForReorders();
+      console.log(`[inventory-monitor] checked stock levels. Alerts generated: ${result.alerts.length}`);
     } catch (error) {
       console.error('[inventory-monitor] failed to process inventory alerts:', error);
     }

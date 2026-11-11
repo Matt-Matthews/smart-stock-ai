@@ -5,7 +5,7 @@
             <NuxtIcon :name="icon" class="ml-1 text-muted/10" size="50" />
         </div>
         <h1 class="text-4xl font-bold mb-5 mt-2">
-            {{ valueType === 'currency' ? `$${value.toLocaleString()}` : value.toLocaleString() }}
+            {{ valueType === 'currency' ? `R${value.toLocaleString()}` : value.toLocaleString() }}
         </h1>
         <div class="flex items-center gap-1">
             <div :class="(`flex items-center gap-1  rounded-md px-2 py-1 w-fit ${trendValue > 0 ? 'text-success bg-green-200 dark:bg-green-950' : trendValue < 0 ? 'text-destructive bg-red-200 dark:bg-red-950/70' : 'text-muted bg-muted'}`)">

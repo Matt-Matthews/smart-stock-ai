@@ -300,6 +300,7 @@ exports.Prisma.ReportsScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
+  data: 'data',
   company_id: 'company_id',
   created_at: 'created_at',
   updated_at: 'updated_at',
@@ -312,6 +313,7 @@ exports.Prisma.NotificationScalarFieldEnum = {
   company_id: 'company_id',
   title: 'title',
   message: 'message',
+  link: 'link',
   type: 'type',
   read_at: 'read_at',
   created_at: 'created_at',
@@ -482,6 +484,7 @@ exports.Prisma.reportsOrderByRelevanceFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
+  data: 'data',
   company_id: 'company_id'
 };
 
@@ -491,6 +494,7 @@ exports.Prisma.NotificationOrderByRelevanceFieldEnum = {
   company_id: 'company_id',
   title: 'title',
   message: 'message',
+  link: 'link',
   type: 'type'
 };
 

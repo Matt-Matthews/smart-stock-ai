@@ -5,6 +5,9 @@
                 <h1 class="font-bold text-4xl">Inventory Overview</h1>
                 <p class="text-sm">Manage your inventory items and their details.</p>
             </div>
+            <NuxtButton class="ml-auto" color="primary" :loading="monitoring" @click="runInventoryMonitoring">
+                Run Stock Check
+            </NuxtButton>
         </div>
         <NuxtCard variant="soft" class="w-full p-0 mt-6">
             <div class="w-full  rounded-sm  flex items-center gap-4  ">
@@ -87,7 +90,40 @@ const companyId = user.value?.company.id
 
 const items = ref(['In Stock', 'Low Stock', 'Out of Stock', 'Refunded'])
 
-const { listInventoryItems } = useInventoryRequests()
+const { listInventoryItems, runInventoryMonitor } = useInventoryRequests()
+const { listNotifications } = useNotificationRequests()
+const notificationStore = useNotificationStore()
+const monitoring = ref(false)
+const toast = useToast()
+
+const runInventoryMonitoring = async () => {
+    if (!authToken.value) {
+        toast.add({ title: 'Unable to run stock check', description: 'Please sign in again.', color: 'error' })
+        return
+    }
+
+    monitoring.value = true
+    try {
+        const result = await runInventoryMonitor(config.public.apiBase, authToken.value)
+        if (user.value.id) {
+            notificationStore.setNotifications(await listNotifications(config.public.apiBase, authToken.value, user.value.id))
+        }
+        const count = result.data.count
+        toast.add({
+            title: 'Stock check complete',
+            description: `${count} reorder alert${count === 1 ? '' : 's'} generated.`,
+            color: 'success'
+        })
+    } catch (error: any) {
+        toast.add({
+            title: 'Stock check failed',
+            description: error?.data?.message || 'Unable to run inventory monitoring.',
+            color: 'error'
+        })
+    } finally {
+        monitoring.value = false
+    }
+}
 
 if (companyId && authToken.value) {
     inventoryItems.value = await listInventoryItems(config.public.apiBase, authToken.value, companyId)

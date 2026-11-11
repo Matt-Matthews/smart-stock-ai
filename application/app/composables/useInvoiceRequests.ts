@@ -1,9 +1,20 @@
 export const useInvoiceRequests = () => {
     const toast = useToast()
-    const fields = 'id supplier_id company_id amount vat total created_at updated_at deleted_at'
+    const fields = 'id supplier_id company_id amount vat total created_at updated_at deleted_at supplier { name }'
+    const listFields = `${fields} supplier { name }`
 
     const listInvoices = async (basePath: string, token: string, companyId: string) => {
-        const { data, error } = await useFetch(basePath + '/graphql', { headers: { Authorization: `Bearer ${token}` }, method: 'POST', body: { query: `query { invoicesByCompany(company_id: "${companyId}") { ${fields} } }` } })
+        const { data, error } = await useFetch(basePath + '/graphql',
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                method: 'POST',
+                body: {
+                    query: `query { invoicesByCompany(company_id: "${companyId}") { ${fields} } }`
+                }
+            }
+        )
         if (error.value) { toast.add({ title: 'Error', description: 'Failed to fetch invoices.', color: 'error' }); return [] }
         return (data.value as any)?.data?.invoicesByCompany || []
     }

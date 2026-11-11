@@ -31,7 +31,7 @@ export default defineNuxtConfig({
     apiSecret: '',
     // Public — accessible on both client and server
     public: {
-      apiBase: '/api',
+      apiBase: '/api/v1',
     },
   },
 })

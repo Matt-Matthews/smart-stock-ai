@@ -161,6 +161,7 @@ export const typeDefs = [`#graphql
   type Invoice {
     id: String!
     supplier_id: String!
+    supplier: Supplier
     company_id: String!
     amount: Float!
     vat: Float!
@@ -185,6 +186,7 @@ export const typeDefs = [`#graphql
     id: String!
     name: String!
     description: String
+    data: String
     company_id: String!
     created_at: String
     updated_at: String
@@ -197,6 +199,7 @@ export const typeDefs = [`#graphql
     company_id: String!
     title: String!
     message: String!
+    link: String
     type: String!
     read_at: String
     created_at: String

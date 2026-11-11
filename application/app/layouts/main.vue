@@ -140,6 +140,9 @@ const notificationItems = computed<DropdownMenuItem[]>(() => notifications.value
         onSelect: async () => {
             await markNotificationRead(config.public.apiBase, authToken.value!, notification.id)
             notificationStore.markRead(notification.id)
+            if (typeof notification.link === 'string' && notification.link.startsWith('/')) {
+                await router.push(notification.link)
+            }
         }
     }))
     : [{ label: 'No notifications', icon: 'i-lucide-check', disabled: true }])

@@ -13,6 +13,7 @@ import { authenticateUser } from '@middlewares/auth.middleware.js';
 import requestLogger from '@middlewares/request-log.middleware.js';
 import authRoutes from '@routes/auth.route.js';
 import invoiceRoutes from '@routes/invoice.route.js';
+import inventoryRoutes from '@routes/inventory.route.js';
 import initializeInventoryMonitoring from '@schedulers/inventory-monitor.scheduler.js';
 
 
@@ -62,6 +63,7 @@ async function startServer() {
   //* Mount routes
   app.use(`${BASE_PATH}/auth`,  authRoutes);
   app.use(`${BASE_PATH}/invoices`, invoiceRoutes);
+  app.use(`${BASE_PATH}/inventory`, inventoryRoutes);
 
   app.get(`${BASE_PATH}/health`, (req, res) => {
     res.send('GraphQL API is healthy');

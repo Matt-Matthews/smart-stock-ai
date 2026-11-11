@@ -167,10 +167,21 @@ export const useInventoryRequests = () => {
         return inventory
     }
 
+    const runInventoryMonitor = async (basePath: string, token: string) => {
+        return await $fetch<{ status: string, data: { alerts: unknown[], count: number } }>(
+            `${basePath}/inventory/monitor/reorders`,
+            {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}` },
+            }
+        )
+    }
+
     return {
         listInventoryItems,
         addInventoryItem,
         getInventoryEntry,
-        getTransactionsByInventory
+        getTransactionsByInventory,
+        runInventoryMonitor
     }
 }

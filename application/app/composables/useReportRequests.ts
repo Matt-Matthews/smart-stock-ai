@@ -1,6 +1,6 @@
 export const useReportRequests = () => {
     const toast = useToast()
-    const fields = 'id name description company_id created_at updated_at deleted_at'
+    const fields = 'id name description data company_id created_at updated_at deleted_at'
     const listReports = async (basePath: string, token: string, companyId: string) => {
         const { data, error } = await useFetch(basePath + '/graphql', { headers: { Authorization: `Bearer ${token}` }, method: 'POST', body: { query: `query { reportsByCompany(company_id: "${companyId}") { ${fields} } }` } })
         if (error.value) { toast.add({ title: 'Error', description: 'Failed to fetch reports.', color: 'error' }); return [] }

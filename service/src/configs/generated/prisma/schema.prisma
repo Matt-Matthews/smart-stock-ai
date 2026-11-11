@@ -39,6 +39,8 @@ model Company {
   roles      Role[]
   categories Category[]
   items      Item[]
+  suppliers  suppliers[]
+  invoices   invoices[]
 }
 
 model Currency {
@@ -195,6 +197,9 @@ model suppliers {
   created_at  DateTime  @default(now()) @map("createdAt")
   updated_at  DateTime  @updatedAt @map("updatedAt")
   deleted_at  DateTime? @map("deletedAt")
+
+  company  Company    @relation(fields: [company_id], references: [id])
+  invoices invoices[]
 }
 
 model invoices {
@@ -207,6 +212,9 @@ model invoices {
   created_at  DateTime  @default(now()) @map("createdAt")
   updated_at  DateTime  @updatedAt @map("updatedAt")
   deleted_at  DateTime? @map("deletedAt")
+
+  supplier suppliers @relation(fields: [supplier_id], references: [id])
+  company  Company   @relation(fields: [company_id], references: [id])
 }
 
 model invoice_items {
@@ -224,6 +232,7 @@ model reports {
   id          String    @id @default(uuid())
   name        String
   description String?
+  data        String?   @db.LongText
   company_id  String    @map("companyId")
   created_at  DateTime  @default(now()) @map("createdAt")
   updated_at  DateTime  @updatedAt @map("updatedAt")
@@ -236,6 +245,7 @@ model Notification {
   company_id String    @map("companyId")
   title      String
   message    String
+  link       String?
   type       String    @default("info")
   read_at    DateTime? @map("readAt")
   created_at DateTime  @default(now()) @map("createdAt")

@@ -15,7 +15,7 @@ export const invoiceQueryResolvers = {
         invoice: async (_parent: unknown, args: { id: string }) =>
             await prisma.invoices.findFirst({ where: { id: args.id, deleted_at: null } }),
         invoicesByCompany: async (_parent: unknown, args: { company_id: string }) =>
-            await prisma.invoices.findMany({ where: { company_id: args.company_id, deleted_at: null } }),
+            await prisma.invoices.findMany({ where: { company_id: args.company_id, deleted_at: null }, include: { supplier: true } }),
         invoicesBySupplier: async (_parent: unknown, args: { supplier_id: string }) =>
             await prisma.invoices.findMany({ where: { supplier_id: args.supplier_id, deleted_at: null } }),
     },

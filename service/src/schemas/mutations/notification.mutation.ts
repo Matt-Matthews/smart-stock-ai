@@ -2,7 +2,7 @@ import { prisma } from "@configs/mysql-db.config.js";
 
 export const notificationMutation = `#graphql
   extend type Mutation {
-    createNotification(user_id: String!, company_id: String!, title: String!, message: String!, type: String): Notification!
+    createNotification(user_id: String!, company_id: String!, title: String!, message: String!, type: String, link: String): Notification!
     markNotificationRead(id: String!): Notification!
     markAllNotificationsRead(user_id: String!): Boolean!
   }
@@ -10,7 +10,7 @@ export const notificationMutation = `#graphql
 
 export const notificationMutationResolvers = {
     Mutation: {
-        createNotification: async (_parent: unknown, args: { user_id: string, company_id: string, title: string, message: string, type?: string }) =>
+        createNotification: async (_parent: unknown, args: { user_id: string, company_id: string, title: string, message: string, type?: string, link?: string }) =>
             await (prisma as any).notification.create({ data: args }),
         markNotificationRead: async (_parent: unknown, args: { id: string }) =>
             await (prisma as any).notification.update({ where: { id: args.id }, data: { read_at: new Date() } }),

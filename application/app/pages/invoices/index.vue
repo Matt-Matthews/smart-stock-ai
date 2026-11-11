@@ -66,7 +66,7 @@ const dragging = ref(false)
 const toast = useToast()
 const columns: TableColumn<any>[] = [
     { accessorKey: 'id', header: '#', cell: ({ row }) => row.index + 1 },
-    { accessorKey: 'supplier_id', header: 'Supplier' },
+    { accessorKey: 'supplier.name', header: 'Supplier', cell: ({ row }) => row.original.supplier?.name || row.original.supplier_id },
     { accessorKey: 'amount', header: 'Amount', cell: ({ row }) => formatMoney(row.original.amount) },
     { accessorKey: 'vat', header: 'VAT', cell: ({ row }) => formatMoney(row.original.vat) },
     { accessorKey: 'total', header: 'Total', cell: ({ row }) => formatMoney(row.original.total) },
@@ -79,7 +79,7 @@ const formatDate = (value: string | number | Date | null | undefined) => {
     const date = Number.isFinite(numericValue) ? new Date(numericValue < 1e12 ? numericValue * 1000 : numericValue) : new Date(value)
     return Number.isNaN(date.getTime()) ? 'N/A' : date.toDateString()
 }
-const filteredInvoices = computed(() => invoices.value.filter(invoice => `${invoice.id} ${invoice.supplier_id}`.toLowerCase().includes(search.value.toLowerCase())))
+const filteredInvoices = computed(() => invoices.value.filter(invoice => `${invoice.id} ${invoice.supplier?.name || ''} ${invoice.supplier_id}`.toLowerCase().includes(search.value.toLowerCase())))
 async function submitInvoice() {
     const invoice = await addInvoice(config.public.apiBase, authToken.value!, { ...invoiceForm, companyId: user.value.company.id })
     if (invoice?.id) invoiceStore.addInvoice(invoice)

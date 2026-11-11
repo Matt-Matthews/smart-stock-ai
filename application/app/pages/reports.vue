@@ -31,11 +31,37 @@
                 <NuxtButton label="Cancel" color="neutral" variant="outline" @click="close" /><NuxtButton label="Submit" form="report-form" type="submit" color="neutral" />
             </template>
         </NuxtModal>
+        <NuxtModal v-model:open="detailsModal" :title="selectedReport?.name || 'Report Details'" :description="selectedReport?.description || ''">
+            <template #body>
+                <p v-if="selectedReportData?.generatedAt" class="text-sm text-muted mb-4">
+                    Generated {{ formatDate(selectedReportData.generatedAt) }}
+                </p>
+                <div v-if="selectedReportAlerts.length" class="flex flex-col gap-3">
+                    <NuxtCard v-for="alert in selectedReportAlerts" :key="alert.itemId" variant="soft">
+                        <div class="flex flex-wrap justify-between gap-2">
+                            <h3 class="font-semibold">{{ alert.itemName }}</h3>
+                            <span class="text-sm">Current stock: {{ alert.currentQuantity }}</span>
+                        </div>
+                        <p class="text-sm text-muted mt-2">
+                            Average daily usage: {{ Number(alert.averageDailyUsage).toFixed(2) }} ·
+                            Forecast: {{ Number(alert.forecastDaysLeft).toFixed(1) }} days ·
+                            Recommended order: {{ alert.recommendedOrderQty }}
+                        </p>
+                        <p class="text-sm mt-2">{{ alert.reason }}</p>
+                    </NuxtCard>
+                </div>
+                <p v-else-if="selectedReportData?.type === 'inventory_reorder'" class="text-sm text-muted">
+                    No reorder alerts were found in this inventory check.
+                </p>
+                <p v-else class="text-sm text-muted">This report has no stored inventory results.</p>
+            </template>
+        </NuxtModal>
     </div>
 </template>
 
 <script setup lang="ts">
 import type { TableColumn } from '@nuxt/ui'
+import { h, resolveComponent } from 'vue'
 const reportStore = useReportStore()
 const { reports } = storeToRefs(reportStore)
 const { listReports, addReport } = useReportRequests()
@@ -44,14 +70,37 @@ const authToken = useAuthToken()
 const { user } = storeToRefs(useUserStore())
 const search = ref('')
 const reportModal = ref(false)
+const detailsModal = ref(false)
+const selectedReport = ref<any>(null)
 const reportForm = reactive({ name: '', description: '' })
 const table = useTemplateRef<any>('table')
+const route = useRoute()
+const parseReportData = (value: string | null | undefined) => {
+    if (!value) return null
+    try {
+        return JSON.parse(value)
+    } catch {
+        return null
+    }
+}
+const reportSummary = (report: any) => {
+    const data = parseReportData(report.data)
+    return Array.isArray(data?.alerts) ? `${data.alerts.length} reorder alerts` : 'No stored results'
+}
+const selectedReportData = computed(() => parseReportData(selectedReport.value?.data))
+const selectedReportAlerts = computed(() => Array.isArray(selectedReportData.value?.alerts) ? selectedReportData.value.alerts : [])
+const showReport = (report: any) => {
+    selectedReport.value = report
+    detailsModal.value = true
+}
 const columns: TableColumn<any>[] = [
     { accessorKey: 'id', header: '#', cell: ({ row }) => row.index + 1 },
     { accessorKey: 'name', header: 'Report Name' },
     { accessorKey: 'description', header: 'Description', cell: ({ row }) => row.original.description || 'N/A' },
+    { accessorKey: 'data', header: 'Results', cell: ({ row }) => reportSummary(row.original) },
     { accessorKey: 'created_at', header: 'Created At', cell: ({ row }) => formatDate(row.original.created_at) },
-    { accessorKey: 'updated_at', header: 'Updated At', cell: ({ row }) => formatDate(row.original.updated_at) }
+    { accessorKey: 'updated_at', header: 'Updated At', cell: ({ row }) => formatDate(row.original.updated_at) },
+    { id: 'actions', header: '', cell: ({ row }) => h(resolveComponent('NuxtButton'), { variant: 'outline', size: 'sm', onClick: () => showReport(row.original) }, () => 'View') }
 ]
 const formatDate = (value: string | number | Date | null | undefined) => {
     if (value === null || value === undefined || value === '') return 'N/A'
@@ -66,5 +115,10 @@ async function submitReport() {
     reportForm.name = ''; reportForm.description = ''; reportModal.value = false
 }
 if (user.value.company.id && authToken.value) reportStore.setReports(await listReports(config.public.apiBase, authToken.value, user.value.company.id))
+watch(() => route.query.reportId, reportId => {
+    if (typeof reportId !== 'string') return
+    const report = reports.value.find(item => item.id === reportId)
+    if (report) showReport(report)
+}, { immediate: true })
 definePageMeta({ layout: 'main' })
 </script>

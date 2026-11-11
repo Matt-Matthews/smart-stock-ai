@@ -216,7 +216,6 @@ const ensureDefaultCategory = async (companyId: string) => {
       company_id: companyId,
       name: {
         equals: 'General',
-        mode: 'insensitive',
       },
     },
   });
@@ -245,7 +244,6 @@ const findOrCreateSupplier = async (companyId: string, supplierName: string) => 
       company_id: companyId,
       name: {
         contains: name,
-        mode: 'insensitive',
       },
     },
   });
@@ -273,9 +271,9 @@ const findOrCreateItemForProduct = async (companyId: string, productName: string
     where: {
       company_id: companyId,
       OR: [
-        { name: { contains: name, mode: 'insensitive' } },
-        { sku: { contains: name, mode: 'insensitive' } },
-        { barcode: { contains: name, mode: 'insensitive' } },
+        { name: { contains: name } },
+        { sku: { contains: name } },
+        { barcode: { contains: name } },
       ],
     },
   });

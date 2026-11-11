@@ -25,7 +25,7 @@
             </div>
             <div class="flex items-center gap-2">
                 <NuxtButton variant="outline" color="neutral" icon="i-lucide-copy" @click="copySku">Copy SKU</NuxtButton>
-                <NuxtButton color="primary" icon="i-lucide-pencil" disabled>Edit product</NuxtButton>
+                <NuxtButton color="primary" icon="i-lucide-pencil" @click="openEdit">Edit product</NuxtButton>
             </div>
         </section>
 
@@ -85,28 +85,152 @@
                 </section>
             </aside>
         </div>
+
+        <NuxtModal v-model:open="editOpen" title="Edit Product"
+            description="Update this product's details." :ui="{ footer: 'justify-end' }">
+            <template #body>
+                <NuxtForm id="product-edit-form" :schema="schema" :state="state"
+                    class="flex w-full flex-col gap-4" @submit="onSubmit">
+                    <NuxtFormField label="Name" name="name">
+                        <NuxtInput v-model="state.name" placeholder="Enter product name" required class="w-full" />
+                    </NuxtFormField>
+                    <NuxtFormField label="Description" name="description">
+                        <NuxtTextarea v-model="state.description" placeholder="Enter product description"
+                            class="w-full" />
+                    </NuxtFormField>
+                    <NuxtFormField label="Category" name="categoryId">
+                        <NuxtSelect v-model="state.categoryId" label-key="name" value-key="id"
+                            placeholder="Select product category" required :items="categories" class="w-full" />
+                    </NuxtFormField>
+                    <NuxtFormField label="Currency" name="currencyId">
+                        <NuxtSelect v-model="state.currencyId" label-key="code" value-key="id"
+                            placeholder="Select currency" required :items="currencies" class="w-full" />
+                    </NuxtFormField>
+                    <NuxtFormField label="Selling Price" name="sellPrice">
+                        <NuxtInput v-model="state.sellPrice" type="number" min="0" step="0.01"
+                            placeholder="Enter selling price" required class="w-full" />
+                    </NuxtFormField>
+                    <NuxtFormField label="Cost Price" name="costPrice">
+                        <NuxtInput v-model="state.costPrice" type="number" min="0" step="0.01"
+                            placeholder="Enter cost price" required class="w-full" />
+                    </NuxtFormField>
+                    <NuxtFormField label="Barcode" name="barcode">
+                        <NuxtInput v-model="state.barcode" placeholder="Enter barcode" class="w-full" />
+                    </NuxtFormField>
+                    <NuxtFormField label="SKU" name="sku">
+                        <NuxtInput v-model="state.sku" placeholder="Enter product SKU" class="w-full" />
+                    </NuxtFormField>
+                </NuxtForm>
+            </template>
+            <template #footer>
+                <NuxtButton label="Cancel" color="neutral" variant="outline" @click="closeEdit" />
+                <NuxtButton label="Save changes" form="product-edit-form" type="submit"
+                    color="primary" :loading="isSaving" />
+            </template>
+        </NuxtModal>
     </div>
 </template>
 
 <script setup lang="ts">
-const { getProduct } = useProductRequests()
+import * as z from 'zod'
+import type { FormSubmitEvent } from '@nuxt/ui'
+
+const { getProduct, updateProduct } = useProductRequests()
 const config = useRuntimeConfig()
 const authToken = useAuthToken()
 const route = useRoute()
 const toast = useToast()
-const product = await getProduct(config.public.apiBase, authToken.value!, route.params.id as string)
+const categoryStore = useCategoryStore()
+const currencyStore = useCurrencyStore()
+const { categories } = storeToRefs(categoryStore)
+const { currencies } = storeToRefs(currencyStore)
+const product = ref(await getProduct(config.public.apiBase, authToken.value!, route.params.id as string))
+const editOpen = ref(false)
+const isSaving = ref(false)
+
+const schema = z.object({
+    name: z.string().trim().min(1, 'Name is required'),
+    description: z.string().optional(),
+    categoryId: z.uuid('Select a category'),
+    currencyId: z.uuid('Select a currency'),
+    costPrice: z.number().nonnegative('Cost price must be zero or more'),
+    sellPrice: z.number().nonnegative('Selling price must be zero or more'),
+    sku: z.string().optional(),
+    barcode: z.string().optional()
+})
+
+type EditProductForm = z.output<typeof schema>
+
+const state = reactive<Partial<EditProductForm>>({
+    name: '',
+    description: '',
+    categoryId: '',
+    currencyId: '',
+    costPrice: 0,
+    sellPrice: 0,
+    sku: '',
+    barcode: ''
+})
+
+function openEdit() {
+    state.name = product.value.name
+    state.description = product.value.description || ''
+    state.categoryId = product.value.category_id
+    state.currencyId = product.value.currency_id
+    state.costPrice = product.value.cost_price
+    state.sellPrice = product.value.sell_price
+    state.sku = product.value.sku || ''
+    state.barcode = product.value.barcode || ''
+    editOpen.value = true
+}
+
+function closeEdit() {
+    editOpen.value = false
+}
+
+async function onSubmit(event: FormSubmitEvent<EditProductForm>) {
+    isSaving.value = true
+    try {
+        const updated = await updateProduct(
+            config.public.apiBase,
+            authToken.value!,
+            product.value.id,
+            {
+                name: event.data.name,
+                description: event.data.description,
+                category_id: event.data.categoryId,
+                currency_id: event.data.currencyId,
+                cost_price: event.data.costPrice,
+                sell_price: event.data.sellPrice,
+                sku: event.data.sku?.trim() || null,
+                barcode: event.data.barcode?.trim() || null
+            }
+        )
+        const category = categories.value.find(item => item.id === event.data.categoryId)
+        const currency = currencies.value.find(item => item.id === event.data.currencyId)
+        product.value = {
+            ...product.value,
+            ...updated,
+            category: category || product.value.category,
+            currency: currency || product.value.currency
+        }
+        editOpen.value = false
+    } finally {
+        isSaving.value = false
+    }
+}
 
 const stockColor = computed(() => {
-    if (product.inventory?.status === 'In Stock') return 'success' as const
-    if (product.inventory?.status === 'Low Stock') return 'warning' as const
-    if (product.inventory?.status === 'Out of Stock') return 'error' as const
+    if (product.value.inventory?.status === 'In Stock') return 'success' as const
+    if (product.value.inventory?.status === 'Low Stock') return 'warning' as const
+    if (product.value.inventory?.status === 'Out of Stock') return 'error' as const
     return 'neutral' as const
 })
 const marginPercent = computed(() => {
-    if (!product.cost_price || !product.sell_price) return '0.0'
-    return (((product.sell_price - product.cost_price) / product.sell_price) * 100).toFixed(1)
+    if (!product.value.cost_price || !product.value.sell_price) return '0.0'
+    return (((product.value.sell_price - product.value.cost_price) / product.value.sell_price) * 100).toFixed(1)
 })
-const formatPrice = (value: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: product.currency?.code || 'ZAR' }).format(value || 0)
+const formatPrice = (value: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: product.value.currency?.code || 'ZAR' }).format(value || 0)
 const formatDate = (value: string | number | Date | null | undefined) => {
     if (value === null || value === undefined || value === '') return 'N/A'
     const numericValue = typeof value === 'number' || (typeof value === 'string' && /^\d+$/.test(value)) ? Number(value) : NaN
@@ -114,8 +238,8 @@ const formatDate = (value: string | number | Date | null | undefined) => {
     return Number.isNaN(date.getTime()) ? 'N/A' : date.toDateString()
 }
 async function copySku() {
-    if (!product.sku) return
-    await navigator.clipboard.writeText(product.sku)
+    if (!product.value.sku) return
+    await navigator.clipboard.writeText(product.value.sku)
     toast.add({ title: 'SKU copied', description: 'The product SKU is on your clipboard.', color: 'success' })
 }
 

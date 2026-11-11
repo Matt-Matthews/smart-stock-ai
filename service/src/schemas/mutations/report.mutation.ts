@@ -2,7 +2,7 @@ import { prisma } from "@configs/mysql-db.config.js";
 
 export const reportMutation = `#graphql
   extend type Mutation {
-    createReport(company_id: String!, name: String!, description: String): Report!
+    createReport(company_id: String!, name: String!, description: String, data: String): Report!
     updateReport(id: String!, input: UpdateReportInput!): Report!
     deleteReport(id: String!): Report!
   }
@@ -11,12 +11,13 @@ export const reportMutation = `#graphql
     company_id: String
     name: String
     description: String
+    data: String
   }
 `;
 
 export const reportMutationResolvers = {
     Mutation: {
-        createReport: async (_parent: unknown, args: { company_id: string, name: string, description?: string }) =>
+        createReport: async (_parent: unknown, args: { company_id: string, name: string, description?: string, data?: string }) =>
             await prisma.reports.create({ data: args }),
         updateReport: async (_parent: unknown, args: { id: string, input: Record<string, any> }) =>
             await prisma.reports.update({ where: { id: args.id }, data: args.input }),

@@ -2273,6 +2273,8 @@ export namespace Prisma {
     roles: number
     categories: number
     items: number
+    suppliers: number
+    invoices: number
   }
 
   export type CompanyCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2280,6 +2282,8 @@ export namespace Prisma {
     roles?: boolean | CompanyCountOutputTypeCountRolesArgs
     categories?: boolean | CompanyCountOutputTypeCountCategoriesArgs
     items?: boolean | CompanyCountOutputTypeCountItemsArgs
+    suppliers?: boolean | CompanyCountOutputTypeCountSuppliersArgs
+    invoices?: boolean | CompanyCountOutputTypeCountInvoicesArgs
   }
 
   // Custom InputTypes
@@ -2319,6 +2323,20 @@ export namespace Prisma {
    */
   export type CompanyCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ItemWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountSuppliersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: suppliersWhereInput
+  }
+
+  /**
+   * CompanyCountOutputType without action
+   */
+  export type CompanyCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: invoicesWhereInput
   }
 
 
@@ -2523,6 +2541,37 @@ export namespace Prisma {
    */
   export type TransactionCountOutputTypeCountInventoryEventArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InventoryEventWhereInput
+  }
+
+
+  /**
+   * Count Type SuppliersCountOutputType
+   */
+
+  export type SuppliersCountOutputType = {
+    invoices: number
+  }
+
+  export type SuppliersCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invoices?: boolean | SuppliersCountOutputTypeCountInvoicesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SuppliersCountOutputType without action
+   */
+  export type SuppliersCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SuppliersCountOutputType
+     */
+    select?: SuppliersCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SuppliersCountOutputType without action
+   */
+  export type SuppliersCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: invoicesWhereInput
   }
 
 
@@ -3734,6 +3783,8 @@ export namespace Prisma {
     roles?: boolean | Company$rolesArgs<ExtArgs>
     categories?: boolean | Company$categoriesArgs<ExtArgs>
     items?: boolean | Company$itemsArgs<ExtArgs>
+    suppliers?: boolean | Company$suppliersArgs<ExtArgs>
+    invoices?: boolean | Company$invoicesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["company"]>
 
@@ -3757,6 +3808,8 @@ export namespace Prisma {
     roles?: boolean | Company$rolesArgs<ExtArgs>
     categories?: boolean | Company$categoriesArgs<ExtArgs>
     items?: boolean | Company$itemsArgs<ExtArgs>
+    suppliers?: boolean | Company$suppliersArgs<ExtArgs>
+    invoices?: boolean | Company$invoicesArgs<ExtArgs>
     _count?: boolean | CompanyCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3767,6 +3820,8 @@ export namespace Prisma {
       roles: Prisma.$RolePayload<ExtArgs>[]
       categories: Prisma.$CategoryPayload<ExtArgs>[]
       items: Prisma.$ItemPayload<ExtArgs>[]
+      suppliers: Prisma.$suppliersPayload<ExtArgs>[]
+      invoices: Prisma.$invoicesPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4122,6 +4177,8 @@ export namespace Prisma {
     roles<T extends Company$rolesArgs<ExtArgs> = {}>(args?: Subset<T, Company$rolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     categories<T extends Company$categoriesArgs<ExtArgs> = {}>(args?: Subset<T, Company$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     items<T extends Company$itemsArgs<ExtArgs> = {}>(args?: Subset<T, Company$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    suppliers<T extends Company$suppliersArgs<ExtArgs> = {}>(args?: Subset<T, Company$suppliersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$suppliersPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    invoices<T extends Company$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Company$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$invoicesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4601,6 +4658,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ItemScalarFieldEnum | ItemScalarFieldEnum[]
+  }
+
+  /**
+   * Company.suppliers
+   */
+  export type Company$suppliersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the suppliers
+     */
+    select?: suppliersSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the suppliers
+     */
+    omit?: suppliersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: suppliersInclude<ExtArgs> | null
+    where?: suppliersWhereInput
+    orderBy?: suppliersOrderByWithRelationInput | suppliersOrderByWithRelationInput[]
+    cursor?: suppliersWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SuppliersScalarFieldEnum | SuppliersScalarFieldEnum[]
+  }
+
+  /**
+   * Company.invoices
+   */
+  export type Company$invoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the invoices
+     */
+    select?: invoicesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the invoices
+     */
+    omit?: invoicesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: invoicesInclude<ExtArgs> | null
+    where?: invoicesWhereInput
+    orderBy?: invoicesOrderByWithRelationInput | invoicesOrderByWithRelationInput[]
+    cursor?: invoicesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvoicesScalarFieldEnum | InvoicesScalarFieldEnum[]
   }
 
   /**
@@ -14912,6 +15017,9 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    invoices?: boolean | suppliers$invoicesArgs<ExtArgs>
+    _count?: boolean | SuppliersCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["suppliers"]>
 
 
@@ -14927,10 +15035,18 @@ export namespace Prisma {
   }
 
   export type suppliersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "company_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["suppliers"]>
+  export type suppliersInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+    invoices?: boolean | suppliers$invoicesArgs<ExtArgs>
+    _count?: boolean | SuppliersCountOutputTypeDefaultArgs<ExtArgs>
+  }
 
   export type $suppliersPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "suppliers"
-    objects: {}
+    objects: {
+      company: Prisma.$CompanyPayload<ExtArgs>
+      invoices: Prisma.$invoicesPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
@@ -15279,6 +15395,8 @@ export namespace Prisma {
    */
   export interface Prisma__suppliersClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    invoices<T extends suppliers$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, suppliers$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$invoicesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15332,6 +15450,10 @@ export namespace Prisma {
      */
     omit?: suppliersOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: suppliersInclude<ExtArgs> | null
+    /**
      * Filter, which suppliers to fetch.
      */
     where: suppliersWhereUniqueInput
@@ -15350,6 +15472,10 @@ export namespace Prisma {
      */
     omit?: suppliersOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: suppliersInclude<ExtArgs> | null
+    /**
      * Filter, which suppliers to fetch.
      */
     where: suppliersWhereUniqueInput
@@ -15367,6 +15493,10 @@ export namespace Prisma {
      * Omit specific fields from the suppliers
      */
     omit?: suppliersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: suppliersInclude<ExtArgs> | null
     /**
      * Filter, which suppliers to fetch.
      */
@@ -15416,6 +15546,10 @@ export namespace Prisma {
      */
     omit?: suppliersOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: suppliersInclude<ExtArgs> | null
+    /**
      * Filter, which suppliers to fetch.
      */
     where?: suppliersWhereInput
@@ -15463,6 +15597,10 @@ export namespace Prisma {
      * Omit specific fields from the suppliers
      */
     omit?: suppliersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: suppliersInclude<ExtArgs> | null
     /**
      * Filter, which suppliers to fetch.
      */
@@ -15512,6 +15650,10 @@ export namespace Prisma {
      */
     omit?: suppliersOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: suppliersInclude<ExtArgs> | null
+    /**
      * The data needed to create a suppliers.
      */
     data: XOR<suppliersCreateInput, suppliersUncheckedCreateInput>
@@ -15540,6 +15682,10 @@ export namespace Prisma {
      * Omit specific fields from the suppliers
      */
     omit?: suppliersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: suppliersInclude<ExtArgs> | null
     /**
      * The data needed to update a suppliers.
      */
@@ -15581,6 +15727,10 @@ export namespace Prisma {
      */
     omit?: suppliersOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: suppliersInclude<ExtArgs> | null
+    /**
      * The filter to search for the suppliers to update in case it exists.
      */
     where: suppliersWhereUniqueInput
@@ -15607,6 +15757,10 @@ export namespace Prisma {
      */
     omit?: suppliersOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: suppliersInclude<ExtArgs> | null
+    /**
      * Filter which suppliers to delete.
      */
     where: suppliersWhereUniqueInput
@@ -15627,6 +15781,30 @@ export namespace Prisma {
   }
 
   /**
+   * suppliers.invoices
+   */
+  export type suppliers$invoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the invoices
+     */
+    select?: invoicesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the invoices
+     */
+    omit?: invoicesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: invoicesInclude<ExtArgs> | null
+    where?: invoicesWhereInput
+    orderBy?: invoicesOrderByWithRelationInput | invoicesOrderByWithRelationInput[]
+    cursor?: invoicesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvoicesScalarFieldEnum | InvoicesScalarFieldEnum[]
+  }
+
+  /**
    * suppliers without action
    */
   export type suppliersDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -15638,6 +15816,10 @@ export namespace Prisma {
      * Omit specific fields from the suppliers
      */
     omit?: suppliersOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: suppliersInclude<ExtArgs> | null
   }
 
 
@@ -15879,6 +16061,8 @@ export namespace Prisma {
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
+    supplier?: boolean | suppliersDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["invoices"]>
 
 
@@ -15896,10 +16080,17 @@ export namespace Prisma {
   }
 
   export type invoicesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "supplier_id" | "company_id" | "amount" | "vat" | "total" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["invoices"]>
+  export type invoicesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    supplier?: boolean | suppliersDefaultArgs<ExtArgs>
+    company?: boolean | CompanyDefaultArgs<ExtArgs>
+  }
 
   export type $invoicesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "invoices"
-    objects: {}
+    objects: {
+      supplier: Prisma.$suppliersPayload<ExtArgs>
+      company: Prisma.$CompanyPayload<ExtArgs>
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       supplier_id: string
@@ -16250,6 +16441,8 @@ export namespace Prisma {
    */
   export interface Prisma__invoicesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    supplier<T extends suppliersDefaultArgs<ExtArgs> = {}>(args?: Subset<T, suppliersDefaultArgs<ExtArgs>>): Prisma__suppliersClient<$Result.GetResult<Prisma.$suppliersPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    company<T extends CompanyDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CompanyDefaultArgs<ExtArgs>>): Prisma__CompanyClient<$Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16305,6 +16498,10 @@ export namespace Prisma {
      */
     omit?: invoicesOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: invoicesInclude<ExtArgs> | null
+    /**
      * Filter, which invoices to fetch.
      */
     where: invoicesWhereUniqueInput
@@ -16323,6 +16520,10 @@ export namespace Prisma {
      */
     omit?: invoicesOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: invoicesInclude<ExtArgs> | null
+    /**
      * Filter, which invoices to fetch.
      */
     where: invoicesWhereUniqueInput
@@ -16340,6 +16541,10 @@ export namespace Prisma {
      * Omit specific fields from the invoices
      */
     omit?: invoicesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: invoicesInclude<ExtArgs> | null
     /**
      * Filter, which invoices to fetch.
      */
@@ -16389,6 +16594,10 @@ export namespace Prisma {
      */
     omit?: invoicesOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: invoicesInclude<ExtArgs> | null
+    /**
      * Filter, which invoices to fetch.
      */
     where?: invoicesWhereInput
@@ -16436,6 +16645,10 @@ export namespace Prisma {
      * Omit specific fields from the invoices
      */
     omit?: invoicesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: invoicesInclude<ExtArgs> | null
     /**
      * Filter, which invoices to fetch.
      */
@@ -16485,6 +16698,10 @@ export namespace Prisma {
      */
     omit?: invoicesOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: invoicesInclude<ExtArgs> | null
+    /**
      * The data needed to create a invoices.
      */
     data: XOR<invoicesCreateInput, invoicesUncheckedCreateInput>
@@ -16513,6 +16730,10 @@ export namespace Prisma {
      * Omit specific fields from the invoices
      */
     omit?: invoicesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: invoicesInclude<ExtArgs> | null
     /**
      * The data needed to update a invoices.
      */
@@ -16554,6 +16775,10 @@ export namespace Prisma {
      */
     omit?: invoicesOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: invoicesInclude<ExtArgs> | null
+    /**
      * The filter to search for the invoices to update in case it exists.
      */
     where: invoicesWhereUniqueInput
@@ -16579,6 +16804,10 @@ export namespace Prisma {
      * Omit specific fields from the invoices
      */
     omit?: invoicesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: invoicesInclude<ExtArgs> | null
     /**
      * Filter which invoices to delete.
      */
@@ -16611,6 +16840,10 @@ export namespace Prisma {
      * Omit specific fields from the invoices
      */
     omit?: invoicesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: invoicesInclude<ExtArgs> | null
   }
 
 
@@ -17586,6 +17819,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     description: string | null
+    data: string | null
     company_id: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -17596,6 +17830,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     description: string | null
+    data: string | null
     company_id: string | null
     created_at: Date | null
     updated_at: Date | null
@@ -17606,6 +17841,7 @@ export namespace Prisma {
     id: number
     name: number
     description: number
+    data: number
     company_id: number
     created_at: number
     updated_at: number
@@ -17618,6 +17854,7 @@ export namespace Prisma {
     id?: true
     name?: true
     description?: true
+    data?: true
     company_id?: true
     created_at?: true
     updated_at?: true
@@ -17628,6 +17865,7 @@ export namespace Prisma {
     id?: true
     name?: true
     description?: true
+    data?: true
     company_id?: true
     created_at?: true
     updated_at?: true
@@ -17638,6 +17876,7 @@ export namespace Prisma {
     id?: true
     name?: true
     description?: true
+    data?: true
     company_id?: true
     created_at?: true
     updated_at?: true
@@ -17721,6 +17960,7 @@ export namespace Prisma {
     id: string
     name: string
     description: string | null
+    data: string | null
     company_id: string
     created_at: Date
     updated_at: Date
@@ -17748,6 +17988,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     description?: boolean
+    data?: boolean
     company_id?: boolean
     created_at?: boolean
     updated_at?: boolean
@@ -17760,13 +18001,14 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     description?: boolean
+    data?: boolean
     company_id?: boolean
     created_at?: boolean
     updated_at?: boolean
     deleted_at?: boolean
   }
 
-  export type reportsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "company_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["reports"]>
+  export type reportsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "data" | "company_id" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["reports"]>
 
   export type $reportsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "reports"
@@ -17775,6 +18017,7 @@ export namespace Prisma {
       id: string
       name: string
       description: string | null
+      data: string | null
       company_id: string
       created_at: Date
       updated_at: Date
@@ -18151,6 +18394,7 @@ export namespace Prisma {
     readonly id: FieldRef<"reports", 'String'>
     readonly name: FieldRef<"reports", 'String'>
     readonly description: FieldRef<"reports", 'String'>
+    readonly data: FieldRef<"reports", 'String'>
     readonly company_id: FieldRef<"reports", 'String'>
     readonly created_at: FieldRef<"reports", 'DateTime'>
     readonly updated_at: FieldRef<"reports", 'DateTime'>
@@ -18497,6 +18741,7 @@ export namespace Prisma {
     company_id: string | null
     title: string | null
     message: string | null
+    link: string | null
     type: string | null
     read_at: Date | null
     created_at: Date | null
@@ -18510,6 +18755,7 @@ export namespace Prisma {
     company_id: string | null
     title: string | null
     message: string | null
+    link: string | null
     type: string | null
     read_at: Date | null
     created_at: Date | null
@@ -18523,6 +18769,7 @@ export namespace Prisma {
     company_id: number
     title: number
     message: number
+    link: number
     type: number
     read_at: number
     created_at: number
@@ -18538,6 +18785,7 @@ export namespace Prisma {
     company_id?: true
     title?: true
     message?: true
+    link?: true
     type?: true
     read_at?: true
     created_at?: true
@@ -18551,6 +18799,7 @@ export namespace Prisma {
     company_id?: true
     title?: true
     message?: true
+    link?: true
     type?: true
     read_at?: true
     created_at?: true
@@ -18564,6 +18813,7 @@ export namespace Prisma {
     company_id?: true
     title?: true
     message?: true
+    link?: true
     type?: true
     read_at?: true
     created_at?: true
@@ -18650,6 +18900,7 @@ export namespace Prisma {
     company_id: string
     title: string
     message: string
+    link: string | null
     type: string
     read_at: Date | null
     created_at: Date
@@ -18680,6 +18931,7 @@ export namespace Prisma {
     company_id?: boolean
     title?: boolean
     message?: boolean
+    link?: boolean
     type?: boolean
     read_at?: boolean
     created_at?: boolean
@@ -18695,6 +18947,7 @@ export namespace Prisma {
     company_id?: boolean
     title?: boolean
     message?: boolean
+    link?: boolean
     type?: boolean
     read_at?: boolean
     created_at?: boolean
@@ -18702,7 +18955,7 @@ export namespace Prisma {
     deleted_at?: boolean
   }
 
-  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "company_id" | "title" | "message" | "type" | "read_at" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["notification"]>
+  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "company_id" | "title" | "message" | "link" | "type" | "read_at" | "created_at" | "updated_at" | "deleted_at", ExtArgs["result"]["notification"]>
 
   export type $NotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Notification"
@@ -18713,6 +18966,7 @@ export namespace Prisma {
       company_id: string
       title: string
       message: string
+      link: string | null
       type: string
       read_at: Date | null
       created_at: Date
@@ -19092,6 +19346,7 @@ export namespace Prisma {
     readonly company_id: FieldRef<"Notification", 'String'>
     readonly title: FieldRef<"Notification", 'String'>
     readonly message: FieldRef<"Notification", 'String'>
+    readonly link: FieldRef<"Notification", 'String'>
     readonly type: FieldRef<"Notification", 'String'>
     readonly read_at: FieldRef<"Notification", 'DateTime'>
     readonly created_at: FieldRef<"Notification", 'DateTime'>
@@ -20622,6 +20877,7 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     description: 'description',
+    data: 'data',
     company_id: 'company_id',
     created_at: 'created_at',
     updated_at: 'updated_at',
@@ -20637,6 +20893,7 @@ export namespace Prisma {
     company_id: 'company_id',
     title: 'title',
     message: 'message',
+    link: 'link',
     type: 'type',
     read_at: 'read_at',
     created_at: 'created_at',
@@ -20876,6 +21133,7 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     description: 'description',
+    data: 'data',
     company_id: 'company_id'
   };
 
@@ -20888,6 +21146,7 @@ export namespace Prisma {
     company_id: 'company_id',
     title: 'title',
     message: 'message',
+    link: 'link',
     type: 'type'
   };
 
@@ -21071,6 +21330,8 @@ export namespace Prisma {
     roles?: RoleListRelationFilter
     categories?: CategoryListRelationFilter
     items?: ItemListRelationFilter
+    suppliers?: SuppliersListRelationFilter
+    invoices?: InvoicesListRelationFilter
   }
 
   export type CompanyOrderByWithRelationInput = {
@@ -21087,6 +21348,8 @@ export namespace Prisma {
     roles?: RoleOrderByRelationAggregateInput
     categories?: CategoryOrderByRelationAggregateInput
     items?: ItemOrderByRelationAggregateInput
+    suppliers?: suppliersOrderByRelationAggregateInput
+    invoices?: invoicesOrderByRelationAggregateInput
     _relevance?: CompanyOrderByRelevanceInput
   }
 
@@ -21107,6 +21370,8 @@ export namespace Prisma {
     roles?: RoleListRelationFilter
     categories?: CategoryListRelationFilter
     items?: ItemListRelationFilter
+    suppliers?: SuppliersListRelationFilter
+    invoices?: InvoicesListRelationFilter
   }, "id" | "email">
 
   export type CompanyOrderByWithAggregationInput = {
@@ -21933,6 +22198,8 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"suppliers"> | Date | string
     updated_at?: DateTimeFilter<"suppliers"> | Date | string
     deleted_at?: DateTimeNullableFilter<"suppliers"> | Date | string | null
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    invoices?: InvoicesListRelationFilter
   }
 
   export type suppliersOrderByWithRelationInput = {
@@ -21943,6 +22210,8 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrderInput | SortOrder
+    company?: CompanyOrderByWithRelationInput
+    invoices?: invoicesOrderByRelationAggregateInput
     _relevance?: suppliersOrderByRelevanceInput
   }
 
@@ -21957,6 +22226,8 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"suppliers"> | Date | string
     updated_at?: DateTimeFilter<"suppliers"> | Date | string
     deleted_at?: DateTimeNullableFilter<"suppliers"> | Date | string | null
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
+    invoices?: InvoicesListRelationFilter
   }, "id">
 
   export type suppliersOrderByWithAggregationInput = {
@@ -21998,6 +22269,8 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"invoices"> | Date | string
     updated_at?: DateTimeFilter<"invoices"> | Date | string
     deleted_at?: DateTimeNullableFilter<"invoices"> | Date | string | null
+    supplier?: XOR<SuppliersScalarRelationFilter, suppliersWhereInput>
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
   }
 
   export type invoicesOrderByWithRelationInput = {
@@ -22010,6 +22283,8 @@ export namespace Prisma {
     created_at?: SortOrder
     updated_at?: SortOrder
     deleted_at?: SortOrderInput | SortOrder
+    supplier?: suppliersOrderByWithRelationInput
+    company?: CompanyOrderByWithRelationInput
     _relevance?: invoicesOrderByRelevanceInput
   }
 
@@ -22026,6 +22301,8 @@ export namespace Prisma {
     created_at?: DateTimeFilter<"invoices"> | Date | string
     updated_at?: DateTimeFilter<"invoices"> | Date | string
     deleted_at?: DateTimeNullableFilter<"invoices"> | Date | string | null
+    supplier?: XOR<SuppliersScalarRelationFilter, suppliersWhereInput>
+    company?: XOR<CompanyScalarRelationFilter, CompanyWhereInput>
   }, "id">
 
   export type invoicesOrderByWithAggregationInput = {
@@ -22137,6 +22414,7 @@ export namespace Prisma {
     id?: StringFilter<"reports"> | string
     name?: StringFilter<"reports"> | string
     description?: StringNullableFilter<"reports"> | string | null
+    data?: StringNullableFilter<"reports"> | string | null
     company_id?: StringFilter<"reports"> | string
     created_at?: DateTimeFilter<"reports"> | Date | string
     updated_at?: DateTimeFilter<"reports"> | Date | string
@@ -22147,6 +22425,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    data?: SortOrderInput | SortOrder
     company_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -22161,6 +22440,7 @@ export namespace Prisma {
     NOT?: reportsWhereInput | reportsWhereInput[]
     name?: StringFilter<"reports"> | string
     description?: StringNullableFilter<"reports"> | string | null
+    data?: StringNullableFilter<"reports"> | string | null
     company_id?: StringFilter<"reports"> | string
     created_at?: DateTimeFilter<"reports"> | Date | string
     updated_at?: DateTimeFilter<"reports"> | Date | string
@@ -22171,6 +22451,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    data?: SortOrderInput | SortOrder
     company_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -22187,6 +22468,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"reports"> | string
     name?: StringWithAggregatesFilter<"reports"> | string
     description?: StringNullableWithAggregatesFilter<"reports"> | string | null
+    data?: StringNullableWithAggregatesFilter<"reports"> | string | null
     company_id?: StringWithAggregatesFilter<"reports"> | string
     created_at?: DateTimeWithAggregatesFilter<"reports"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"reports"> | Date | string
@@ -22202,6 +22484,7 @@ export namespace Prisma {
     company_id?: StringFilter<"Notification"> | string
     title?: StringFilter<"Notification"> | string
     message?: StringFilter<"Notification"> | string
+    link?: StringNullableFilter<"Notification"> | string | null
     type?: StringFilter<"Notification"> | string
     read_at?: DateTimeNullableFilter<"Notification"> | Date | string | null
     created_at?: DateTimeFilter<"Notification"> | Date | string
@@ -22215,6 +22498,7 @@ export namespace Prisma {
     company_id?: SortOrder
     title?: SortOrder
     message?: SortOrder
+    link?: SortOrderInput | SortOrder
     type?: SortOrder
     read_at?: SortOrderInput | SortOrder
     created_at?: SortOrder
@@ -22232,6 +22516,7 @@ export namespace Prisma {
     company_id?: StringFilter<"Notification"> | string
     title?: StringFilter<"Notification"> | string
     message?: StringFilter<"Notification"> | string
+    link?: StringNullableFilter<"Notification"> | string | null
     type?: StringFilter<"Notification"> | string
     read_at?: DateTimeNullableFilter<"Notification"> | Date | string | null
     created_at?: DateTimeFilter<"Notification"> | Date | string
@@ -22245,6 +22530,7 @@ export namespace Prisma {
     company_id?: SortOrder
     title?: SortOrder
     message?: SortOrder
+    link?: SortOrderInput | SortOrder
     type?: SortOrder
     read_at?: SortOrderInput | SortOrder
     created_at?: SortOrder
@@ -22264,6 +22550,7 @@ export namespace Prisma {
     company_id?: StringWithAggregatesFilter<"Notification"> | string
     title?: StringWithAggregatesFilter<"Notification"> | string
     message?: StringWithAggregatesFilter<"Notification"> | string
+    link?: StringNullableWithAggregatesFilter<"Notification"> | string | null
     type?: StringWithAggregatesFilter<"Notification"> | string
     read_at?: DateTimeNullableWithAggregatesFilter<"Notification"> | Date | string | null
     created_at?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
@@ -22469,6 +22756,8 @@ export namespace Prisma {
     roles?: RoleCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     items?: ItemCreateNestedManyWithoutCompanyInput
+    suppliers?: suppliersCreateNestedManyWithoutCompanyInput
+    invoices?: invoicesCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateInput = {
@@ -22485,6 +22774,8 @@ export namespace Prisma {
     roles?: RoleUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     items?: ItemUncheckedCreateNestedManyWithoutCompanyInput
+    suppliers?: suppliersUncheckedCreateNestedManyWithoutCompanyInput
+    invoices?: invoicesUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUpdateInput = {
@@ -22501,6 +22792,8 @@ export namespace Prisma {
     roles?: RoleUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     items?: ItemUpdateManyWithoutCompanyNestedInput
+    suppliers?: suppliersUpdateManyWithoutCompanyNestedInput
+    invoices?: invoicesUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateInput = {
@@ -22517,6 +22810,8 @@ export namespace Prisma {
     roles?: RoleUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     items?: ItemUncheckedUpdateManyWithoutCompanyNestedInput
+    suppliers?: suppliersUncheckedUpdateManyWithoutCompanyNestedInput
+    invoices?: invoicesUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyCreateManyInput = {
@@ -23403,10 +23698,11 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
-    company_id: string
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
+    company: CompanyCreateNestedOneWithoutSuppliersInput
+    invoices?: invoicesCreateNestedManyWithoutSupplierInput
   }
 
   export type suppliersUncheckedCreateInput = {
@@ -23417,16 +23713,18 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
+    invoices?: invoicesUncheckedCreateNestedManyWithoutSupplierInput
   }
 
   export type suppliersUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    company_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneRequiredWithoutSuppliersNestedInput
+    invoices?: invoicesUpdateManyWithoutSupplierNestedInput
   }
 
   export type suppliersUncheckedUpdateInput = {
@@ -23437,6 +23735,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    invoices?: invoicesUncheckedUpdateManyWithoutSupplierNestedInput
   }
 
   export type suppliersCreateManyInput = {
@@ -23453,7 +23752,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    company_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -23471,14 +23769,14 @@ export namespace Prisma {
 
   export type invoicesCreateInput = {
     id?: string
-    supplier_id: string
-    company_id: string
     amount: number
     vat: number
     total: number
     created_at?: Date | string
     updated_at?: Date | string
     deleted_at?: Date | string | null
+    supplier: suppliersCreateNestedOneWithoutInvoicesInput
+    company: CompanyCreateNestedOneWithoutInvoicesInput
   }
 
   export type invoicesUncheckedCreateInput = {
@@ -23495,14 +23793,14 @@ export namespace Prisma {
 
   export type invoicesUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    supplier_id?: StringFieldUpdateOperationsInput | string
-    company_id?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
     vat?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    supplier?: suppliersUpdateOneRequiredWithoutInvoicesNestedInput
+    company?: CompanyUpdateOneRequiredWithoutInvoicesNestedInput
   }
 
   export type invoicesUncheckedUpdateInput = {
@@ -23531,8 +23829,6 @@ export namespace Prisma {
 
   export type invoicesUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    supplier_id?: StringFieldUpdateOperationsInput | string
-    company_id?: StringFieldUpdateOperationsInput | string
     amount?: FloatFieldUpdateOperationsInput | number
     vat?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
@@ -23634,6 +23930,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    data?: string | null
     company_id: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -23644,6 +23941,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    data?: string | null
     company_id: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -23654,6 +23952,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableStringFieldUpdateOperationsInput | string | null
     company_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23664,6 +23963,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableStringFieldUpdateOperationsInput | string | null
     company_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23674,6 +23974,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    data?: string | null
     company_id: string
     created_at?: Date | string
     updated_at?: Date | string
@@ -23684,6 +23985,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableStringFieldUpdateOperationsInput | string | null
     company_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23694,6 +23996,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableStringFieldUpdateOperationsInput | string | null
     company_id?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23706,6 +24009,7 @@ export namespace Prisma {
     company_id: string
     title: string
     message: string
+    link?: string | null
     type?: string
     read_at?: Date | string | null
     created_at?: Date | string
@@ -23719,6 +24023,7 @@ export namespace Prisma {
     company_id: string
     title: string
     message: string
+    link?: string | null
     type?: string
     read_at?: Date | string | null
     created_at?: Date | string
@@ -23732,6 +24037,7 @@ export namespace Prisma {
     company_id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     read_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23745,6 +24051,7 @@ export namespace Prisma {
     company_id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     read_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23758,6 +24065,7 @@ export namespace Prisma {
     company_id: string
     title: string
     message: string
+    link?: string | null
     type?: string
     read_at?: Date | string | null
     created_at?: Date | string
@@ -23771,6 +24079,7 @@ export namespace Prisma {
     company_id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     read_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23784,6 +24093,7 @@ export namespace Prisma {
     company_id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     type?: StringFieldUpdateOperationsInput | string
     read_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24094,6 +24404,18 @@ export namespace Prisma {
     none?: ItemWhereInput
   }
 
+  export type SuppliersListRelationFilter = {
+    every?: suppliersWhereInput
+    some?: suppliersWhereInput
+    none?: suppliersWhereInput
+  }
+
+  export type InvoicesListRelationFilter = {
+    every?: invoicesWhereInput
+    some?: invoicesWhereInput
+    none?: invoicesWhereInput
+  }
+
   export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -24107,6 +24429,14 @@ export namespace Prisma {
   }
 
   export type ItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type suppliersOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type invoicesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -24860,6 +25190,11 @@ export namespace Prisma {
     deleted_at?: SortOrder
   }
 
+  export type SuppliersScalarRelationFilter = {
+    is?: suppliersWhereInput
+    isNot?: suppliersWhereInput
+  }
+
   export type invoicesOrderByRelevanceInput = {
     fields: invoicesOrderByRelevanceFieldEnum | invoicesOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -24973,6 +25308,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    data?: SortOrder
     company_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -24983,6 +25319,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    data?: SortOrder
     company_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -24993,6 +25330,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    data?: SortOrder
     company_id?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -25011,6 +25349,7 @@ export namespace Prisma {
     company_id?: SortOrder
     title?: SortOrder
     message?: SortOrder
+    link?: SortOrder
     type?: SortOrder
     read_at?: SortOrder
     created_at?: SortOrder
@@ -25024,6 +25363,7 @@ export namespace Prisma {
     company_id?: SortOrder
     title?: SortOrder
     message?: SortOrder
+    link?: SortOrder
     type?: SortOrder
     read_at?: SortOrder
     created_at?: SortOrder
@@ -25037,6 +25377,7 @@ export namespace Prisma {
     company_id?: SortOrder
     title?: SortOrder
     message?: SortOrder
+    link?: SortOrder
     type?: SortOrder
     read_at?: SortOrder
     created_at?: SortOrder
@@ -25165,6 +25506,20 @@ export namespace Prisma {
     connect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
   }
 
+  export type suppliersCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<suppliersCreateWithoutCompanyInput, suppliersUncheckedCreateWithoutCompanyInput> | suppliersCreateWithoutCompanyInput[] | suppliersUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: suppliersCreateOrConnectWithoutCompanyInput | suppliersCreateOrConnectWithoutCompanyInput[]
+    createMany?: suppliersCreateManyCompanyInputEnvelope
+    connect?: suppliersWhereUniqueInput | suppliersWhereUniqueInput[]
+  }
+
+  export type invoicesCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<invoicesCreateWithoutCompanyInput, invoicesUncheckedCreateWithoutCompanyInput> | invoicesCreateWithoutCompanyInput[] | invoicesUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: invoicesCreateOrConnectWithoutCompanyInput | invoicesCreateOrConnectWithoutCompanyInput[]
+    createMany?: invoicesCreateManyCompanyInputEnvelope
+    connect?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutCompanyInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -25191,6 +25546,20 @@ export namespace Prisma {
     connectOrCreate?: ItemCreateOrConnectWithoutCompanyInput | ItemCreateOrConnectWithoutCompanyInput[]
     createMany?: ItemCreateManyCompanyInputEnvelope
     connect?: ItemWhereUniqueInput | ItemWhereUniqueInput[]
+  }
+
+  export type suppliersUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<suppliersCreateWithoutCompanyInput, suppliersUncheckedCreateWithoutCompanyInput> | suppliersCreateWithoutCompanyInput[] | suppliersUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: suppliersCreateOrConnectWithoutCompanyInput | suppliersCreateOrConnectWithoutCompanyInput[]
+    createMany?: suppliersCreateManyCompanyInputEnvelope
+    connect?: suppliersWhereUniqueInput | suppliersWhereUniqueInput[]
+  }
+
+  export type invoicesUncheckedCreateNestedManyWithoutCompanyInput = {
+    create?: XOR<invoicesCreateWithoutCompanyInput, invoicesUncheckedCreateWithoutCompanyInput> | invoicesCreateWithoutCompanyInput[] | invoicesUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: invoicesCreateOrConnectWithoutCompanyInput | invoicesCreateOrConnectWithoutCompanyInput[]
+    createMany?: invoicesCreateManyCompanyInputEnvelope
+    connect?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
   }
 
   export type NullableStringFieldUpdateOperationsInput = {
@@ -25253,6 +25622,34 @@ export namespace Prisma {
     deleteMany?: ItemScalarWhereInput | ItemScalarWhereInput[]
   }
 
+  export type suppliersUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<suppliersCreateWithoutCompanyInput, suppliersUncheckedCreateWithoutCompanyInput> | suppliersCreateWithoutCompanyInput[] | suppliersUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: suppliersCreateOrConnectWithoutCompanyInput | suppliersCreateOrConnectWithoutCompanyInput[]
+    upsert?: suppliersUpsertWithWhereUniqueWithoutCompanyInput | suppliersUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: suppliersCreateManyCompanyInputEnvelope
+    set?: suppliersWhereUniqueInput | suppliersWhereUniqueInput[]
+    disconnect?: suppliersWhereUniqueInput | suppliersWhereUniqueInput[]
+    delete?: suppliersWhereUniqueInput | suppliersWhereUniqueInput[]
+    connect?: suppliersWhereUniqueInput | suppliersWhereUniqueInput[]
+    update?: suppliersUpdateWithWhereUniqueWithoutCompanyInput | suppliersUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: suppliersUpdateManyWithWhereWithoutCompanyInput | suppliersUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: suppliersScalarWhereInput | suppliersScalarWhereInput[]
+  }
+
+  export type invoicesUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<invoicesCreateWithoutCompanyInput, invoicesUncheckedCreateWithoutCompanyInput> | invoicesCreateWithoutCompanyInput[] | invoicesUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: invoicesCreateOrConnectWithoutCompanyInput | invoicesCreateOrConnectWithoutCompanyInput[]
+    upsert?: invoicesUpsertWithWhereUniqueWithoutCompanyInput | invoicesUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: invoicesCreateManyCompanyInputEnvelope
+    set?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+    disconnect?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+    delete?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+    connect?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+    update?: invoicesUpdateWithWhereUniqueWithoutCompanyInput | invoicesUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: invoicesUpdateManyWithWhereWithoutCompanyInput | invoicesUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: invoicesScalarWhereInput | invoicesScalarWhereInput[]
+  }
+
   export type UserUncheckedUpdateManyWithoutCompanyNestedInput = {
     create?: XOR<UserCreateWithoutCompanyInput, UserUncheckedCreateWithoutCompanyInput> | UserCreateWithoutCompanyInput[] | UserUncheckedCreateWithoutCompanyInput[]
     connectOrCreate?: UserCreateOrConnectWithoutCompanyInput | UserCreateOrConnectWithoutCompanyInput[]
@@ -25307,6 +25704,34 @@ export namespace Prisma {
     update?: ItemUpdateWithWhereUniqueWithoutCompanyInput | ItemUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: ItemUpdateManyWithWhereWithoutCompanyInput | ItemUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: ItemScalarWhereInput | ItemScalarWhereInput[]
+  }
+
+  export type suppliersUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<suppliersCreateWithoutCompanyInput, suppliersUncheckedCreateWithoutCompanyInput> | suppliersCreateWithoutCompanyInput[] | suppliersUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: suppliersCreateOrConnectWithoutCompanyInput | suppliersCreateOrConnectWithoutCompanyInput[]
+    upsert?: suppliersUpsertWithWhereUniqueWithoutCompanyInput | suppliersUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: suppliersCreateManyCompanyInputEnvelope
+    set?: suppliersWhereUniqueInput | suppliersWhereUniqueInput[]
+    disconnect?: suppliersWhereUniqueInput | suppliersWhereUniqueInput[]
+    delete?: suppliersWhereUniqueInput | suppliersWhereUniqueInput[]
+    connect?: suppliersWhereUniqueInput | suppliersWhereUniqueInput[]
+    update?: suppliersUpdateWithWhereUniqueWithoutCompanyInput | suppliersUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: suppliersUpdateManyWithWhereWithoutCompanyInput | suppliersUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: suppliersScalarWhereInput | suppliersScalarWhereInput[]
+  }
+
+  export type invoicesUncheckedUpdateManyWithoutCompanyNestedInput = {
+    create?: XOR<invoicesCreateWithoutCompanyInput, invoicesUncheckedCreateWithoutCompanyInput> | invoicesCreateWithoutCompanyInput[] | invoicesUncheckedCreateWithoutCompanyInput[]
+    connectOrCreate?: invoicesCreateOrConnectWithoutCompanyInput | invoicesCreateOrConnectWithoutCompanyInput[]
+    upsert?: invoicesUpsertWithWhereUniqueWithoutCompanyInput | invoicesUpsertWithWhereUniqueWithoutCompanyInput[]
+    createMany?: invoicesCreateManyCompanyInputEnvelope
+    set?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+    disconnect?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+    delete?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+    connect?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+    update?: invoicesUpdateWithWhereUniqueWithoutCompanyInput | invoicesUpdateWithWhereUniqueWithoutCompanyInput[]
+    updateMany?: invoicesUpdateManyWithWhereWithoutCompanyInput | invoicesUpdateManyWithWhereWithoutCompanyInput[]
+    deleteMany?: invoicesScalarWhereInput | invoicesScalarWhereInput[]
   }
 
   export type ItemCreateNestedManyWithoutCurrencyInput = {
@@ -25849,6 +26274,90 @@ export namespace Prisma {
     update?: XOR<XOR<TransactionUpdateToOneWithWhereWithoutInventoryEventInput, TransactionUpdateWithoutInventoryEventInput>, TransactionUncheckedUpdateWithoutInventoryEventInput>
   }
 
+  export type CompanyCreateNestedOneWithoutSuppliersInput = {
+    create?: XOR<CompanyCreateWithoutSuppliersInput, CompanyUncheckedCreateWithoutSuppliersInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutSuppliersInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type invoicesCreateNestedManyWithoutSupplierInput = {
+    create?: XOR<invoicesCreateWithoutSupplierInput, invoicesUncheckedCreateWithoutSupplierInput> | invoicesCreateWithoutSupplierInput[] | invoicesUncheckedCreateWithoutSupplierInput[]
+    connectOrCreate?: invoicesCreateOrConnectWithoutSupplierInput | invoicesCreateOrConnectWithoutSupplierInput[]
+    createMany?: invoicesCreateManySupplierInputEnvelope
+    connect?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+  }
+
+  export type invoicesUncheckedCreateNestedManyWithoutSupplierInput = {
+    create?: XOR<invoicesCreateWithoutSupplierInput, invoicesUncheckedCreateWithoutSupplierInput> | invoicesCreateWithoutSupplierInput[] | invoicesUncheckedCreateWithoutSupplierInput[]
+    connectOrCreate?: invoicesCreateOrConnectWithoutSupplierInput | invoicesCreateOrConnectWithoutSupplierInput[]
+    createMany?: invoicesCreateManySupplierInputEnvelope
+    connect?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+  }
+
+  export type CompanyUpdateOneRequiredWithoutSuppliersNestedInput = {
+    create?: XOR<CompanyCreateWithoutSuppliersInput, CompanyUncheckedCreateWithoutSuppliersInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutSuppliersInput
+    upsert?: CompanyUpsertWithoutSuppliersInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutSuppliersInput, CompanyUpdateWithoutSuppliersInput>, CompanyUncheckedUpdateWithoutSuppliersInput>
+  }
+
+  export type invoicesUpdateManyWithoutSupplierNestedInput = {
+    create?: XOR<invoicesCreateWithoutSupplierInput, invoicesUncheckedCreateWithoutSupplierInput> | invoicesCreateWithoutSupplierInput[] | invoicesUncheckedCreateWithoutSupplierInput[]
+    connectOrCreate?: invoicesCreateOrConnectWithoutSupplierInput | invoicesCreateOrConnectWithoutSupplierInput[]
+    upsert?: invoicesUpsertWithWhereUniqueWithoutSupplierInput | invoicesUpsertWithWhereUniqueWithoutSupplierInput[]
+    createMany?: invoicesCreateManySupplierInputEnvelope
+    set?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+    disconnect?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+    delete?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+    connect?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+    update?: invoicesUpdateWithWhereUniqueWithoutSupplierInput | invoicesUpdateWithWhereUniqueWithoutSupplierInput[]
+    updateMany?: invoicesUpdateManyWithWhereWithoutSupplierInput | invoicesUpdateManyWithWhereWithoutSupplierInput[]
+    deleteMany?: invoicesScalarWhereInput | invoicesScalarWhereInput[]
+  }
+
+  export type invoicesUncheckedUpdateManyWithoutSupplierNestedInput = {
+    create?: XOR<invoicesCreateWithoutSupplierInput, invoicesUncheckedCreateWithoutSupplierInput> | invoicesCreateWithoutSupplierInput[] | invoicesUncheckedCreateWithoutSupplierInput[]
+    connectOrCreate?: invoicesCreateOrConnectWithoutSupplierInput | invoicesCreateOrConnectWithoutSupplierInput[]
+    upsert?: invoicesUpsertWithWhereUniqueWithoutSupplierInput | invoicesUpsertWithWhereUniqueWithoutSupplierInput[]
+    createMany?: invoicesCreateManySupplierInputEnvelope
+    set?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+    disconnect?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+    delete?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+    connect?: invoicesWhereUniqueInput | invoicesWhereUniqueInput[]
+    update?: invoicesUpdateWithWhereUniqueWithoutSupplierInput | invoicesUpdateWithWhereUniqueWithoutSupplierInput[]
+    updateMany?: invoicesUpdateManyWithWhereWithoutSupplierInput | invoicesUpdateManyWithWhereWithoutSupplierInput[]
+    deleteMany?: invoicesScalarWhereInput | invoicesScalarWhereInput[]
+  }
+
+  export type suppliersCreateNestedOneWithoutInvoicesInput = {
+    create?: XOR<suppliersCreateWithoutInvoicesInput, suppliersUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: suppliersCreateOrConnectWithoutInvoicesInput
+    connect?: suppliersWhereUniqueInput
+  }
+
+  export type CompanyCreateNestedOneWithoutInvoicesInput = {
+    create?: XOR<CompanyCreateWithoutInvoicesInput, CompanyUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutInvoicesInput
+    connect?: CompanyWhereUniqueInput
+  }
+
+  export type suppliersUpdateOneRequiredWithoutInvoicesNestedInput = {
+    create?: XOR<suppliersCreateWithoutInvoicesInput, suppliersUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: suppliersCreateOrConnectWithoutInvoicesInput
+    upsert?: suppliersUpsertWithoutInvoicesInput
+    connect?: suppliersWhereUniqueInput
+    update?: XOR<XOR<suppliersUpdateToOneWithWhereWithoutInvoicesInput, suppliersUpdateWithoutInvoicesInput>, suppliersUncheckedUpdateWithoutInvoicesInput>
+  }
+
+  export type CompanyUpdateOneRequiredWithoutInvoicesNestedInput = {
+    create?: XOR<CompanyCreateWithoutInvoicesInput, CompanyUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: CompanyCreateOrConnectWithoutInvoicesInput
+    upsert?: CompanyUpsertWithoutInvoicesInput
+    connect?: CompanyWhereUniqueInput
+    update?: XOR<XOR<CompanyUpdateToOneWithWhereWithoutInvoicesInput, CompanyUpdateWithoutInvoicesInput>, CompanyUncheckedUpdateWithoutInvoicesInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -26102,6 +26611,8 @@ export namespace Prisma {
     roles?: RoleCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     items?: ItemCreateNestedManyWithoutCompanyInput
+    suppliers?: suppliersCreateNestedManyWithoutCompanyInput
+    invoices?: invoicesCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutUsersInput = {
@@ -26117,6 +26628,8 @@ export namespace Prisma {
     roles?: RoleUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     items?: ItemUncheckedCreateNestedManyWithoutCompanyInput
+    suppliers?: suppliersUncheckedCreateNestedManyWithoutCompanyInput
+    invoices?: invoicesUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutUsersInput = {
@@ -26175,6 +26688,8 @@ export namespace Prisma {
     roles?: RoleUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     items?: ItemUpdateManyWithoutCompanyNestedInput
+    suppliers?: suppliersUpdateManyWithoutCompanyNestedInput
+    invoices?: invoicesUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutUsersInput = {
@@ -26190,6 +26705,8 @@ export namespace Prisma {
     roles?: RoleUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     items?: ItemUncheckedUpdateManyWithoutCompanyNestedInput
+    suppliers?: suppliersUncheckedUpdateManyWithoutCompanyNestedInput
+    invoices?: invoicesUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type RoleUpsertWithoutUsersInput = {
@@ -26365,6 +26882,68 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type suppliersCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    invoices?: invoicesCreateNestedManyWithoutSupplierInput
+  }
+
+  export type suppliersUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    invoices?: invoicesUncheckedCreateNestedManyWithoutSupplierInput
+  }
+
+  export type suppliersCreateOrConnectWithoutCompanyInput = {
+    where: suppliersWhereUniqueInput
+    create: XOR<suppliersCreateWithoutCompanyInput, suppliersUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type suppliersCreateManyCompanyInputEnvelope = {
+    data: suppliersCreateManyCompanyInput | suppliersCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type invoicesCreateWithoutCompanyInput = {
+    id?: string
+    amount: number
+    vat: number
+    total: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    supplier: suppliersCreateNestedOneWithoutInvoicesInput
+  }
+
+  export type invoicesUncheckedCreateWithoutCompanyInput = {
+    id?: string
+    supplier_id: string
+    amount: number
+    vat: number
+    total: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+  }
+
+  export type invoicesCreateOrConnectWithoutCompanyInput = {
+    where: invoicesWhereUniqueInput
+    create: XOR<invoicesCreateWithoutCompanyInput, invoicesUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type invoicesCreateManyCompanyInputEnvelope = {
+    data: invoicesCreateManyCompanyInput | invoicesCreateManyCompanyInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithWhereUniqueWithoutCompanyInput = {
     where: UserWhereUniqueInput
     update: XOR<UserUpdateWithoutCompanyInput, UserUncheckedUpdateWithoutCompanyInput>
@@ -26491,6 +27070,66 @@ export namespace Prisma {
     barcode?: StringNullableFilter<"Item"> | string | null
   }
 
+  export type suppliersUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: suppliersWhereUniqueInput
+    update: XOR<suppliersUpdateWithoutCompanyInput, suppliersUncheckedUpdateWithoutCompanyInput>
+    create: XOR<suppliersCreateWithoutCompanyInput, suppliersUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type suppliersUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: suppliersWhereUniqueInput
+    data: XOR<suppliersUpdateWithoutCompanyInput, suppliersUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type suppliersUpdateManyWithWhereWithoutCompanyInput = {
+    where: suppliersScalarWhereInput
+    data: XOR<suppliersUpdateManyMutationInput, suppliersUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type suppliersScalarWhereInput = {
+    AND?: suppliersScalarWhereInput | suppliersScalarWhereInput[]
+    OR?: suppliersScalarWhereInput[]
+    NOT?: suppliersScalarWhereInput | suppliersScalarWhereInput[]
+    id?: StringFilter<"suppliers"> | string
+    name?: StringFilter<"suppliers"> | string
+    description?: StringNullableFilter<"suppliers"> | string | null
+    company_id?: StringFilter<"suppliers"> | string
+    created_at?: DateTimeFilter<"suppliers"> | Date | string
+    updated_at?: DateTimeFilter<"suppliers"> | Date | string
+    deleted_at?: DateTimeNullableFilter<"suppliers"> | Date | string | null
+  }
+
+  export type invoicesUpsertWithWhereUniqueWithoutCompanyInput = {
+    where: invoicesWhereUniqueInput
+    update: XOR<invoicesUpdateWithoutCompanyInput, invoicesUncheckedUpdateWithoutCompanyInput>
+    create: XOR<invoicesCreateWithoutCompanyInput, invoicesUncheckedCreateWithoutCompanyInput>
+  }
+
+  export type invoicesUpdateWithWhereUniqueWithoutCompanyInput = {
+    where: invoicesWhereUniqueInput
+    data: XOR<invoicesUpdateWithoutCompanyInput, invoicesUncheckedUpdateWithoutCompanyInput>
+  }
+
+  export type invoicesUpdateManyWithWhereWithoutCompanyInput = {
+    where: invoicesScalarWhereInput
+    data: XOR<invoicesUpdateManyMutationInput, invoicesUncheckedUpdateManyWithoutCompanyInput>
+  }
+
+  export type invoicesScalarWhereInput = {
+    AND?: invoicesScalarWhereInput | invoicesScalarWhereInput[]
+    OR?: invoicesScalarWhereInput[]
+    NOT?: invoicesScalarWhereInput | invoicesScalarWhereInput[]
+    id?: StringFilter<"invoices"> | string
+    supplier_id?: StringFilter<"invoices"> | string
+    company_id?: StringFilter<"invoices"> | string
+    amount?: FloatFilter<"invoices"> | number
+    vat?: FloatFilter<"invoices"> | number
+    total?: FloatFilter<"invoices"> | number
+    created_at?: DateTimeFilter<"invoices"> | Date | string
+    updated_at?: DateTimeFilter<"invoices"> | Date | string
+    deleted_at?: DateTimeNullableFilter<"invoices"> | Date | string | null
+  }
+
   export type ItemCreateWithoutCurrencyInput = {
     id?: string
     name: string
@@ -26598,6 +27237,8 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
     items?: ItemCreateNestedManyWithoutCompanyInput
+    suppliers?: suppliersCreateNestedManyWithoutCompanyInput
+    invoices?: invoicesCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutRolesInput = {
@@ -26613,6 +27254,8 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
     items?: ItemUncheckedCreateNestedManyWithoutCompanyInput
+    suppliers?: suppliersUncheckedCreateNestedManyWithoutCompanyInput
+    invoices?: invoicesUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutRolesInput = {
@@ -26686,6 +27329,8 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
     items?: ItemUpdateManyWithoutCompanyNestedInput
+    suppliers?: suppliersUpdateManyWithoutCompanyNestedInput
+    invoices?: invoicesUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutRolesInput = {
@@ -26701,6 +27346,8 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
     items?: ItemUncheckedUpdateManyWithoutCompanyNestedInput
+    suppliers?: suppliersUncheckedUpdateManyWithoutCompanyNestedInput
+    invoices?: invoicesUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type RolePermissionUpsertWithWhereUniqueWithoutRoleInput = {
@@ -26898,6 +27545,8 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     roles?: RoleCreateNestedManyWithoutCompanyInput
     items?: ItemCreateNestedManyWithoutCompanyInput
+    suppliers?: suppliersCreateNestedManyWithoutCompanyInput
+    invoices?: invoicesCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutCategoriesInput = {
@@ -26913,6 +27562,8 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     roles?: RoleUncheckedCreateNestedManyWithoutCompanyInput
     items?: ItemUncheckedCreateNestedManyWithoutCompanyInput
+    suppliers?: suppliersUncheckedCreateNestedManyWithoutCompanyInput
+    invoices?: invoicesUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutCategoriesInput = {
@@ -26986,6 +27637,8 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     roles?: RoleUpdateManyWithoutCompanyNestedInput
     items?: ItemUpdateManyWithoutCompanyNestedInput
+    suppliers?: suppliersUpdateManyWithoutCompanyNestedInput
+    invoices?: invoicesUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutCategoriesInput = {
@@ -27001,6 +27654,8 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     roles?: RoleUncheckedUpdateManyWithoutCompanyNestedInput
     items?: ItemUncheckedUpdateManyWithoutCompanyNestedInput
+    suppliers?: suppliersUncheckedUpdateManyWithoutCompanyNestedInput
+    invoices?: invoicesUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type ItemUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -27057,6 +27712,8 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutCompanyInput
     roles?: RoleCreateNestedManyWithoutCompanyInput
     categories?: CategoryCreateNestedManyWithoutCompanyInput
+    suppliers?: suppliersCreateNestedManyWithoutCompanyInput
+    invoices?: invoicesCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyUncheckedCreateWithoutItemsInput = {
@@ -27072,6 +27729,8 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutCompanyInput
     roles?: RoleUncheckedCreateNestedManyWithoutCompanyInput
     categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
+    suppliers?: suppliersUncheckedCreateNestedManyWithoutCompanyInput
+    invoices?: invoicesUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompanyCreateOrConnectWithoutItemsInput = {
@@ -27188,6 +27847,8 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutCompanyNestedInput
     roles?: RoleUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUpdateManyWithoutCompanyNestedInput
+    suppliers?: suppliersUpdateManyWithoutCompanyNestedInput
+    invoices?: invoicesUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompanyUncheckedUpdateWithoutItemsInput = {
@@ -27203,6 +27864,8 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
     roles?: RoleUncheckedUpdateManyWithoutCompanyNestedInput
     categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    suppliers?: suppliersUncheckedUpdateManyWithoutCompanyNestedInput
+    invoices?: invoicesUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type InventoryUpsertWithoutItemInput = {
@@ -27720,6 +28383,278 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type CompanyCreateWithoutSuppliersInput = {
+    id?: string
+    name: string
+    description?: string | null
+    email: string
+    address?: string | null
+    phone?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    users?: UserCreateNestedManyWithoutCompanyInput
+    roles?: RoleCreateNestedManyWithoutCompanyInput
+    categories?: CategoryCreateNestedManyWithoutCompanyInput
+    items?: ItemCreateNestedManyWithoutCompanyInput
+    invoices?: invoicesCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutSuppliersInput = {
+    id?: string
+    name: string
+    description?: string | null
+    email: string
+    address?: string | null
+    phone?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    roles?: RoleUncheckedCreateNestedManyWithoutCompanyInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
+    items?: ItemUncheckedCreateNestedManyWithoutCompanyInput
+    invoices?: invoicesUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutSuppliersInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutSuppliersInput, CompanyUncheckedCreateWithoutSuppliersInput>
+  }
+
+  export type invoicesCreateWithoutSupplierInput = {
+    id?: string
+    amount: number
+    vat: number
+    total: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    company: CompanyCreateNestedOneWithoutInvoicesInput
+  }
+
+  export type invoicesUncheckedCreateWithoutSupplierInput = {
+    id?: string
+    company_id: string
+    amount: number
+    vat: number
+    total: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+  }
+
+  export type invoicesCreateOrConnectWithoutSupplierInput = {
+    where: invoicesWhereUniqueInput
+    create: XOR<invoicesCreateWithoutSupplierInput, invoicesUncheckedCreateWithoutSupplierInput>
+  }
+
+  export type invoicesCreateManySupplierInputEnvelope = {
+    data: invoicesCreateManySupplierInput | invoicesCreateManySupplierInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CompanyUpsertWithoutSuppliersInput = {
+    update: XOR<CompanyUpdateWithoutSuppliersInput, CompanyUncheckedUpdateWithoutSuppliersInput>
+    create: XOR<CompanyCreateWithoutSuppliersInput, CompanyUncheckedCreateWithoutSuppliersInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutSuppliersInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutSuppliersInput, CompanyUncheckedUpdateWithoutSuppliersInput>
+  }
+
+  export type CompanyUpdateWithoutSuppliersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    roles?: RoleUpdateManyWithoutCompanyNestedInput
+    categories?: CategoryUpdateManyWithoutCompanyNestedInput
+    items?: ItemUpdateManyWithoutCompanyNestedInput
+    invoices?: invoicesUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutSuppliersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutCompanyNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    items?: ItemUncheckedUpdateManyWithoutCompanyNestedInput
+    invoices?: invoicesUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type invoicesUpsertWithWhereUniqueWithoutSupplierInput = {
+    where: invoicesWhereUniqueInput
+    update: XOR<invoicesUpdateWithoutSupplierInput, invoicesUncheckedUpdateWithoutSupplierInput>
+    create: XOR<invoicesCreateWithoutSupplierInput, invoicesUncheckedCreateWithoutSupplierInput>
+  }
+
+  export type invoicesUpdateWithWhereUniqueWithoutSupplierInput = {
+    where: invoicesWhereUniqueInput
+    data: XOR<invoicesUpdateWithoutSupplierInput, invoicesUncheckedUpdateWithoutSupplierInput>
+  }
+
+  export type invoicesUpdateManyWithWhereWithoutSupplierInput = {
+    where: invoicesScalarWhereInput
+    data: XOR<invoicesUpdateManyMutationInput, invoicesUncheckedUpdateManyWithoutSupplierInput>
+  }
+
+  export type suppliersCreateWithoutInvoicesInput = {
+    id?: string
+    name: string
+    description?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    company: CompanyCreateNestedOneWithoutSuppliersInput
+  }
+
+  export type suppliersUncheckedCreateWithoutInvoicesInput = {
+    id?: string
+    name: string
+    description?: string | null
+    company_id: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+  }
+
+  export type suppliersCreateOrConnectWithoutInvoicesInput = {
+    where: suppliersWhereUniqueInput
+    create: XOR<suppliersCreateWithoutInvoicesInput, suppliersUncheckedCreateWithoutInvoicesInput>
+  }
+
+  export type CompanyCreateWithoutInvoicesInput = {
+    id?: string
+    name: string
+    description?: string | null
+    email: string
+    address?: string | null
+    phone?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    users?: UserCreateNestedManyWithoutCompanyInput
+    roles?: RoleCreateNestedManyWithoutCompanyInput
+    categories?: CategoryCreateNestedManyWithoutCompanyInput
+    items?: ItemCreateNestedManyWithoutCompanyInput
+    suppliers?: suppliersCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyUncheckedCreateWithoutInvoicesInput = {
+    id?: string
+    name: string
+    description?: string | null
+    email: string
+    address?: string | null
+    phone?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+    users?: UserUncheckedCreateNestedManyWithoutCompanyInput
+    roles?: RoleUncheckedCreateNestedManyWithoutCompanyInput
+    categories?: CategoryUncheckedCreateNestedManyWithoutCompanyInput
+    items?: ItemUncheckedCreateNestedManyWithoutCompanyInput
+    suppliers?: suppliersUncheckedCreateNestedManyWithoutCompanyInput
+  }
+
+  export type CompanyCreateOrConnectWithoutInvoicesInput = {
+    where: CompanyWhereUniqueInput
+    create: XOR<CompanyCreateWithoutInvoicesInput, CompanyUncheckedCreateWithoutInvoicesInput>
+  }
+
+  export type suppliersUpsertWithoutInvoicesInput = {
+    update: XOR<suppliersUpdateWithoutInvoicesInput, suppliersUncheckedUpdateWithoutInvoicesInput>
+    create: XOR<suppliersCreateWithoutInvoicesInput, suppliersUncheckedCreateWithoutInvoicesInput>
+    where?: suppliersWhereInput
+  }
+
+  export type suppliersUpdateToOneWithWhereWithoutInvoicesInput = {
+    where?: suppliersWhereInput
+    data: XOR<suppliersUpdateWithoutInvoicesInput, suppliersUncheckedUpdateWithoutInvoicesInput>
+  }
+
+  export type suppliersUpdateWithoutInvoicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneRequiredWithoutSuppliersNestedInput
+  }
+
+  export type suppliersUncheckedUpdateWithoutInvoicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    company_id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CompanyUpsertWithoutInvoicesInput = {
+    update: XOR<CompanyUpdateWithoutInvoicesInput, CompanyUncheckedUpdateWithoutInvoicesInput>
+    create: XOR<CompanyCreateWithoutInvoicesInput, CompanyUncheckedCreateWithoutInvoicesInput>
+    where?: CompanyWhereInput
+  }
+
+  export type CompanyUpdateToOneWithWhereWithoutInvoicesInput = {
+    where?: CompanyWhereInput
+    data: XOR<CompanyUpdateWithoutInvoicesInput, CompanyUncheckedUpdateWithoutInvoicesInput>
+  }
+
+  export type CompanyUpdateWithoutInvoicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    users?: UserUpdateManyWithoutCompanyNestedInput
+    roles?: RoleUpdateManyWithoutCompanyNestedInput
+    categories?: CategoryUpdateManyWithoutCompanyNestedInput
+    items?: ItemUpdateManyWithoutCompanyNestedInput
+    suppliers?: suppliersUpdateManyWithoutCompanyNestedInput
+  }
+
+  export type CompanyUncheckedUpdateWithoutInvoicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    users?: UserUncheckedUpdateManyWithoutCompanyNestedInput
+    roles?: RoleUncheckedUpdateManyWithoutCompanyNestedInput
+    categories?: CategoryUncheckedUpdateManyWithoutCompanyNestedInput
+    items?: ItemUncheckedUpdateManyWithoutCompanyNestedInput
+    suppliers?: suppliersUncheckedUpdateManyWithoutCompanyNestedInput
+  }
+
   export type UserCreateManyCompanyInput = {
     id?: string
     email: string
@@ -27764,6 +28699,26 @@ export namespace Prisma {
     sell_price: number
     sku?: string | null
     barcode?: string | null
+  }
+
+  export type suppliersCreateManyCompanyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+  }
+
+  export type invoicesCreateManyCompanyInput = {
+    id?: string
+    supplier_id: string
+    amount: number
+    vat: number
+    total: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
   }
 
   export type UserUpdateWithoutCompanyInput = {
@@ -27910,6 +28865,68 @@ export namespace Prisma {
     sell_price?: FloatFieldUpdateOperationsInput | number
     sku?: NullableStringFieldUpdateOperationsInput | string | null
     barcode?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type suppliersUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    invoices?: invoicesUpdateManyWithoutSupplierNestedInput
+  }
+
+  export type suppliersUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    invoices?: invoicesUncheckedUpdateManyWithoutSupplierNestedInput
+  }
+
+  export type suppliersUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type invoicesUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    vat?: FloatFieldUpdateOperationsInput | number
+    total?: FloatFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    supplier?: suppliersUpdateOneRequiredWithoutInvoicesNestedInput
+  }
+
+  export type invoicesUncheckedUpdateWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    supplier_id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    vat?: FloatFieldUpdateOperationsInput | number
+    total?: FloatFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type invoicesUncheckedUpdateManyWithoutCompanyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    supplier_id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    vat?: FloatFieldUpdateOperationsInput | number
+    total?: FloatFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ItemCreateManyCurrencyInput = {
@@ -28277,6 +29294,50 @@ export namespace Prisma {
     event_type?: StringFieldUpdateOperationsInput | string
     event_hash?: StringFieldUpdateOperationsInput | string
     payload?: JsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type invoicesCreateManySupplierInput = {
+    id?: string
+    company_id: string
+    amount: number
+    vat: number
+    total: number
+    created_at?: Date | string
+    updated_at?: Date | string
+    deleted_at?: Date | string | null
+  }
+
+  export type invoicesUpdateWithoutSupplierInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    vat?: FloatFieldUpdateOperationsInput | number
+    total?: FloatFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompanyUpdateOneRequiredWithoutInvoicesNestedInput
+  }
+
+  export type invoicesUncheckedUpdateWithoutSupplierInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    vat?: FloatFieldUpdateOperationsInput | number
+    total?: FloatFieldUpdateOperationsInput | number
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type invoicesUncheckedUpdateManyWithoutSupplierInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    company_id?: StringFieldUpdateOperationsInput | string
+    amount?: FloatFieldUpdateOperationsInput | number
+    vat?: FloatFieldUpdateOperationsInput | number
+    total?: FloatFieldUpdateOperationsInput | number
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
